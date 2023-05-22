@@ -2,5 +2,7 @@
     "User": true,
     "Common": true,
     "Media": true,
-    "RolePermissions": true
+    "RolePermissions": true,
+    "Auth": true,
+    "Sms": true
 }
