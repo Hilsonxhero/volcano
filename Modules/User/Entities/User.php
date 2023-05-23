@@ -4,10 +4,12 @@ namespace Modules\User\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\Project\Entities\Project;
 
 class User extends Authenticatable
 {
@@ -21,5 +23,11 @@ class User extends Authenticatable
     protected static function newFactory()
     {
         return \Modules\User\Database\factories\UserFactory::new();
+    }
+
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
 }

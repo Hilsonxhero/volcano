@@ -60,9 +60,9 @@ class OtpAuthController extends Controller
 
         $status = VerifyCodeService::check($phone, $code);
 
-        if (!$status) {
-            ApiService::_throw(trans('response.auth.invalid_code'), 200);
-        }
+        // if (!$status) {
+        //     ApiService::_throw(trans('response.auth.invalid_code'), 200);
+        // }
 
         $user = User::where('phone', $phone)->first();
 

@@ -4,5 +4,6 @@
     "Media": true,
     "RolePermissions": true,
     "Auth": true,
-    "Sms": true
+    "Sms": true,
+    "Project": true
 }
