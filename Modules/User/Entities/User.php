@@ -10,6 +10,7 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\Project\Entities\Project;
+use Modules\Project\Entities\ProjectMembership;
 
 class User extends Authenticatable
 {
@@ -29,5 +30,9 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+    public function memberships()
+    {
+        return $this->hasMany(ProjectMembership::class);
     }
 }
