@@ -1,9 +1,8 @@
 <?php
 
-namespace Modules\User\Http\Controllers\v1\App;
+namespace Modules\Project\Http\Controllers\v1\App\User;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectStatus;
@@ -51,6 +50,12 @@ class ProjectController extends Controller
         );
 
         $porject = $this->projectRepo->store($data);
+
+        $porject->setMeta([
+            'public_pages' =>  true
+        ]);
+
+        $porject->save();
 
         ApiService::_success(trans('response.responses.200'));
     }

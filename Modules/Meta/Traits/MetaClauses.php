@@ -4,6 +4,7 @@
 namespace Modules\Meta\Traits;
 
 use Illuminate\Database\Query\Builder;
+use Modules\Meta\Enums\MetaType;
 use Modules\Meta\Helpers\MetaHelper as Meta;
 
 trait MetaClauses
@@ -39,8 +40,8 @@ trait MetaClauses
     public function scopeWhereMeta(
         $query,
         $key,
-        $operator = Meta::NO_VALUE_FOR_PARAMETER,
-        $value = Meta::NO_VALUE_FOR_PARAMETER,
+        $operator = MetaType::NO_VALUE_FOR_PARAMETER,
+        $value = MetaType::NO_VALUE_FOR_PARAMETER,
         $orWhere = false
     ) {
         $type = 'where';
@@ -60,11 +61,11 @@ trait MetaClauses
                 } else {
                     array_unshift($conditionGroup, $query);
                     if (count($conditionGroup) == 2) {
-                        $conditionGroup[] = Meta::NO_VALUE_FOR_PARAMETER;
-                        $conditionGroup[] = Meta::NO_VALUE_FOR_PARAMETER;
+                        $conditionGroup[] = MetaType::NO_VALUE_FOR_PARAMETER;
+                        $conditionGroup[] = MetaType::NO_VALUE_FOR_PARAMETER;
                     }
                     if (count($conditionGroup) == 3) {
-                        $conditionGroup[] = Meta::NO_VALUE_FOR_PARAMETER;
+                        $conditionGroup[] = MetaType::NO_VALUE_FOR_PARAMETER;
                     }
                     $conditionGroup[] = $orWhere;
                     $query = call_user_func_array([$this, 'scopeWhereMeta'], $conditionGroup);
@@ -74,9 +75,9 @@ trait MetaClauses
         }
         $query->{$type . 'Has'}('meta', function ($query) use ($key, $operator, $value) {
             $query->where('key', $key);
-            if ($operator === Meta::NO_VALUE_FOR_PARAMETER && $value === Meta::NO_VALUE_FOR_PARAMETER) {
+            if ($operator === MetaType::NO_VALUE_FOR_PARAMETER && $value === MetaType::NO_VALUE_FOR_PARAMETER) {
                 $query->where('value', null);
-            } elseif ($value === Meta::NO_VALUE_FOR_PARAMETER) {
+            } elseif ($value === MetaType::NO_VALUE_FOR_PARAMETER) {
                 $query->where('value', Meta::convertMetaValueForSearch($operator));
             } else {
                 $query->where('value', $operator, Meta::convertMetaValueForSearch($value));

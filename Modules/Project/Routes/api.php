@@ -14,6 +14,13 @@ Route::prefix('v1/application')->group(function () {
         Route::post("invite/membership/confirmation", [ProjectInviteController::class, 'confirmation']);
     });
 
+    Route::prefix('profile')->middleware(['auth:api'])->group(function () {
+        Route::prefix('projects')->group(function () {
+            Route::get("/", [\Modules\Project\Http\Controllers\v1\App\User\ProjectController::class, 'index']);
+            Route::post("setup", [\Modules\Project\Http\Controllers\v1\App\User\ProjectController::class, 'setup']);
+        });
+    });
+
     Route::prefix('projects/{id}')->group(function () {
         Route::get("show", [ProjectController::class, 'show']);
     });

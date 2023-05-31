@@ -7,6 +7,7 @@ use Modules\Meta\Helpers\MetaCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Meta\Helpers\MetaHelper as Meta;
 use Modules\Meta\Entities\Meta as EntitiesMeta;
+use Modules\Meta\Enums\MetaType;
 
 trait MetableBase
 {
@@ -42,7 +43,7 @@ trait MetableBase
      * @param string $type
      * @return \Illuminate\Database\Eloquent\Relations\morphMany
      */
-    public function meta($key = null, $value = Meta::NO_VALUE_FOR_PARAMETER, $type = null)
+    public function meta($key = null, $value = MetaType::NO_VALUE_FOR_PARAMETER, $type = null)
     {
         if ($key !== null) {
             return $this->processMetaRequest($key, $value, $type);
@@ -151,7 +152,7 @@ trait MetableBase
                     return false;
                 }
             }
-        } elseif ($value === Meta::NO_VALUE_FOR_PARAMETER) {
+        } elseif ($value === MetaType::NO_VALUE_FOR_PARAMETER) {
             return $this->getMeta($key, null, $type);
         } else {
             return $this->setMeta($key, $value, $type);

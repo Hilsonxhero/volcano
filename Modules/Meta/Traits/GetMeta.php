@@ -3,6 +3,7 @@
 
 namespace Modules\Meta\Traits;
 
+use Modules\Meta\Enums\MetaType;
 use Modules\Meta\Helpers\MetaHelper as Meta;
 
 trait GetMeta
@@ -16,14 +17,14 @@ trait GetMeta
      *
      * @return mixed
      */
-    public function getMeta($key, $defaultValue = Meta::NO_VALUE_FOR_PARAMETER, $customType = null)
+    public function getMeta($key, $defaultValue = MetaType::NO_VALUE_FOR_PARAMETER, $customType = null)
     {
         if (!is_string($key)) {
             return $defaultValue;
         }
         $metaResult = Meta::returnValue($this->getloadedMeta(), $key, $customType);
         if (Meta::isNullValue($metaResult)) {
-            if ($defaultValue !== Meta::NO_VALUE_FOR_PARAMETER) {
+            if ($defaultValue !== MetaType::NO_VALUE_FOR_PARAMETER) {
                 return $defaultValue;
             }
 
