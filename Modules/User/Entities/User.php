@@ -2,15 +2,16 @@
 
 namespace Modules\User\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\Project\Entities\Project;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Project\Entities\ProjectMembership;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -34,5 +35,17 @@ class User extends Authenticatable
     public function memberships()
     {
         return $this->hasMany(ProjectMembership::class);
+    }
+
+    /**
+     * Calculate discount percent.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function hasPassword(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => !!$this->password,
+        );
     }
 }

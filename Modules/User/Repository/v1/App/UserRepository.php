@@ -17,4 +17,16 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::query()->where($condition, $value)->first();
     }
+
+    public function update($id, $data)
+    {
+        $user = $this->find($id, 'id');
+        if (!request()->filled('password')) {
+            unset($data['password']);
+        } elseif (request()->filled('role')) {
+            $user->syncRoles($data['role'])->update($data);
+        }
+        $user->update($data);
+        return $user;
+    }
 }
