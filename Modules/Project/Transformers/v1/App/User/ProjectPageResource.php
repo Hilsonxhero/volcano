@@ -20,6 +20,7 @@ class ProjectPageResource extends JsonResource
             'content' => $this->content,
             'parent' => $this->parent,
             'status' => $this->status,
+            'children' => ProjectPageResource::collection($this->children),
         ];
     }
 }

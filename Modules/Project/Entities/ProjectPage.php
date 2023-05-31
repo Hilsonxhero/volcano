@@ -41,4 +41,9 @@ class ProjectPage extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function children()
+    {
+        return $this->hasMany(ProjectPage::class, 'parent_id')->with('children');
+    }
 }

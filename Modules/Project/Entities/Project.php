@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Meta\Traits\Metable;
 use Modules\User\Entities\User;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -13,7 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Project extends Model  implements HasMedia
 {
-    use HasFactory, SoftDeletes, InteractsWithMedia;
+    use HasFactory, SoftDeletes, InteractsWithMedia, Metable;
 
     protected $fillable = [
         'title', 'slug', 'short_link', 'description', 'user_id',
@@ -54,5 +55,12 @@ class Project extends Model  implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function pages()
+    {
+        return $this->hasMany(ProjectPage::class)
+            ->whereNull('parent_id')
+            ->with(['children']);
     }
 }
