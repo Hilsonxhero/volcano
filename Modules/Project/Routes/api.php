@@ -13,7 +13,7 @@ Route::prefix('v1/application')->group(function () {
             Route::post("invite/membership/confirmation", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'confirmation']);
             Route::post("setup", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'setup']);
         });
-        Route::get("dashboard", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'index']);
+        Route::get("dashboard", [\Modules\Project\Http\Controllers\v1\App\Portal\DashboardController::class, 'index']);
     });
 
 

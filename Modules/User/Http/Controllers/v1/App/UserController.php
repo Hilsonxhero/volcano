@@ -29,7 +29,7 @@ class UserController extends Controller
         $user = auth()->user();
 
         ApiService::_success(array(
-            'user' => new UserResource($user),
+            'user' => $user ? new UserResource($user) : null,
             'is_logged_in' => !!$user,
         ));
     }

@@ -28,9 +28,18 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = $this->projectRepo->get();
+        $projects = $this->projectRepo->paginate();
         $projects = ProjectResource::collection($projects);
-        ApiService::_success($projects);
+        ApiService::_success(array(
+            'projects' => $projects->items(),
+            'pager' => array(
+                'pages' => $projects->lastPage(),
+                'total' => $projects->total(),
+                'current_Page' => $projects->currentPage(),
+                'per_page' => $projects->perPage(),
+
+            )
+        ));
     }
 
     /**
