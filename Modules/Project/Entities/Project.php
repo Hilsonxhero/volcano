@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Meta\Traits\Metable;
+use Modules\Project\Casts\ProjectStatus;
 use Modules\User\Entities\User;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -55,6 +56,11 @@ class Project extends Model  implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(User::class, ProjectMembership::class);
     }
 
     public function pages()

@@ -1,12 +1,14 @@
 <?php
 
-namespace Modules\Project\Http\Controllers\v1\App\User;
+namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectRequest;
+use Modules\Project\Transformers\v1\App\Portal\ProjectResource;
+use Modules\Project\Transformers\v1\App\Portal\ShowProjectResource;
 use Modules\User\Repository\v1\Profile\UserProjectRepositoryInterface;
 
 
@@ -26,8 +28,20 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $porjects = $this->projectRepo->get();
-        ApiService::_success($porjects);
+        $projects = $this->projectRepo->get();
+        $projects = ProjectResource::collection($projects);
+        ApiService::_success($projects);
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function show(Request $request, $id)
+    {
+        $project = $this->projectRepo->show($id);
+        $project = new ShowProjectResource($project);
+        ApiService::_success($project);
     }
 
     /**

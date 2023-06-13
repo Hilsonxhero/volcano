@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->string("slug");
-            $table->longText("content");
+            $table->longText("content")->nullable();
             $table->foreignId("project_id")->constrained('projects')->cascadeOnDelete();
             $table->foreignId("parent_id")->nullable()->constrained('project_pages')->cascadeOnDelete();
             $table->string("status");

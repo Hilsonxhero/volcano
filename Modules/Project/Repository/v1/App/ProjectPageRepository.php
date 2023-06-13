@@ -31,9 +31,10 @@ class ProjectPageRepository implements ProjectPageRepositoryInterface
         return $page;
     }
 
-    public function update($data)
+    public function update($data, $id)
     {
-        $page = ProjectPage::query()->update($data);
+
+        $page = ProjectPage::query()->where('id', $id)->update($data);
         return $page;
     }
 }

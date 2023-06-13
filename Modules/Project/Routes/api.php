@@ -1,27 +1,23 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Modules\Project\Http\Controllers\v1\App\ProjectController;
-use Modules\Project\Http\Controllers\v1\App\ProjectInviteController;
-use Modules\Project\Http\Controllers\v1\App\User\ProjectPageController;
 
 Route::prefix('v1/application')->group(function () {
 
-    Route::prefix('software/projects/{id}')->middleware(['auth:api'])->group(function () {
-        Route::apiResource("pages", ProjectPageController::class);
-        Route::post("invite/membership", [ProjectInviteController::class, 'store']);
-        Route::post("invite/membership/confirmation", [ProjectInviteController::class, 'confirmation']);
-    });
-
-    Route::prefix('profile')->middleware(['auth:api'])->group(function () {
+    Route::prefix('portal')->middleware(['auth:api'])->group(function () {
         Route::prefix('projects')->group(function () {
-            Route::get("/", [\Modules\Project\Http\Controllers\v1\App\User\ProjectController::class, 'index']);
-            Route::post("setup", [\Modules\Project\Http\Controllers\v1\App\User\ProjectController::class, 'setup']);
+            Route::get("/", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'index']);
+            Route::get("{id}/show", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'show']);
+            Route::apiResource("{id}/pages", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectPageController::class);
+            Route::post("invite/membership", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'store']);
+            Route::post("invite/membership/confirmation", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'confirmation']);
+            Route::post("setup", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'setup']);
         });
+        Route::get("dashboard", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'index']);
     });
 
-    Route::prefix('projects/{id}')->group(function () {
-        Route::get("show", [ProjectController::class, 'show']);
-    });
+
+    // Route::prefix('projects/{id}')->group(function () {
+    //     Route::get("show", [\Modules\Project\Http\Controllers\v1\App\ProjectController::class, 'show']);
+    // });
 });

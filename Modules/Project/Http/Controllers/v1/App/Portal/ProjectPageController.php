@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Project\Http\Controllers\v1\App\User;
+namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -9,7 +9,7 @@ use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectPageStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectPageRequest;
 use Modules\Project\Repository\v1\App\ProjectPageRepositoryInterface;
-use Modules\Project\Transformers\v1\App\User\ProjectPageResource;
+use Modules\Project\Transformers\v1\App\Portal\ProjectPageResource;
 
 class ProjectPageController extends Controller
 {
@@ -77,7 +77,7 @@ class ProjectPageController extends Controller
             'parent_id' => $request->input('parent_id'),
             'status' => $request->input('status')
         );
-        $page = $this->pageRepo->update($data);
+        $page = $this->pageRepo->update($data, $id);
         ApiService::_success(trans('response.responses.200'));
     }
 

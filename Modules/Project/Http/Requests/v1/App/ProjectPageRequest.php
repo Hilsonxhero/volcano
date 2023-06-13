@@ -18,7 +18,7 @@ class ProjectPageRequest extends FormRequest
         if (request()->getMethod() == "PUT") {
             return [
                 'title' => ['required'],
-                'content' => ['required'],
+                'content' => ['nullable'],
                 'project_id' => ['nullable', Rule::exists('projects', 'id')],
                 'parent_id' => ['nullable', Rule::exists('project_pages', 'id')],
             ];
@@ -26,7 +26,7 @@ class ProjectPageRequest extends FormRequest
 
         return [
             'title' => ['required'],
-            'content' => ['required'],
+            'content' => ['nullable'],
             'project_id' => ['required', Rule::exists('projects', 'id')],
             'parent_id' => ['nullable', Rule::exists('project_pages', 'id')],
         ];

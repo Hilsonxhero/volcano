@@ -1,8 +1,9 @@
 <?php
 
-namespace Modules\Project\Transformers\v1\App;
+namespace Modules\Project\Transformers\v1\App\Portal;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Project\Entities\ProjectMembership;
 use Modules\Project\Transformers\v1\App\Portal\ProjectPageResource;
 
 class ProjectResource extends JsonResource
@@ -20,9 +21,13 @@ class ProjectResource extends JsonResource
             'slug' => $this->slug,
             'short_link' => $this->short_link,
             'description' => $this->description,
+            'status' => $this->status,
             'pages' =>  ProjectPageResource::collection($this->pages),
             'date_last_activity' => $this->date_last_activity,
             'date_last_view' => $this->date_last_view,
+            'create_at' =>  formatGregorian($this->created_at, '%A, %d %B'),
+            'members' => ProjectMemberResource::collection($this->members)
+
         ];
     }
 }
