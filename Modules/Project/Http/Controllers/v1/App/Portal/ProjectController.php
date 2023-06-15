@@ -35,7 +35,7 @@ class ProjectController extends Controller
             'pager' => array(
                 'pages' => $projects->lastPage(),
                 'total' => $projects->total(),
-                'current_Page' => $projects->currentPage(),
+                'current_page' => $projects->currentPage(),
                 'per_page' => $projects->perPage(),
 
             )

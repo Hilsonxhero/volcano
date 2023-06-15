@@ -30,6 +30,8 @@ class DashboardController extends Controller
     {
         $projects = $this->projectRepo->get();
         $projects = ProjectResource::collection($projects);
-        ApiService::_success($projects);
+        ApiService::_success(array(
+            'projects' => $projects
+        ));
     }
 }

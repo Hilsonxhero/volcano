@@ -41,6 +41,7 @@ class ProjectPageController extends Controller
     {
         $data = array(
             'title' => $request->input('title'),
+            'name' => $request->input('name'),
             'content' => $request->input('content'),
             'project_id' => $request->input('project_id'),
             'parent_id' => $request->input('parent_id'),

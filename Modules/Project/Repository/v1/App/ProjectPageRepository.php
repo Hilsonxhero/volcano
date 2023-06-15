@@ -10,7 +10,7 @@ class ProjectPageRepository implements ProjectPageRepositoryInterface
 
     public function get($id)
     {
-        $pages = ProjectPage::query()->where('project_id', $id)->orderByDesc('created_at')->get();
+        $pages = ProjectPage::query()->where('project_id', $id)->whereNull('parent_id')->orderByDesc('created_at')->get();
         return $pages;
     }
 
@@ -33,7 +33,6 @@ class ProjectPageRepository implements ProjectPageRepositoryInterface
 
     public function update($data, $id)
     {
-
         $page = ProjectPage::query()->where('id', $id)->update($data);
         return $page;
     }

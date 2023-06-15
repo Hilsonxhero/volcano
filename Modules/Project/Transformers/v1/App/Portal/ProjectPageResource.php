@@ -15,9 +15,11 @@ class ProjectPageResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
+            'parent_id' => $this->parent_id,
             // 'parent' =>  new ProjectPageResource($this->parent),
             'status' => $this->status,
             'children' => ProjectPageResource::collection($this->children),
