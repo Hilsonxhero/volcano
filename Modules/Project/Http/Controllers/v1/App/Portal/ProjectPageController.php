@@ -69,14 +69,15 @@ class ProjectPageController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(ProjectPageRequest $request, $id)
+    public function update(ProjectPageRequest $request, $project, $id)
     {
         $data = array(
             'title' => $request->input('title'),
+            'name' => $request->input('name'),
             'content' => $request->input('content'),
             'project_id' => $request->input('project_id'),
             'parent_id' => $request->input('parent_id'),
-            'status' => $request->input('status')
+            // 'status' => $request->input('status')
         );
         $page = $this->pageRepo->update($data, $id);
         ApiService::_success(trans('response.responses.200'));
@@ -87,8 +88,9 @@ class ProjectPageController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($project, $id)
     {
-        //
+        $page = $this->pageRepo->delete($id);
+        ApiService::_success(trans('response.responses.200'));
     }
 }

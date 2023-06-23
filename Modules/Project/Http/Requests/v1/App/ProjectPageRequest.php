@@ -15,7 +15,7 @@ class ProjectPageRequest extends FormRequest
      */
     public function rules()
     {
-        if (request()->getMethod() == "PUT") {
+        if (request()->getMethod() == "PUT" || request()->getMethod() == "PATCH") {
             return [
                 'title' => ['required'],
                 'content' => ['nullable'],

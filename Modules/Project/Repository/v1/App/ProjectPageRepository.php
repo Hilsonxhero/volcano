@@ -36,4 +36,11 @@ class ProjectPageRepository implements ProjectPageRepositoryInterface
         $page = ProjectPage::query()->where('id', $id)->update($data);
         return $page;
     }
+
+    public function delete($id)
+    {
+        $page = $this->find($id, 'id');
+        $page->delete();
+        return true;
+    }
 }
