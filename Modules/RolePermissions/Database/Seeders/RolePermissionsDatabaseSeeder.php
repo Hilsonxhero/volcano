@@ -14,8 +14,11 @@ class RolePermissionsDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        // Model::unguard();
+        $this->call([
+            PermissionTableSeeder::class,
+            RoleSeederTableSeeder::class,
+            SyncPermissionToRoleTableSeeder::class,
+        ]);
     }
 }

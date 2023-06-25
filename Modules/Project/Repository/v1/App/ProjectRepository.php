@@ -8,9 +8,20 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
-    public function find($id)
+    public function find($value, $condition = "id", $relationships = null)
     {
-        return Project::query()->where('id', $id)->first();
+        $query = Project::query();
+        $query->where($condition, $value);
+        if ($relationships) {
+            $query->with($relationships);
+        }
+        return $query->first();
+    }
+
+    public function members($id)
+    {
+        $project = $this->find($id, "id", ["members"]);
+        return $project->members()->orderByDesc('created_at')->paginate();
     }
 
     public function firstOrFail($id)

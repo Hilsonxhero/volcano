@@ -26,15 +26,29 @@ class User extends Authenticatable
     {
         return \Modules\User\Database\factories\UserFactory::new();
     }
-
-
     public function projects()
     {
         return $this->hasMany(Project::class);
     }
+    // public function role()
+    // {
+    //     return $this->roles()->first();
+    // }
     public function memberships()
     {
         return $this->hasMany(ProjectMembership::class);
+    }
+
+    /**
+     * Calculate discount percent.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function role(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->roles()->first()->title,
+        );
     }
 
     /**

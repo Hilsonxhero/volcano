@@ -4,6 +4,7 @@ namespace Modules\RolePermissions\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Nwidart\Modules\Laravel\Module;
 
 class RolePermissionsServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,7 @@ class RolePermissionsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(RolePermissionsRepoServiceProvider::class);
     }
 
     /**
@@ -51,7 +53,8 @@ class RolePermissionsServiceProvider extends ServiceProvider
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, 'Config/config.php'),
+            $this->moduleNameLower
         );
     }
 
@@ -90,6 +93,7 @@ class RolePermissionsServiceProvider extends ServiceProvider
             $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'Resources/lang'));
         }
     }
+
 
     /**
      * Get the services provided by the provider.

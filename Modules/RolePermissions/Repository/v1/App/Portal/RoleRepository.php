@@ -1,17 +1,31 @@
 <?php
 
-namespace Modules\Project\Repository\v1\App;
+namespace Modules\RolePermissions\Repository\v1\App\Portal;
 
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Project\Entities\ProjectInvite;
 use Modules\Project\Emails\InviteUserNotify;
+use Modules\RolePermissions\Entities\Role;
+use Modules\RolePermissions\Fields\RoleFields;
 
 
 
-class ProjectInviteRepository implements ProjectInviteRepositoryInterface
+class RoleRepository implements RoleRepositoryInterface
 {
+    public function get()
+    {
+        $roles = Role::query()->get();
+        return $roles;
+    }
+
+    public function groups()
+    {
+        $roles = Role::query()->whereNull('parent_id')->with('children')->get();
+        return $roles;
+    }
+
 
     public function find($value, $condition = "id")
     {

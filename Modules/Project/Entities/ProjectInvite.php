@@ -13,6 +13,7 @@ class ProjectInvite extends Model
     protected $fillable = [
         'project_id',
         'email',
+        'role',
         'token',
         'deactivated',
         'confirmed',

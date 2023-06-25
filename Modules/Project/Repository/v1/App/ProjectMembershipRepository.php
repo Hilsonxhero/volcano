@@ -6,6 +6,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Modules\Project\Entities\ProjectInvite;
 use Modules\Project\Entities\ProjectMembership;
+use Modules\Project\Enums\ProjectMemberStatus;
 
 class ProjectMembershipRepository implements ProjectMembershipRepositoryInterface
 {
@@ -31,13 +32,12 @@ class ProjectMembershipRepository implements ProjectMembershipRepositoryInterfac
         $membership_exists = ProjectMembership::query()->where('user_id', $user->id)->where('project_id', $data['project'])->first();
 
         if (!$membership_exists) {
-
-            $exists->delete();
-
-            return $user->memberships()->create([
+            $user->memberships()->create([
                 'project_id' => $data['project'],
-                'status' => "test",
+                'status' => ProjectMemberStatus::ACTIVE->value,
             ]);
+            $user->assignRole($exists->role);
+            $exists->delete();
         }
 
         return true;

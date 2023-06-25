@@ -44,7 +44,6 @@ class Project extends Model  implements HasMedia
             ->height(300);
     }
 
-
     public static function booted()
     {
         static::creating(function ($project) {
@@ -58,9 +57,13 @@ class Project extends Model  implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    // public function members()
+    // {
+    //     return $this->belongsToMany(User::class, ProjectMembership::class);
+    // }
     public function members()
     {
-        return $this->belongsToMany(User::class, ProjectMembership::class);
+        return $this->hasMany(ProjectMembership::class);
     }
 
     public function pages()

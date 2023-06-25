@@ -17,9 +17,11 @@ class ProjectMemberResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
-            'email' => $this->email,
-            'phone' => $this->phone,
+            'username' => $this->user->username,
+            'email' => $this->user->email,
+            'phone' => $this->user->phone,
+            'role' => $this->user->role,
+            'status' => $this->status,
         ];
     }
 }
