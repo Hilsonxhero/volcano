@@ -44,14 +44,12 @@ class ProjectInviteController extends Controller
         $this->projectInviteRepo->store($data);
         ApiService::_success(trans('response.responses.200'));
     }
-
     public function show(Request $request, $id)
     {
         $invite = $this->projectInviteRepo->show($id);
         $invite = new ProjectInviteResource($invite);
         return $invite;
     }
-
     public function confirmation(Request $request)
     {
         $invite = $this->projectInviteRepo->findByToken($request->token);

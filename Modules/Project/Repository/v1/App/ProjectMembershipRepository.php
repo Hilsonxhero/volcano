@@ -14,7 +14,6 @@ class ProjectMembershipRepository implements ProjectMembershipRepositoryInterfac
     {
         return ProjectMembership::query()->where($condition, $value)->first();
     }
-
     public function store($data)
     {
         $user = auth()->user();
@@ -42,11 +41,19 @@ class ProjectMembershipRepository implements ProjectMembershipRepositoryInterfac
 
         return true;
     }
-
+    public function create($data)
+    {
+        return   ProjectMembership::query()->create($data);
+    }
     public function doesntHaveMember($recipient, $project)
     {
         return  ProjectMembership::query()->where('project_id', $project)->whereHas('user', function ($query) use ($recipient) {
             return $query->where('email', $recipient);
         })->exists();
+    }
+    public function delete($id)
+    {
+        $user = $this->find($id, "id");
+        return $user->delete();
     }
 }

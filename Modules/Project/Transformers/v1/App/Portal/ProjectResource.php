@@ -17,17 +17,17 @@ class ProjectResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'slug' => $this->slug,
-            'short_link' => $this->short_link,
-            'description' => $this->description,
-            'status' => $this->status,
-            'pages' =>  ProjectPageResource::collection($this->pages),
-            'date_last_activity' => $this->date_last_activity,
-            'date_last_view' => $this->date_last_view,
-            'create_at' =>  formatGregorian($this->created_at, '%A, %d %B'),
-            'members' => ProjectMemberResource::collection($this->members)
+            'id' => $this->project->id,
+            'title' => $this->project->title,
+            'slug' => $this->project->slug,
+            'short_link' => $this->project->short_link,
+            'description' => $this->project->description,
+            'status' => $this->project->status,
+            'pages' =>  ProjectPageResource::collection($this->project->pages),
+            'date_last_activity' => $this->project->date_last_activity,
+            'date_last_view' => $this->project->date_last_view,
+            'create_at' =>  formatGregorian($this->project->created_at, '%A, %d %B'),
+            'members' => ProjectMemberResource::collection($this->project->members)
 
         ];
     }

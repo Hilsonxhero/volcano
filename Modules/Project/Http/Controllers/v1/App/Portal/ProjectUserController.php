@@ -107,7 +107,7 @@ class ProjectUserController extends Controller
      */
     public function destroy($project, $id)
     {
-        $page = $this->projectMemberRepo->delete($id);
+        $user = $this->projectMemberRepo->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

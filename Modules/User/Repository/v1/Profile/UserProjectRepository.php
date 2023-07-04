@@ -10,13 +10,13 @@ class UserProjectRepository implements UserProjectRepositoryInterface
     public function get()
     {
         $user = auth()->user();
-        return $user->projects()->OrderByDesc('created_at')->get();
+        return $user->memberships()->with('project')->OrderByDesc('created_at')->get();
     }
 
     public function paginate()
     {
         $user = auth()->user();
-        return $user->projects()->OrderByDesc('created_at')->paginate();
+        return $user->memberships()->with('project')->OrderByDesc('created_at')->paginate();
     }
 
 
