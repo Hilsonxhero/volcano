@@ -4,43 +4,43 @@ return [
     // List Of Permissions
     'permission' => [
         'role' => [
-            'parent'                 => '👥 Role Access Permissions',
-            'index'                  => '📜 View Roles',
-            'store'                  => '🆕 Create Role',
-            'update'                 => '✏️ Edit Role Details',
-            'delete'                 => '🗑️ Delete Role',
+            'parent'                 => '👥 مجوزهای دسترسی به نقش کاربری',
+            'index'                  => '📜 نمایش نقش های کاربری',
+            'store'                  => '🆕 ایجاد نقش کاربری',
+            'update'                 => '✏️ .ویرایش نقش کاربری',
+            'delete'                 => '🗑️حذف نقش کاربری',
         ],
         'permission' => [
-            'parent'                 => '🔒 Permission Access Permissions',
-            'index'                  => '📜 View Permissions'
+            'parent'                 => '🔒 مجوز دسترسی',
+            'index'                  => '📜 مشاهده مجوزها'
         ],
     ],
     // List Of Roles
     'role' => [
         'user_group'       => [
-            'parent'                 => '👤 User Group',
-            'regular_user'           => '🙂 Regular User'
+            'parent'                 => '👤 گروه کاربران',
+            'regular_user'           => '🙂 کاربر معمولی'
         ],
         'manager_group'    => [
-            'parent'                 => '🧑‍💼 Manager Group',
-            'resource_manager'       => '🤝 Resource Manager',
-            'project_manager'        => '📈 Project Manager',
-            'account_manager'        => '💰 Account Manager',
-            'team_manager'           => '👥 Team Manager',
-            'communications_manager' => '📞 Communications Manager',
-            'marketing_manager'      => '📣 Marketing Manager'
+            'parent'                 => '🧑‍💼 گروه مدیر',
+            'resource_manager'       => '🤝 مدیر منابع',
+            'project_manager'        => '📈 مدیر پروژه',
+            'account_manager'        => '💰 مدیر حساب',
+            'team_manager'           => '👥 مدیر تیم',
+            'communications_manager' => '📞 مدیر ارتباطات',
+            'marketing_manager'      => '📣 مدیر بازاریابی'
         ],
         'super_admin_group' => [
-            'parent'                 => '👨‍💼 Super Admin Group',
-            'system_administrator'   => '👨‍💻 System Administrator'
+            'parent'                 => '👨‍💼 گروه مدیریت کل',
+            'system_administrator'   => '👨‍💻 مدیر سیستم'
         ],
         'developer_group'   => [
-            'parent'                 => '👨‍💻 Developer Group',
-            'programmer'             => '💻 Programmer'
+            'parent'                 => '👨‍💻 گروه توسعه دهندگان',
+            'programmer'             => '💻 برنامه نویس'
         ],
         'inspector_group'   => [
-            'parent'                 => '🕵️ Inspector Group',
-            'inspector'              => '🔍 Inspector'
+            'parent'                 => '🕵️ گروه بازرس',
+            'inspector'              => '🔍 بازرس'
         ]
     ]
 ];
