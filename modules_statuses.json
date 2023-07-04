@@ -6,5 +6,9 @@
     "Auth": true,
     "Sms": true,
     "Project": true,
-    "Meta": true
+    "Meta": true,
+    "Setting": true,
+    "Page": true,
+    "Article": true,
+    "Category": true
 }
