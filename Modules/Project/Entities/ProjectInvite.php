@@ -12,6 +12,7 @@ class ProjectInvite extends Model
 
     protected $fillable = [
         'project_id',
+        'user_id',
         'email',
         'role',
         'token',
@@ -32,5 +33,9 @@ class ProjectInvite extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

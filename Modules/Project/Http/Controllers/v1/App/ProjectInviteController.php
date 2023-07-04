@@ -8,6 +8,7 @@ use Modules\Common\Services\ApiService;
 use Modules\Project\Repository\v1\App\ProjectInviteRepositoryInterface;
 use Modules\Project\Repository\v1\App\ProjectMembershipRepositoryInterface;
 use Modules\Project\Repository\v1\App\ProjectRepositoryInterface;
+use Modules\Project\Transformers\v1\App\Portal\ProjectInviteResource;
 use Modules\User\Repository\v1\App\UserRepositoryInterface;
 
 class ProjectInviteController extends Controller
@@ -31,34 +32,43 @@ class ProjectInviteController extends Controller
 
     public function store(Request $request)
     {
+        $user = auth()->user();
         $project = $this->projectRepo->find($request->project);
-
-        $inviter = $this->userRepo->find($request->inviter, "email");
-
+        // $inviter = $this->userRepo->find($request->inviter, "email");
         $data = array(
             'project' => $project,
             'users' => $request->users,
-            'inviter' => $inviter->username
+            'inviter' => $user
         );
-
+        // return $data['inviter']['username'];
         $this->projectInviteRepo->store($data);
-
         ApiService::_success(trans('response.responses.200'));
+    }
+
+    public function show(Request $request, $id)
+    {
+        $invite = $this->projectInviteRepo->show($id);
+        $invite = new ProjectInviteResource($invite);
+        return $invite;
     }
 
     public function confirmation(Request $request)
     {
+        $invite = $this->projectInviteRepo->findByToken($request->token);
         $data = array(
-            'project' => $request->project,
-            'email' => $request->email
+            'project' => $invite->project_id,
+            'email' => $invite->email
         );
-
         $confirmation =  $this->projectMembershipRepo->store($data);
-
         if (!$confirmation) {
             ApiService::_success(trans('response.invitation.invalid'));
         }
-
+        ApiService::_success(trans('response.responses.200'));
+    }
+    public function decline(Request $request)
+    {
+        $invite = $this->projectInviteRepo->findByToken($request->token);
+        $this->projectInviteRepo->delete($invite->id);
         ApiService::_success(trans('response.responses.200'));
     }
 }
