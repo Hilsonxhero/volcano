@@ -3,8 +3,9 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Modules\Auth\Http\Middleware\AddAuthTokenHeader;
+use Modules\Auth\Http\Middleware\AdminAuthenticated;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 class Kernel extends HttpKernel
 {
@@ -59,6 +60,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.panel' => AdminAuthenticated::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

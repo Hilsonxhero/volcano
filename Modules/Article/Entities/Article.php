@@ -4,7 +4,6 @@ namespace Modules\Article\Entities;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Category\Entities\Category;
@@ -14,7 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Article extends Model implements HasMedia
 {
-    use HasFactory, Sluggable, InteractsWithMedia, SoftDeletes;
+    use HasFactory, InteractsWithMedia, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -48,9 +47,9 @@ class Article extends Model implements HasMedia
     {
         static::saving(function ($article) {
             $article->short_link = Str::random(8);
+            $article->slug = Str::slug($article->title, '-', null);
         });
     }
-
 
     public static function last()
     {

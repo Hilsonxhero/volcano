@@ -19,7 +19,6 @@ class CategoryCollection extends ResourceCollection
                 return [
                     'id' => $data->id,
                     'title' => $data->title,
-                    'title_en' => $data->title_en,
                     'slug' => $data->slug,
                     'link' => $data->link,
                     'description' => $data->description,

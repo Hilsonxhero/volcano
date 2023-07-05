@@ -23,7 +23,7 @@ class CategoryTest extends TestCase
 
         $this->category_data =  [
             'title' => 'New Category',
-            'title_en' => 'New Category (English)',
+
             'slug' => 'new-category',
             'link' => 'https://example.com',
             'description' => 'This is a new category.',

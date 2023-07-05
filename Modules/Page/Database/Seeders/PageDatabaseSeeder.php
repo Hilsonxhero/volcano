@@ -19,7 +19,6 @@ class PageDatabaseSeeder extends Seeder
 
         resolve(PageRepositoryInterface::class)->create([
             'title' => "صفحه اصلی",
-            'title_en' => "landing",
             'content' => "",
         ]);
 

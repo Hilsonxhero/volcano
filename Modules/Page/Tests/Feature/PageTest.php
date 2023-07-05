@@ -21,7 +21,6 @@ class PageTest extends TestCase
 
         $this->page_data =  [
             'title' => "New Title",
-            'title_en' => "New Title",
             'content' => "New Content",
         ];
     }

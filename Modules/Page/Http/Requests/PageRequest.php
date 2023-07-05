@@ -17,14 +17,12 @@ class PageRequest extends FormRequest
         if (request()->getMethod() == "PUT") {
             return [
                 'title' => ['required'],
-                'title_en' => ['required'],
                 'content' => ['nullable'],
             ];
         }
 
         return [
             'title' => ['required'],
-            'title_en' => ['required'],
             'content' => ['nullable'],
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Category\Transformers\App;
+namespace Modules\Category\Transformers\Management;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,15 +16,14 @@ class CategoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'products_count' => $this->products_count,
             'title' => $this->title,
             'slug' => $this->slug,
             'link' => $this->link,
             'description' => $this->description,
             'short_review' => truncate($this->description, 25),
+            // 'main_parent' => $this->main_parent,
             'parent' => $this->parent,
             'status' => $this->status,
-            'children' => CategoryResource::collection($this->children),
             'media' => [
                 'main' => $this->getFirstMediaUrl(),
                 'thumb' => $this->getFirstMediaUrl('default', 'thumb')

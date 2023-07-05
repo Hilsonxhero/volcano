@@ -2,18 +2,18 @@
 
 namespace Modules\Page\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Str;
 use Modules\Banner\Entities\Banner;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Page\Database\factories\PageFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Page extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory;
 
     protected $fillable = [
-        'title', 'title_en', 'slug', 'content',
+        'title', 'slug', 'content',
     ];
 
     public function banners()
@@ -21,18 +21,13 @@ class Page extends Model
         return $this->morphMany(Banner::class, 'bannerable');
     }
 
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable(): array
+
+
+    public static function booted()
     {
-        return [
-            'slug' => [
-                'source' => 'title_en'
-            ]
-        ];
+        static::saving(function ($page) {
+            $page->slug = Str::slug($page->title, '-', null);
+        });
     }
 
 

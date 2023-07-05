@@ -22,7 +22,6 @@ class CategoryFactory extends Factory
     {
         return [
             'title' => fake()->words(rand(2, 5), true),
-            'title_en' => fake()->words(rand(2, 5), true),
             'description' => fake()->words(rand(2, 5), true),
             'link' =>  fake()->words(rand(2, 5), true),
             'parent_id' => null,

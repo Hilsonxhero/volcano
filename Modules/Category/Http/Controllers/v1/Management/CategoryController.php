@@ -1,17 +1,15 @@
 <?php
 
-namespace Modules\Category\Http\Controllers\v1\Panel;
+namespace Modules\Category\Http\Controllers\v1\Management;
 
 
-use Illuminate\Http\File;
-use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Category\Entities\Category;
-use Modules\Category\Transformers\CategoryResource;
-use Modules\Category\Transformers\CategoryCollection;
+use Modules\Category\Enum\CategoryStatus;
+use Modules\Common\Services\ApiService;
 use Modules\Category\Repository\CategoryRepositoryInterface;
+use Modules\Category\Transformers\Management\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -30,8 +28,18 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = $this->categoryRepo->all();
-        // ApiService::_success($categories);
-        return new CategoryCollection($categories);
+        $categories_collection = CategoryResource::collection($categories);
+        ApiService::_success(
+            array(
+                'categories' => $categories_collection,
+                'pager' => array(
+                    'pages' => $categories_collection->lastPage(),
+                    'total' => $categories_collection->total(),
+                    'current_page' => $categories_collection->currentPage(),
+                    'per_page' => $categories_collection->perPage(),
+                )
+            )
+        );
     }
 
     /**
@@ -55,7 +63,6 @@ class CategoryController extends Controller
     {
         ApiService::Validator($request->all(), [
             'title' => ['required'],
-            'title_en' => ['required'],
             'description' => ['required'],
             'link' => ['nullable'],
             'parent' => ['nullable', 'exists:categories,id'],
@@ -63,17 +70,17 @@ class CategoryController extends Controller
 
         $data = [
             'title' => $request->title,
-            'title_en' => $request->title_en,
             'description' => $request->description,
             'link' => $request->link,
             'parent_id' => $request->parent,
-            'status' => "enable"
+            'status' => CategoryStatus::ENABLE->value
         ];
         $category = $this->categoryRepo->create($data);
 
-
-        base64($request->image) ? $category->addMediaFromBase64($request->image)->toMediaCollection()
-            : $category->addMedia($request->image)->toMediaCollection();
+        if ($request->filled('image')) {
+            base64($request->image) ? $category->addMediaFromBase64($request->image)->toMediaCollection()
+                : $category->addMedia($request->image)->toMediaCollection();
+        }
 
         ApiService::_success($category);
     }
@@ -100,14 +107,12 @@ class CategoryController extends Controller
     {
         ApiService::Validator($request->all(), [
             'title' => ['required'],
-            'title_en' => ['required'],
             'description' => ['required'],
             'link' => ['nullable'],
             'parent' => ['nullable', 'exists:categories,id'],
         ]);
         $data = [
             'title' => $request->title,
-            'title_en' => $request->title_en,
             'description' => $request->description,
             'link' => $request->link,
             'parent_id' => $request->parent,

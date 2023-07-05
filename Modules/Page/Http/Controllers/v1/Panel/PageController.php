@@ -38,7 +38,6 @@ class PageController extends Controller
     {
         $data = [
             'title' => $request->title,
-            'title_en' => $request->title_en,
             'content' => $request->content,
         ];
         $page = $this->pageRepo->create($data);
@@ -66,7 +65,6 @@ class PageController extends Controller
     {
         $data = [
             'title' => $request->title,
-            'title_en' => $request->title_en,
             'content' => $request->content,
         ];
         $page = $this->pageRepo->update($id, $data);

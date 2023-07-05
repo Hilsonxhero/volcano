@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Http\Middleware;
+namespace Modules\Auth\Http\Middleware;
 
 use Closure;
 

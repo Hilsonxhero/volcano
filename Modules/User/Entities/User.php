@@ -62,4 +62,9 @@ class User extends Authenticatable
             get: fn ($value) => !!$this->password,
         );
     }
+
+    public function isSuperUser()
+    {
+        return $this->is_superuser;
+    }
 }

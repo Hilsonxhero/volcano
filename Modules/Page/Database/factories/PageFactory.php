@@ -22,7 +22,6 @@ class PageFactory extends Factory
     {
         return [
             'title' => fake()->word(rand(4, 8), true),
-            'title_en' => fake()->word(rand(4, 8), true),
             'content' => fake()->word(rand(4, 8), true),
         ];
     }
