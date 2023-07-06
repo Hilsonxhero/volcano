@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller;
 use Modules\User\Enums\UserStatus;
 use Illuminate\Validation\Rules\Enum;
 use Modules\Common\Services\ApiService;
+use Modules\User\Http\Requests\v1\Management\User\UserRequest;
 use Modules\User\Transformers\v1\Management\UserResource;
 use Modules\User\Repository\v1\App\UserRepositoryInterface;
 
@@ -61,27 +62,21 @@ class UserController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        ApiService::Validator($request->all(), [
-            'title' => ['required'],
-            'description' => ['required'],
-            'link' => ['nullable'],
-            'parent' => ['nullable', 'exists:users,id'],
-        ]);
-
         $data = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'link' => $request->link,
-            'parent_id' => $request->parent,
+            'username' => $request->username,
+            'email' => $request->email,
+            'phone' => $request->phone,
             'status' => UserStatus::ACTIVE->value
         ];
         $user = $this->userRepo->create($data);
-
-        if ($request->filled('image')) {
-            base64($request->image) ? $user->addMediaFromBase64($request->image)->toMediaCollection()
-                : $user->addMedia($request->image)->toMediaCollection();
+        $user->roles()->detach();
+        $user->assignRole($request->role);
+        if ($request->filled('avatar')) {
+            $user->clearMediaCollectionExcept();
+            base64($request->avatar) ? $user->addMediaFromBase64($request->avatar)->toMediaCollection()
+                : $user->addMedia($request->avatar)->toMediaCollection();
         }
 
         ApiService::_success($user);
@@ -105,15 +100,8 @@ class UserController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        ApiService::Validator($request->all(), [
-            'username' => ['required'],
-            'email' => ['required', Rule::unique('users', 'email')->ignore(request()->id)],
-            'phone' => ['nullable', Rule::unique('users', 'phone')->ignore(request()->id)],
-            'role' => ['required', 'exists:roles,id'],
-            'status' => ['required', new Enum(UserStatus::class)],
-        ]);
         $data = [
             'username' => $request->username,
             'email' => $request->email,

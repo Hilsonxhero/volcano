@@ -7,17 +7,39 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Project\Entities\ProjectInvite;
 use Modules\Project\Emails\InviteUserNotify;
-use Modules\RolePermissions\Entities\Role;
 use Modules\RolePermissions\Fields\RoleFields;
+use Modules\RolePermissions\Entities\Role;
 
 
 
 class RoleRepository implements RoleRepositoryInterface
 {
+
+
+    public function all()
+    {
+        $query = Role::query()->orderBy('created_at', 'desc');
+        $query->when(request()->has('q'), function ($query) {
+            $searchTerm = "%" . request()->q . "%";
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', $searchTerm)
+                    ->orWhere('name', 'LIKE', $searchTerm);
+            });
+        });
+        return $query->paginate();
+    }
+
+
     public function get()
     {
         $roles = Role::query()->get();
         return $roles;
+    }
+
+    public function show($id)
+    {
+        $role = $this->find($id, "id");
+        return $role;
     }
 
     public function groups()
@@ -29,40 +51,28 @@ class RoleRepository implements RoleRepositoryInterface
 
     public function find($value, $condition = "id")
     {
-        return ProjectInvite::query()->where($condition, $value)->first();
+        return Role::query()->where($condition, $value)->first();
     }
 
-    public function store($data)
+    public function create($data)
     {
-        foreach ($data['users'] as $key => $invited_user) {
-            $membership = [
-                'project_id' => $data['project']['id'],
-                'email' => $invited_user['email'],
-                'role' => $invited_user['role'],
-                'token' => Hash::make($invited_user['email'])
-            ];
+        return Role::query()->create($data);
+    }
 
-            if (
-                !$this->doesntHaveMember($membership['email'],  $membership['project_id']) &&
-                !resolve(ProjectMembershipRepositoryInterface::class)->doesntHaveMember($membership['email'],  $membership['project_id'])
-            ) {
-                ProjectInvite::query()->create($membership);
-
-                $mail_data  = [
-                    'name' => $data['inviter'],
-                    'project' => $data['project'],
-                    'url' => front_path(getenv("FRONT_INVITE_CALLBACK"), ['token' => $membership['token']])
-                ];
-
-                Mail::to($membership['email'])->send(new InviteUserNotify($mail_data));
-            }
-        }
-
-        return true;
+    public function update($id, $data)
+    {
+        $role = $this->find($id, "id");
+        return $role->update($data);
     }
 
     public function doesntHaveMember($recipient, $project)
     {
         return ProjectInvite::query()->where('email', $recipient)->where('project_id', $project)->exists();
+    }
+
+    public function delete($id)
+    {
+        $role = $this->find($id, "id");
+        return $role->delete();
     }
 }

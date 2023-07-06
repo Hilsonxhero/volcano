@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Article\Http\Controllers\v1\Panel;
+namespace Modules\Article\Http\Controllers\v1\Management;
 
-use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Common\Services\ApiService;
 use Modules\Article\Http\Requests\ArticleRequest;
-use Modules\Article\Repository\ArticleRepositoryInterface;
 use Modules\Article\Transformers\ArticleResource;
+use Modules\Article\Repository\ArticleRepositoryInterface;
 
 class ArticleController extends Controller
 {
@@ -26,7 +26,18 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = $this->articleRepo->all();
-        return ArticleResource::collection($articles);
+        $articles_collection = ArticleResource::collection($articles);
+        ApiService::_success(
+            array(
+                'articles' => $articles_collection,
+                'pager' => array(
+                    'pages' => $articles_collection->lastPage(),
+                    'total' => $articles_collection->total(),
+                    'current_page' => $articles_collection->currentPage(),
+                    'per_page' => $articles_collection->perPage(),
+                )
+            )
+        );
     }
 
     /**
@@ -36,7 +47,18 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        $article = $this->articleRepo->create($request);
+        $data = array(
+            'title' => $request->title,
+            'content' => $request->content,
+            'description' => $request->description,
+            'status' => $request->status,
+            'category_id' => $request->category_id,
+            'published_at' => now(),
+        );
+        $article = $this->articleRepo->create($data);
+        base64($request->image) ? $article->addMediaFromBase64($request->image)->toMediaCollection('main')
+            : $article->addMedia($request->image)->toMediaCollection('main');
+
         ApiService::_success(trans('response.responses.200'));
     }
 

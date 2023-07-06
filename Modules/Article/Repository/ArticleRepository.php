@@ -12,9 +12,15 @@ class ArticleRepository implements ArticleRepositoryInterface
 
     public function all()
     {
-        return Article::orderBy('created_at', 'desc')
-            ->with(['category'])
-            ->paginate();
+        $query = Article::query()->orderBy('created_at', 'desc')->with(['category']);
+        $query->when(request()->has('q'), function ($query) {
+            $searchTerm = "%" . request()->q . "%";
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', $searchTerm)
+                    ->orWhere('content', 'LIKE', $searchTerm);
+            });
+        });
+        return $query->paginate();
     }
 
     public function get()
@@ -55,19 +61,7 @@ class ArticleRepository implements ArticleRepositoryInterface
 
     public function create($data)
     {
-        $article =  Article::query()->create([
-            'category_id' => $data->category_id,
-            'title' => $data->title,
-            'content' => $data->content,
-            'description' => $data->description,
-            'status' => $data->status,
-            'published_at' => now(),
-        ]);
-
-        base64($data->image) ? $article->addMediaFromBase64($data->image)->toMediaCollection('main')
-            : $article->addMedia($data->image)->toMediaCollection('main');
-
-
+        $article =  Article::query()->create($data);
         return $article;
     }
     public function update($id, $data)
