@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Page\Http\Controllers\v1\Panel;
+namespace Modules\Page\Http\Controllers\v1\Management;
 
-use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Common\Services\ApiService;
 use Modules\Page\Http\Requests\PageRequest;
 use Modules\Page\Repository\PageRepositoryInterface;
-use Modules\Page\Transformers\PageResource;
+use Modules\Page\Transformers\v1\Management\PageResource;
 
 class PageController extends Controller
 {
@@ -25,8 +25,18 @@ class PageController extends Controller
     public function index()
     {
         $pages = $this->pageRepo->all();
-        return PageResource::collection($pages);
-        // ApiService::_success($pages);
+        $pages_collection = PageResource::collection($pages);
+        ApiService::_success(
+            array(
+                'pages' => $pages_collection,
+                'pager' => array(
+                    'pages' => $pages_collection->lastPage(),
+                    'total' => $pages_collection->total(),
+                    'current_page' => $pages_collection->currentPage(),
+                    'per_page' => $pages_collection->perPage(),
+                )
+            )
+        );
     }
 
     /**
@@ -38,6 +48,7 @@ class PageController extends Controller
     {
         $data = [
             'title' => $request->title,
+            'key' => $request->key,
             'content' => $request->content,
         ];
         $page = $this->pageRepo->create($data);
@@ -65,6 +76,7 @@ class PageController extends Controller
     {
         $data = [
             'title' => $request->title,
+            'key' => $request->key,
             'content' => $request->content,
         ];
         $page = $this->pageRepo->update($id, $data);

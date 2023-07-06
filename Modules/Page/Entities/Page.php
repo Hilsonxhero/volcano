@@ -13,15 +13,8 @@ class Page extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'slug', 'content',
+        'title', 'slug', 'content', 'key',
     ];
-
-    public function banners()
-    {
-        return $this->morphMany(Banner::class, 'bannerable');
-    }
-
-
 
     public static function booted()
     {
@@ -29,7 +22,6 @@ class Page extends Model
             $page->slug = Str::slug($page->title, '-', null);
         });
     }
-
 
     protected static function newFactory()
     {

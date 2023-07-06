@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Page\Transformers;
+namespace Modules\Page\Transformers\v1\Management;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +17,7 @@ class PageResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'key' => $this->key,
             'content' => $this->content,
         ];
     }
