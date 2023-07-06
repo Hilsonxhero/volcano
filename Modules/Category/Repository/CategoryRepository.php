@@ -13,8 +13,20 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function all()
     {
-        return Category::orderBy('created_at', 'desc')
-            ->paginate();
+        $query = Category::orderBy('created_at', 'desc');
+        $query->when(request()->has('q'), function ($query) {
+            $searchTerm = "%" . request()->q . "%";
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', $searchTerm)
+                    ->orWhere('description', 'LIKE', $searchTerm);
+            })
+                ->orWhereHas('parent', function ($query) use ($searchTerm) {
+                    $query->where('title', 'LIKE', $searchTerm)
+                        ->orWhere('description', 'LIKE', $searchTerm);;
+                });
+        });
+
+        return $query->paginate();
     }
 
     public function group()

@@ -12,11 +12,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Modules\Category\Database\factories\CategoryFactory;
+use Laravel\Scout\Searchable;
 
 class Category extends Model implements HasMedia
 
 {
-    use HasFactory, SoftDeletes, InteractsWithMedia;
+    use HasFactory, SoftDeletes, InteractsWithMedia, Searchable;
 
     protected $fillable = [
         'title',
@@ -26,6 +27,28 @@ class Category extends Model implements HasMedia
         'parent_id',
         'status',
     ];
+
+    /**
+     * Get the name of the index associated with the model.
+     */
+    public function searchableAs(): string
+    {
+        return 'categories_index';
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => (int) $this->id,
+            'title' => $this->title,
+
+        ];
+    }
 
     public static function last()
     {

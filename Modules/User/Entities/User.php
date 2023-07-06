@@ -12,10 +12,15 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Image\Manipulations;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasRoles, SoftDeletes, HasApiTokens;
+    use HasFactory, HasRoles, SoftDeletes, HasApiTokens, InteractsWithMedia;
 
     protected $fillable = [
         'username', 'ip', 'nullable', 'email', 'phone', 'email_verified_at',
@@ -25,6 +30,13 @@ class User extends Authenticatable
     protected static function newFactory()
     {
         return \Modules\User\Database\factories\UserFactory::new();
+    }
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(300)
+            ->height(300)
+            ->format(Manipulations::FORMAT_PNG);
     }
     public function projects()
     {
@@ -47,7 +59,7 @@ class User extends Authenticatable
     protected function role(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->roles()->first()->title,
+            get: fn ($value) => $this->roles()->first(),
         );
     }
 
