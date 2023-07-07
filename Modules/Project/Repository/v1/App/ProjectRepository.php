@@ -34,4 +34,9 @@ class ProjectRepository implements ProjectRepositoryInterface
         $project = $this->firstOrFail($id);
         return $project;
     }
+
+    public function create($data)
+    {
+        return Project::query()->create($data);
+    }
 }

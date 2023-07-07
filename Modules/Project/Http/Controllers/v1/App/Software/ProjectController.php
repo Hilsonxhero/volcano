@@ -5,15 +5,15 @@ namespace Modules\Project\Http\Controllers\v1\App\Software;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
+use Modules\Project\Repository\v1\App\ProjectRepositoryInterface;
 use Modules\Project\Transformers\v1\App\Software\ProjectResource;
-use Modules\User\Repository\v1\Profile\UserProjectRepositoryInterface;
 
 
 class ProjectController extends Controller
 {
     public $projectRepo;
 
-    public function __construct(UserProjectRepositoryInterface $projectRepo)
+    public function __construct(ProjectRepositoryInterface $projectRepo)
     {
         $this->projectRepo = $projectRepo;
     }

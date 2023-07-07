@@ -16,21 +16,13 @@ use Modules\User\Repository\v1\App\UserRepositoryInterface;
 
 class UserController extends Controller
 {
-
-    /**
-     * @var UserRepositoryInterface
-     */
-    private $userRepo;
-
-    public function __construct(UserRepositoryInterface $userRepo)
+    public function __construct()
     {
-        $this->userRepo = $userRepo;
     }
-
 
     public function index()
     {
-        $users = $this->userRepo->all();
+        $users = userRepo()->all();
         $users_collection = UserResource::collection($users);
         ApiService::_success(
             array(
@@ -53,7 +45,7 @@ class UserController extends Controller
 
     public function select(Request $request)
     {
-        $users = $this->userRepo->select($request->q);
+        $users = userRepo()->select($request->q);
         ApiService::_success($users);
     }
 
@@ -70,7 +62,7 @@ class UserController extends Controller
             'phone' => $request->phone,
             'status' => UserStatus::ACTIVE->value
         ];
-        $user = $this->userRepo->create($data);
+        $user = userRepo()->create($data);
         $user->roles()->detach();
         $user->assignRole($request->role);
         if ($request->filled('avatar')) {
@@ -89,7 +81,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = $this->userRepo->show($id);
+        $user = userRepo()->show($id);
 
         return new UserResource($user);
     }
@@ -108,7 +100,7 @@ class UserController extends Controller
             'phone' => $request->phone,
             'status' => $request->status,
         ];
-        $user = $this->userRepo->update($id, $data);
+        $user = userRepo()->update($id, $data);
         $user->roles()->detach();
         $user->assignRole($request->role);
         if ($request->avatar) {
@@ -126,7 +118,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->userRepo->delete($id);
+        userRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

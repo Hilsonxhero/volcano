@@ -7,8 +7,8 @@ use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Transformers\v1\App\Software\ProjectResource;
 use Modules\Project\Repository\v1\App\ProjectPageRepositoryInterface;
+use Modules\Project\Repository\v1\App\ProjectRepository;
 use Modules\Project\Transformers\v1\App\Software\ProjectPageResource;
-use Modules\User\Repository\v1\Profile\UserProjectRepositoryInterface;
 
 
 class ProjectPageController extends Controller
@@ -18,7 +18,7 @@ class ProjectPageController extends Controller
 
 
     public function __construct(
-        UserProjectRepositoryInterface $projectRepo,
+        ProjectRepository $projectRepo,
         ProjectPageRepositoryInterface $pageRepo
     ) {
         $this->projectRepo = $projectRepo;

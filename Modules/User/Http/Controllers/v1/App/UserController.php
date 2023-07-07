@@ -6,16 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
-use Modules\User\Repository\v1\Profile\UserProjectRepositoryInterface;
 use Modules\User\Transformers\v1\App\UserResource;
 
 class UserController extends Controller
 {
-    public $projectRepo;
 
-    public function __construct(UserProjectRepositoryInterface $projectRepo)
+    public function __construct()
     {
-        $this->projectRepo = $projectRepo;
     }
 
     /**

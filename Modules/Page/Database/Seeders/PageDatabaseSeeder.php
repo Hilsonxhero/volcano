@@ -19,7 +19,8 @@ class PageDatabaseSeeder extends Seeder
 
         resolve(PageRepositoryInterface::class)->create([
             'title' => "صفحه اصلی",
-            'content' => "",
+            'key' => "home",
+            'content' => "متن صفحه اصلی",
         ]);
 
 

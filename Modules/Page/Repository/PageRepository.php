@@ -12,8 +12,15 @@ class PageRepository implements PageRepositoryInterface
 
     public function all()
     {
-        return Page::orderBy('created_at', 'desc')
-            ->paginate();
+        $query = Page::query()->orderBy('created_at', 'desc');
+        $query->when(request()->has('q'), function ($query) {
+            $searchTerm = "%" . request()->q . "%";
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', $searchTerm)
+                    ->orWhere('key', 'LIKE', $searchTerm);
+            });
+        });
+        return $query->paginate();
     }
     public function banners($banners, $type)
     {

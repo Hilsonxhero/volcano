@@ -10,9 +10,8 @@ use Modules\Project\Enums\ProjectStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectRequest;
 use Modules\Project\Transformers\v1\App\Portal\ProjectResource;
 use Modules\Project\Transformers\v1\App\Portal\ShowProjectResource;
-use Modules\User\Repository\v1\Profile\UserProjectRepositoryInterface;
 use Modules\Project\Repository\v1\App\ProjectMembershipRepositoryInterface;
-
+use Modules\Project\Repository\v1\App\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
 {
@@ -20,7 +19,7 @@ class ProjectController extends Controller
     public $projectMembershipRepo;
 
     public function __construct(
-        UserProjectRepositoryInterface $projectRepo,
+        ProjectRepositoryInterface $projectRepo,
         ProjectMembershipRepositoryInterface $projectMembershipRepo
 
     ) {
@@ -35,10 +34,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        // $user = auth()->user();
-        // return $user->memberships()->with('project')->paginate();
-        $projects = $this->projectRepo->paginate();
-
+        $projects = userRepo()->projects(true);
         $projects = ProjectResource::collection($projects);
         ApiService::_success(array(
             'projects' => $projects->items(),
@@ -47,7 +43,6 @@ class ProjectController extends Controller
                 'total' => $projects->total(),
                 'current_page' => $projects->currentPage(),
                 'per_page' => $projects->perPage(),
-
             )
         ));
     }
@@ -79,7 +74,7 @@ class ProjectController extends Controller
             'date_last_view' => now(),
             'status' => ProjectStatus::ACTIVE->value,
         );
-        $project = $this->projectRepo->store($data);
+        $project = $this->projectRepo->create($data);
         $this->projectMembershipRepo->create(array(
             'project_id' => $project->id,
             'user_id' => $user->id,
