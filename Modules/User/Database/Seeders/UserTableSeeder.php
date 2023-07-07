@@ -31,7 +31,7 @@ class UserTableSeeder extends Seeder
     private function mkSystemAdministrator(): self
     {
 
-        $user = user()->create([
+        $user = userRepo()->create([
             UserFields::USERNAME          => "system_administrator",
             UserFields::EMAIL             => fake()->email(),
             UserFields::PHONE            => fake()->phoneNumber(),
@@ -52,12 +52,12 @@ class UserTableSeeder extends Seeder
      */
     private function mkProgrammer(): self
     {
-        $user = user()->create([
+        $user = userRepo()->create([
             UserFields::USERNAME          => "system_administrator",
             UserFields::EMAIL             => fake()->email(),
             UserFields::PHONE            => fake()->phoneNumber(),
             UserFields::EMAIL_VERIFIED_AT => now(),
-            UserFields::IS_SUPERUSER => true,
+            UserFields::IS_SUPERUSER => false,
             UserFields::PASSWORD          => Hash::make("password"),
             UserFields::STATUS            => UserStatus::ACTIVE->value
         ]);
@@ -74,12 +74,12 @@ class UserTableSeeder extends Seeder
      */
     private function mkRegularUser(): void
     {
-        $user = user()->create([
+        $user = userRepo()->create([
             UserFields::USERNAME          => "system_administrator",
             UserFields::EMAIL             => fake()->email(),
             UserFields::PHONE            => fake()->phoneNumber(),
             UserFields::EMAIL_VERIFIED_AT => now(),
-            UserFields::IS_SUPERUSER => true,
+            UserFields::IS_SUPERUSER => false,
             UserFields::PASSWORD          => Hash::make("password"),
             UserFields::STATUS            => UserStatus::ACTIVE->value
         ]);

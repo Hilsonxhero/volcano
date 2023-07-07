@@ -4,13 +4,14 @@ return [
     'options' => [
         'site_name',
         'site_description',
-        'support_text',
+        'home_title',
+        'home_description',
         'email',
         'phone',
         'address',
         'copyright',
-        'links',
-        'logo',
-        'thb',
+        'socialmedia',
+        'logo_light',
+        'logo_dark',
     ],
 ];

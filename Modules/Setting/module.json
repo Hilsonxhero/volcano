@@ -8,6 +8,8 @@
         "Modules\\Setting\\Providers\\SettingServiceProvider"
     ],
     "aliases": {},
-    "files": [],
+    "files": [
+        "Helpers/helpers.php"
+    ],
     "requires": []
 }

@@ -3,10 +3,8 @@
 namespace Modules\Setting\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Modules\Setting\Repository\SettingBannerRepository;
-use Modules\Setting\Repository\SettingBannerRepositoryInterface;
-use Modules\Setting\Repository\SettingRepository;
-use Modules\Setting\Repository\SettingRepositoryInterface;
+use Modules\Setting\Repository\Contracts\SettingRepository;
+use Modules\Setting\Repository\Eloquent\SettingRepositoryEloquent;
 
 class SettingRepoServiceProvider extends ServiceProvider
 {
@@ -27,7 +25,6 @@ class SettingRepoServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(SettingBannerRepositoryInterface::class, SettingBannerRepository::class);
-        $this->app->bind(SettingRepositoryInterface::class, SettingRepository::class);
+        $this->app->bind(SettingRepository::class, SettingRepositoryEloquent::class);
     }
 }

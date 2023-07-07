@@ -1,41 +1,33 @@
 <?php
 
-namespace Modules\Setting\Http\Controllers\v1\Panel;
+namespace Modules\Setting\Http\Controllers\v1\Management;
 
-use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Intervention\Image\Facades\Image;
 use Modules\Setting\Entities\Setting;
-use Illuminate\Support\Facades\Storage;
-use Modules\Media\Services\MediaFileService;
-use Modules\Setting\Http\Requests\SettingRequest;
-use Modules\Setting\Transformers\SettingResource;
-use Modules\Setting\Repository\SettingRepositoryInterface;
+use Modules\Common\Services\ApiService;
+use Modules\Setting\Transformers\Management\SettingResource;
 
 class SettingController extends Controller
 {
-    private $settingrRepo;
-    public function __construct(SettingRepositoryInterface $settingrRepo)
-    {
-        $this->settingrRepo = $settingrRepo;
-    }
-
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index()
     {
-        $settings = $this->settingrRepo->all();
+        $settings = settingRepo()->all();
         return SettingResource::collection($settings);
     }
 
     public function isJson($string)
     {
-        json_decode($string, true);
-        return json_last_error() === JSON_ERROR_NONE;
+        if (is_string($string)) {
+            json_decode($string, true);
+            return json_last_error() === JSON_ERROR_NONE;
+        }
+        return false;
     }
 
     /**
@@ -51,7 +43,7 @@ class SettingController extends Controller
             if ($request->{$option}) {
                 $value = $this->isJson($request->input($option)) ? json_encode(json_decode($request->input($option), true)) : json_encode($request->input($option));
                 if ($request->file($option)) {
-                    $setting = $this->settingrRepo->find($option);
+                    $setting = settingRepo()->find($option);
                     if ($setting) {
                         $setting->clearMediaCollectionExcept();
                     } else {

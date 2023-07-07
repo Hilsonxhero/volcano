@@ -4,7 +4,6 @@ namespace Modules\Setting\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Setting\Repository\SettingRepositoryInterface;
 
 class SettingDatabaseSeeder extends Seeder
 {
@@ -20,26 +19,24 @@ class SettingDatabaseSeeder extends Seeder
         $data = array(
             ['name' => "site_name", 'value' => json_encode('test')],
             ['name' => "site_description", 'value' => json_encode("test")],
-            ['name' => "support_text", 'value' => json_encode("test")],
-            ['name' => "email", 'value' => json_encode("info@wwz.com")],
+            ['name' => "home_title", 'value' => json_encode('test')],
+            ['name' => "home_description", 'value' => json_encode("test")],
+            ['name' => "email", 'value' => json_encode("info@volcano.com")],
             ['name' => "phone", 'value' => json_encode("021454323")],
+            ['name' => "mobile", 'value' => json_encode("09011112233")],
             ['name' => "address", 'value' => json_encode("test")],
             ['name' => "copyright", 'value' => json_encode("test")],
-            ['name' => "logo", 'value' => json_encode("http://127.0.0.1/media/statics/logo.svg")],
-            ['name' => "links", 'value' => json_encode([
-                ["title" => "خدمات مشتریان", 'values' => [
-                    ["title" => "پاسخ به پرسش های متداول", "url" => "#"],
-                    ["title" => "شرایط استفاده", "url" => "#"]
-                ]],
-                ["title" => "راهنمای خرید  ", 'values' => [
-                    ["title" => "نحوه ثبت سفارش", "url" => "#"],
-                    ["title" => "رویه ارسال سفارش", "url" => "#"],
-                    ["title" => "شیوه های پرداخت", "url" => "#"]
-                ]]
+            ['name' => "logo_light", 'value' => json_encode(asset('assets/media/statics/logo-light.svg'))],
+            ['name' => "logo_dark", 'value' => json_encode(asset('assets/media/statics/logo-dark.svg'))],
+            ['name' => "socialmedia", 'value' => json_encode([
+                ["name" => "telegram", "title" => "https://sample.info"],
+                ["name" => "instagram", "title" => "https://sample.info"],
+                ["name" => "twitter", "title" => "https://sample.info"],
+                ["name" => "meta", "title" => "https://sample.info"],
             ])],
         );
 
-        resolve(SettingRepositoryInterface::class)->insert($data);
+        settingRepo()->insert($data);
 
 
         // $this->call("OthersTableSeeder");
