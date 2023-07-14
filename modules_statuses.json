@@ -10,5 +10,6 @@
     "Setting": true,
     "Page": true,
     "Article": true,
-    "Category": true
+    "Category": true,
+    "Service": true
 }

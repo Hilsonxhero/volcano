@@ -37,8 +37,6 @@ class SettingDatabaseSeeder extends Seeder
         );
 
         settingRepo()->insert($data);
-
-
         // $this->call("OthersTableSeeder");
     }
 }
