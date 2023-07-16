@@ -6,10 +6,10 @@ return [
         'project_management' => [
             'parent' => 'Permission Management Projects',
             'index'  => 'View Proejcts',
-            'show'   => 'Show Permissions',
-            'update' => 'Update Permissions',
-            'delete' => 'Delete Permissions',
-            'store'  => 'Store Permissions'
+            'show'   => 'Show Proejcts',
+            'update' => 'Update Proejcts',
+            'delete' => 'Delete Proejcts',
+            'store'  => 'Store Proejcts'
         ],
     ],
 

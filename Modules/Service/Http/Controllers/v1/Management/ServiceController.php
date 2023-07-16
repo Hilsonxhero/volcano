@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
-use Modules\Article\Transformers\ArticleResource;
+use Modules\Service\Http\Requests\Management\ServiceRequest;
+use Modules\Service\Transformers\Management\ServiceResource;
 
 class ServiceController extends Controller
 {
@@ -18,16 +19,16 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $articles = serviceRepo()->all();
-        $articles_collection = ArticleResource::collection($articles);
+        $services = serviceRepo()->all();
+        $services_collection = ServiceResource::collection($services);
         ApiService::_success(
             array(
-                'articles' => $articles_collection,
+                'services' => $services_collection,
                 'pager' => array(
-                    'pages' => $articles_collection->lastPage(),
-                    'total' => $articles_collection->total(),
-                    'current_page' => $articles_collection->currentPage(),
-                    'per_page' => $articles_collection->perPage(),
+                    'pages' => $services_collection->lastPage(),
+                    'total' => $services_collection->total(),
+                    'current_page' => $services_collection->currentPage(),
+                    'per_page' => $services_collection->perPage(),
                 )
             )
         );
@@ -38,20 +39,16 @@ class ServiceController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
         $data = array(
             'title' => $request->title,
-            'content' => $request->content,
             'description' => $request->description,
             'status' => $request->status,
-            'category_id' => $request->category_id,
-            'published_at' => now(),
         );
-        $article = serviceRepo()->create($data);
-        base64($request->image) ? $article->addMediaFromBase64($request->image)->toMediaCollection('main')
-            : $article->addMedia($request->image)->toMediaCollection('main');
-
+        $service = serviceRepo()->create($data);
+        base64($request->media) ? $service->addMediaFromBase64($request->media)->toMediaCollection('main')
+            : $service->addMedia($request->media)->toMediaCollection('main');
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -62,8 +59,8 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-        $article = serviceRepo()->show($id);
-        return new ArticleResource($article);
+        $service = serviceRepo()->show($id);
+        return new ServiceResource($service);
     }
 
     /**
@@ -72,9 +69,19 @@ class ServiceController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(ServiceRequest $request, $id)
     {
-        $article = serviceRepo()->update($id, $request);
+        $data = array(
+            'title' => $request->title,
+            'description' => $request->description,
+            'status' => $request->status,
+        );
+        $service = serviceRepo()->update($id, $data);
+        if ($request->media) {
+            $service->clearMediaCollectionExcept();
+            base64($request->media) ? $service->addMediaFromBase64($request->media)->toMediaCollection()
+                : $service->addMedia($request->media)->toMediaCollection();
+        }
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -85,7 +92,7 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        $article = serviceRepo()->delete($id);
+        $service = serviceRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

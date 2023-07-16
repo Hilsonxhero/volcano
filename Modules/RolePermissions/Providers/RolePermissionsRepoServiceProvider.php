@@ -3,10 +3,11 @@
 namespace Modules\RolePermissions\Providers;
 
 
-use Modules\RolePermissions\Repository\v1\App\Portal\RoleRepository;
-use Modules\RolePermissions\Repository\v1\App\Portal\RoleRepositoryInterface;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-
+use Modules\RolePermissions\Repository\Contracts\PermissionRepository;
+use Modules\RolePermissions\Repository\Contracts\RoleRepository;
+use Modules\RolePermissions\Repository\Eloquent\PermissionRepositoryEloquent;
+use Modules\RolePermissions\Repository\Eloquent\RoleRepositoryEloquent;
 
 class RolePermissionsRepoServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,7 @@ class RolePermissionsRepoServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
+        $this->app->bind(RoleRepository::class, RoleRepositoryEloquent::class);
+        $this->app->bind(PermissionRepository::class, PermissionRepositoryEloquent::class);
     }
 }

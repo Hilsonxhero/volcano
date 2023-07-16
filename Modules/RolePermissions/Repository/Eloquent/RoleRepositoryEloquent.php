@@ -1,21 +1,12 @@
 <?php
 
-namespace Modules\RolePermissions\Repository\v1\App\Portal;
+namespace Modules\RolePermissions\Repository\Eloquent;
 
-
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Modules\Project\Entities\ProjectInvite;
-use Modules\Project\Emails\InviteUserNotify;
-use Modules\RolePermissions\Fields\RoleFields;
 use Modules\RolePermissions\Entities\Role;
+use Modules\RolePermissions\Repository\Contracts\RoleRepository;
 
-
-
-class RoleRepository implements RoleRepositoryInterface
+class RoleRepositoryEloquent implements RoleRepository
 {
-
-
     public function all()
     {
         $query = Role::query()->orderBy('created_at', 'desc');
@@ -62,7 +53,8 @@ class RoleRepository implements RoleRepositoryInterface
     public function update($id, $data)
     {
         $role = $this->find($id, "id");
-        return $role->update($data);
+        $role->update($data);
+        return $role;
     }
 
     public function doesntHaveMember($recipient, $project)

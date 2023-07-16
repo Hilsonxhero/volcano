@@ -7,5 +7,7 @@
     "providers": [
         "Modules\\RolePermissions\\Providers\\RolePermissionsServiceProvider"
     ],
-    "files": []
+    "files": [
+        "Helpers/helpers.php"
+    ]
 }

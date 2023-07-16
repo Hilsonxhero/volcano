@@ -1,10 +1,9 @@
 <?php
 
-namespace Modules\User\Repository\Eloquent;
+namespace Modules\Service\Repository\Eloquent;
 
 use Modules\Service\Entities\Service;
 use Modules\Service\Repository\Contracts\ServiceRepository;
-use Modules\User\Entities\User;
 
 class ServiceRepositoryEloquent implements ServiceRepository
 {
@@ -14,8 +13,8 @@ class ServiceRepositoryEloquent implements ServiceRepository
         $query->when(request()->has('q'), function ($query) {
             $searchTerm = "%" . request()->q . "%";
             $query->where(function ($query) use ($searchTerm) {
-                $query->where('username', 'LIKE', $searchTerm)
-                    ->orWhere('email', 'LIKE', $searchTerm);
+                $query->where('title', 'LIKE', $searchTerm)
+                    ->orWhere('description', 'LIKE', $searchTerm);
             });
         });
         return $query->paginate();
@@ -31,13 +30,20 @@ class ServiceRepositoryEloquent implements ServiceRepository
     }
     public function update($id, $data)
     {
-        $user = $this->find($id, 'id');
-        $user->update($data);
-        return $user;
+        $service = $this->find($id, 'id');
+        $service->update($data);
+        return $service;
     }
     public function create($data)
     {
-        $user = Service::query()->create($data);
-        return $user;
+        $service = Service::query()->create($data);
+        return $service;
+    }
+    public function delete($id)
+    {
+        $service = $this->find($id);
+        $service->clearMediaCollectionExcept();
+        $service->delete();
+        return $service;
     }
 }

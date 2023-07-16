@@ -10,22 +10,22 @@ use Modules\Common\Services\ApiService;
 use Modules\RolePermissions\Http\Requests\v1\Management\Role\RoleRequest;
 use Modules\RolePermissions\Transformers\v1\Management\RoleResource;
 
-class RoleController extends Controller
+class PermissionController extends Controller
 {
 
 
     public function index()
     {
-        $roles = roleRepo()->all();
-        $roles_collection = RoleResource::collection($roles);
+        $permissions = permissionRepo()->all();
+        $permissions_collection = RoleResource::collection($permissions);
         ApiService::_success(
             array(
-                'roles' => $roles_collection,
+                'permissions' => $permissions_collection,
                 'pager' => array(
-                    'pages' => $roles_collection->lastPage(),
-                    'total' => $roles_collection->total(),
-                    'current_page' => $roles_collection->currentPage(),
-                    'per_page' => $roles_collection->perPage(),
+                    'pages' => $permissions_collection->lastPage(),
+                    'total' => $permissions_collection->total(),
+                    'current_page' => $permissions_collection->currentPage(),
+                    'per_page' => $permissions_collection->perPage(),
                 )
             )
         );
@@ -37,11 +37,24 @@ class RoleController extends Controller
      * @return Response
      */
 
+    public function getParents(Request $request)
+    {
+        $permissions = permissionRepo()->getParents($request->q);
+        ApiService::_success($permissions);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Response
+     */
+
     public function select(Request $request)
     {
-        $roles = roleRepo()->select($request->q);
-        ApiService::_success($roles);
+        $permissions = permissionRepo()->select($request->q);
+        ApiService::_success($permissions);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -56,8 +69,7 @@ class RoleController extends Controller
             'parent_id' => $request->parent_id,
             'guard' => 'api'
         ];
-        $role = roleRepo()->create($data);
-        $role->syncPermissions($request->permissions);
+        $role = permissionRepo()->create($data);
         ApiService::_success($role);
     }
 
@@ -68,7 +80,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $role = roleRepo()->show($id);
+        $role = permissionRepo()->show($id);
         return new RoleResource($role);
     }
 
@@ -86,8 +98,7 @@ class RoleController extends Controller
             'parent_id' => $request->parent_id,
             'status' => $request->status,
         ];
-        $role = roleRepo()->update($id, $data);
-        $role->syncPermissions($request->permissions);
+        $role = permissionRepo()->update($id, $data);
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -98,7 +109,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        roleRepo()->delete($id);
+        permissionRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

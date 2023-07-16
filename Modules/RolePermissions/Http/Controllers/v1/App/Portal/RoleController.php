@@ -11,24 +11,13 @@ use Modules\RolePermissions\Repository\v1\App\Portal\RoleRepositoryInterface;
 
 class RoleController extends Controller
 {
-
-    public $roleRepo;
-
-
-    public function __construct(
-        RoleRepositoryInterface $roleRepo
-    ) {
-        $this->roleRepo = $roleRepo;
-    }
-
-
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index()
     {
-        $roles = $this->roleRepo->groups();
+        $roles = roleRepo()->groups();
         $roles = RoleResource::collection($roles);
         return ApiService::_success($roles);
     }

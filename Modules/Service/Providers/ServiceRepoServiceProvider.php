@@ -3,9 +3,9 @@
 namespace Modules\Service\Providers;
 
 
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Modules\Service\Repository\Contracts\ServiceRepository;
-use Modules\User\Repository\Eloquent\ServiceRepositoryEloquent;
+use Modules\Service\Repository\Eloquent\ServiceRepositoryEloquent;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class ServiceRepoServiceProvider extends ServiceProvider
 {
