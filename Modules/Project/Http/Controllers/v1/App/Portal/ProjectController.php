@@ -10,23 +10,9 @@ use Modules\Project\Enums\ProjectStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectRequest;
 use Modules\Project\Transformers\v1\App\Portal\ProjectResource;
 use Modules\Project\Transformers\v1\App\Portal\ShowProjectResource;
-use Modules\Project\Repository\v1\App\ProjectMembershipRepositoryInterface;
-use Modules\Project\Repository\v1\App\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
 {
-    public $projectRepo;
-    public $projectMembershipRepo;
-
-    public function __construct(
-        ProjectRepositoryInterface $projectRepo,
-        ProjectMembershipRepositoryInterface $projectMembershipRepo
-
-    ) {
-        $this->projectRepo = $projectRepo;
-        $this->projectMembershipRepo = $projectMembershipRepo;
-    }
-
 
     /**
      * Display a listing of the resource.
@@ -53,7 +39,7 @@ class ProjectController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $project = $this->projectRepo->show($id);
+        $project = projectRepo()->show($id);
         $project = new ShowProjectResource($project);
         ApiService::_success($project);
     }
@@ -74,8 +60,8 @@ class ProjectController extends Controller
             'date_last_view' => now(),
             'status' => ProjectStatus::ACTIVE->value,
         );
-        $project = $this->projectRepo->create($data);
-        $this->projectMembershipRepo->create(array(
+        $project = projectRepo()->create($data);
+        projectMembershipRepo()->create(array(
             'project_id' => $project->id,
             'user_id' => $user->id,
             'status' => ProjectMemberStatus::ACTIVE->value

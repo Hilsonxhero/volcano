@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Project\Repository\v1\App;
+namespace Modules\Project\Repository\Contracts;
 
-interface ProjectPageRepositoryInterface
+interface ProjectPageRepository
 {
     public function store($data);
     public function find($value, $field);

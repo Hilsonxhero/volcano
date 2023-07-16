@@ -1,16 +1,15 @@
 <?php
 
-namespace Modules\Project\Repository\v1\App;
+namespace Modules\Project\Repository\Eloquent;
 
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Project\Entities\ProjectInvite;
 use Modules\Project\Emails\InviteUserNotify;
+use Modules\Project\Repository\Contracts\ProjectInviteRepository;
 
-
-
-class ProjectInviteRepository implements ProjectInviteRepositoryInterface
+class ProjectInviteRepositoryEloquent implements ProjectInviteRepository
 {
 
     public function find($value, $condition = "id")

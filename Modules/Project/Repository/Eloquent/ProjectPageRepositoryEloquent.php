@@ -4,8 +4,9 @@ namespace Modules\Project\Repository\v1\App;
 
 
 use Modules\Project\Entities\ProjectPage;
+use Modules\Project\Repository\Contracts\ProjectPageRepository;
 
-class ProjectPageRepository implements ProjectPageRepositoryInterface
+class ProjectPageRepositoryEloquent implements ProjectPageRepository
 {
 
     public function get($id)

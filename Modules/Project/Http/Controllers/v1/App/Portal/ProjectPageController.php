@@ -8,18 +8,10 @@ use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectPageStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectPageRequest;
-use Modules\Project\Repository\v1\App\ProjectPageRepositoryInterface;
 use Modules\Project\Transformers\v1\App\Portal\ProjectPageResource;
 
 class ProjectPageController extends Controller
 {
-    public $pageRepo;
-
-    public function __construct(ProjectPageRepositoryInterface $pageRepo)
-    {
-        $this->pageRepo = $pageRepo;
-    }
-
 
     /**
      * Display a listing of the resource.
@@ -27,7 +19,7 @@ class ProjectPageController extends Controller
      */
     public function index(Request $request, $id)
     {
-        $pages = $this->pageRepo->get($id);
+        $pages = projectPageRepo()->get($id);
         $pages = ProjectPageResource::collection($pages);
         ApiService::_success($pages);
     }
@@ -47,7 +39,7 @@ class ProjectPageController extends Controller
             'parent_id' => $request->input('parent_id'),
             'status' => ProjectPageStatus::ACTIVE->value,
         );
-        $page = $this->pageRepo->store($data);
+        $page = projectPageRepo()->store($data);
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -58,7 +50,7 @@ class ProjectPageController extends Controller
      */
     public function show($id)
     {
-        $page = $this->pageRepo->show($id);
+        $page = projectPageRepo()->show($id);
         $resource = new ProjectPageResource($page);
         ApiService::_success($resource);
     }
@@ -79,7 +71,7 @@ class ProjectPageController extends Controller
             'parent_id' => $request->input('parent_id'),
             // 'status' => $request->input('status')
         );
-        $page = $this->pageRepo->update($data, $id);
+        $page = projectPageRepo()->update($data, $id);
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -90,7 +82,7 @@ class ProjectPageController extends Controller
      */
     public function destroy($project, $id)
     {
-        $page = $this->pageRepo->delete($id);
+        $page = projectPageRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

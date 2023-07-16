@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use Modules\Project\Entities\ProjectInvite;
 use Modules\Project\Entities\ProjectMembership;
 use Modules\Project\Enums\ProjectMemberStatus;
+use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
 
-class ProjectMembershipRepository implements ProjectMembershipRepositoryInterface
+class ProjectMembershipRepositoryEloquent implements ProjectMembershipRepository
 {
     public function find($value, $condition = "id")
     {

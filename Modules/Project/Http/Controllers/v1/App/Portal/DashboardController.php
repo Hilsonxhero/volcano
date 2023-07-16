@@ -10,12 +10,6 @@ use Modules\Project\Transformers\v1\App\Portal\ProjectResource;
 class DashboardController extends Controller
 {
 
-
-    public function __construct()
-    {
-    }
-
-
     /**
      * Display a listing of the resource.
      * @return Response

@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Project\Http\Controllers\v1\Management\ProjectController;
 
 Route::prefix('v1/application')->group(function () {
-
     Route::prefix('portal')->middleware(['auth:api'])->group(function () {
         Route::prefix('projects')->group(function () {
             Route::get("/", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'index']);
@@ -18,14 +18,12 @@ Route::prefix('v1/application')->group(function () {
         });
         Route::get("dashboard", [\Modules\Project\Http\Controllers\v1\App\Portal\DashboardController::class, 'index']);
     });
-
     Route::prefix('software')->group(function () {
         Route::get("projects/{id}/show", [\Modules\Project\Http\Controllers\v1\App\Software\ProjectController::class, 'show']);
         Route::get("projects/{id}/pages/{page}", [\Modules\Project\Http\Controllers\v1\App\Software\ProjectPageController::class, 'show']);
     });
+});
 
-
-    // Route::prefix('projects/{id}')->group(function () {
-    //     Route::get("show", [\Modules\Project\Http\Controllers\v1\App\ProjectController::class, 'show']);
-    // });
+Route::prefix('v1/management')->middleware(['auth.panel', 'auth:api'])->group(function () {
+    Route::apiResource("projects", ProjectController::class);
 });

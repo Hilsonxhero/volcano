@@ -2,15 +2,15 @@
 
 namespace Modules\Project\Providers;
 
-use Modules\Project\Repository\v1\App\ProjectInviteRepository;
-use Modules\Project\Repository\v1\App\ProjectInviteRepositoryInterface;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Modules\Project\Repository\v1\App\ProjectMembershipRepository;
-use Modules\Project\Repository\v1\App\ProjectMembershipRepositoryInterface;
-use Modules\Project\Repository\v1\App\ProjectPageRepository;
-use Modules\Project\Repository\v1\App\ProjectPageRepositoryInterface;
-use Modules\Project\Repository\v1\App\ProjectRepository;
-use Modules\Project\Repository\v1\App\ProjectRepositoryInterface;
+use Modules\Project\Repository\Contracts\ProjectInviteRepository;
+use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
+use Modules\Project\Repository\Contracts\ProjectPageRepository;
+use Modules\Project\Repository\Contracts\ProjectRepository;
+use Modules\Project\Repository\Eloquent\ProjectInviteRepositoryEloquent;
+use Modules\Project\Repository\Eloquent\ProjectRepositoryEloquent;
+use Modules\Project\Repository\v1\App\ProjectMembershipRepositoryEloquent;
+use Modules\Project\Repository\v1\App\ProjectPageRepositoryEloquent;
 
 class ProjectRepoServiceProvider extends ServiceProvider
 {
@@ -31,9 +31,9 @@ class ProjectRepoServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(ProjectInviteRepositoryInterface::class, ProjectInviteRepository::class);
-        $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
-        $this->app->bind(ProjectMembershipRepositoryInterface::class, ProjectMembershipRepository::class);
-        $this->app->bind(ProjectPageRepositoryInterface::class, ProjectPageRepository::class);
+        $this->app->bind(ProjectInviteRepository::class, ProjectInviteRepositoryEloquent::class);
+        $this->app->bind(ProjectRepository::class, ProjectRepositoryEloquent::class);
+        $this->app->bind(ProjectMembershipRepository::class, ProjectMembershipRepositoryEloquent::class);
+        $this->app->bind(ProjectPageRepository::class, ProjectPageRepositoryEloquent::class);
     }
 }
