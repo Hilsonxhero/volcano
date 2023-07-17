@@ -6,6 +6,7 @@ use Modules\Project\Entities\ProjectMembership;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Project\Transformers\v1\App\Portal\ProjectPageResource;
 use Modules\Project\Transformers\v1\App\Portal\ProjectMemberResource;
+use Modules\User\Transformers\v1\App\UserResource;
 
 class ProjectResource extends JsonResource
 {
@@ -28,7 +29,9 @@ class ProjectResource extends JsonResource
             'date_last_activity' => $this->date_last_activity,
             'date_last_view' => $this->date_last_view,
             'create_at' =>  formatGregorian($this->created_at, '%A, %d %B'),
-            'members' => ProjectMemberResource::collection($this->members)
+            // 'members' => ProjectMemberResource::collection($this->members),
+            'members_count' => $this->members_count,
+            'user' => new UserResource($this->user)
         ];
     }
 }

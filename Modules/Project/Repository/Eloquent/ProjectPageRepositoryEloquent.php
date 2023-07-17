@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Project\Repository\v1\App;
+namespace Modules\Project\Repository\Eloquent;
 
 
 use Modules\Project\Entities\ProjectPage;
@@ -8,6 +8,19 @@ use Modules\Project\Repository\Contracts\ProjectPageRepository;
 
 class ProjectPageRepositoryEloquent implements ProjectPageRepository
 {
+
+    public function all($project)
+    {
+        $query = ProjectPage::orderBy('created_at', 'desc')->where('project_id', $project);
+        $query->when(request()->has('q'), function ($query) {
+            $searchTerm = "%" . request()->q . "%";
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', $searchTerm);
+            });
+        });
+
+        return $query->paginate();
+    }
 
     public function get($id)
     {

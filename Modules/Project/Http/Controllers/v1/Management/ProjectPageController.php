@@ -7,22 +7,23 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Category\Enum\CategoryStatus;
 use Modules\Common\Services\ApiService;
+use Modules\Project\Transformers\v1\Management\ProjectPageResource;
 use Modules\Project\Transformers\v1\Management\ProjectResource;
 
-class ProjectController extends Controller
+class ProjectPageController extends Controller
 {
-    public function index()
+    public function index($project)
     {
-        $projects = projectRepo()->all();
-        $projects_collection = ProjectResource::collection($projects);
+        $pages = projectPageRepo()->all($project);
+        $pages_collection = ProjectPageResource::collection($pages);
         ApiService::_success(
             array(
-                'projects' => $projects_collection,
+                'pages' => $pages_collection,
                 'pager' => array(
-                    'pages' => $projects_collection->lastPage(),
-                    'total' => $projects_collection->total(),
-                    'current_page' => $projects_collection->currentPage(),
-                    'per_page' => $projects_collection->perPage(),
+                    'pages' => $pages_collection->lastPage(),
+                    'total' => $pages_collection->total(),
+                    'current_page' => $pages_collection->currentPage(),
+                    'per_page' => $pages_collection->perPage(),
                 )
             )
         );
@@ -39,7 +40,7 @@ class ProjectController extends Controller
             'title' => ['required'],
             'description' => ['required'],
             'link' => ['nullable'],
-            'parent' => ['nullable', 'exists:projects,id'],
+            'parent' => ['nullable', 'exists:pages,id'],
         ]);
 
         $data = [
@@ -49,7 +50,7 @@ class ProjectController extends Controller
             'parent_id' => $request->parent,
             'status' => CategoryStatus::ENABLE->value
         ];
-        $category = projectRepo()->create($data);
+        $category = projectPageRepo()->create($data);
 
         if ($request->filled('image')) {
             base64($request->image) ? $category->addMediaFromBase64($request->image)->toMediaCollection()
@@ -66,7 +67,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $category = projectRepo()->show($id);
+        $category = projectPageRepo()->show($id);
         return new ProjectResource($category);
     }
 
@@ -82,7 +83,7 @@ class ProjectController extends Controller
             'title' => ['required'],
             'description' => ['required'],
             'link' => ['nullable'],
-            'parent' => ['nullable', 'exists:projects,id'],
+            'parent' => ['nullable', 'exists:pages,id'],
         ]);
         $data = [
             'title' => $request->title,
@@ -90,7 +91,7 @@ class ProjectController extends Controller
             'link' => $request->link,
             'parent_id' => $request->parent,
         ];
-        $category = projectRepo()->update($id, $data);
+        $category = projectPageRepo()->update($id, $data);
 
         if ($request->image) {
             $category->clearMediaCollectionExcept();
@@ -107,9 +108,9 @@ class ProjectController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($project, $id)
     {
-        projectRepo()->delete($id);
+        projectPageRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

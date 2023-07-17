@@ -2,15 +2,15 @@
 
 namespace Modules\Project\Providers;
 
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Modules\Project\Repository\Contracts\ProjectInviteRepository;
-use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
-use Modules\Project\Repository\Contracts\ProjectPageRepository;
 use Modules\Project\Repository\Contracts\ProjectRepository;
-use Modules\Project\Repository\Eloquent\ProjectInviteRepositoryEloquent;
+use Modules\Project\Repository\Contracts\ProjectPageRepository;
+use Modules\Project\Repository\Contracts\ProjectInviteRepository;
 use Modules\Project\Repository\Eloquent\ProjectRepositoryEloquent;
-use Modules\Project\Repository\v1\App\ProjectMembershipRepositoryEloquent;
-use Modules\Project\Repository\v1\App\ProjectPageRepositoryEloquent;
+use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
+use Modules\Project\Repository\Eloquent\ProjectPageRepositoryEloquent;
+use Modules\Project\Repository\Eloquent\ProjectInviteRepositoryEloquent;
+use Modules\Project\Repository\Eloquent\ProjectMembershipRepositoryEloquent;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class ProjectRepoServiceProvider extends ServiceProvider
 {

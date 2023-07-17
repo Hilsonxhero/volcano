@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Project\Repository\v1\App;
+namespace Modules\Project\Repository\Eloquent;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
