@@ -56,7 +56,6 @@ class UserRepositoryEloquent implements UserRepository
             return $query->get();
         }
     }
-
     public function latestProjects()
     {
         $user = auth()->user();

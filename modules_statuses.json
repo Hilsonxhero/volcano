@@ -11,5 +11,6 @@
     "Page": true,
     "Article": true,
     "Category": true,
-    "Service": true
+    "Service": true,
+    "Mail": true
 }

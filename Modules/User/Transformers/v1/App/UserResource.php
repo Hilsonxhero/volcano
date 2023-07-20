@@ -17,12 +17,16 @@ class UserResource extends JsonResource
         return array(
             'id' => $this->id,
             'username' => $this->username,
-            'phone' => $this->username,
+            'phone' => $this->phone,
             'email' => $this->email,
             'status' => $this->status,
             'is_superuser' => $this->is_superuser,
             'point' => $this->point,
             'created_at' => formatGregorian($this->created_at, '%A, %d %B'),
+            'media' => [
+                'avatar' => $this->getFirstMediaUrl('avatar'),
+                'thumb' => $this->getFirstMediaUrl('avatar', 'thumb'),
+            ],
         );
     }
 }

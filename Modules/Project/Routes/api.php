@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Project\Http\Controllers\v1\Management\ProjectController;
+use Modules\Project\Http\Controllers\v1\Management\ProjectMemberController;
 use Modules\Project\Http\Controllers\v1\Management\ProjectPageController;
 
 Route::prefix('v1/application')->group(function () {
@@ -28,4 +29,5 @@ Route::prefix('v1/application')->group(function () {
 Route::prefix('v1/management')->middleware(['auth.panel', 'auth:api'])->group(function () {
     Route::apiResource("projects", ProjectController::class);
     Route::apiResource("project/{id}/pages", ProjectPageController::class);
+    Route::apiResource("project/{id}/members", ProjectMemberController::class);
 });

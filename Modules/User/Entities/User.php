@@ -16,11 +16,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Manipulations;
+use Illuminate\Notifications\Notifiable;
 
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasRoles, SoftDeletes, HasApiTokens, InteractsWithMedia;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes, HasApiTokens, InteractsWithMedia;
 
     protected $fillable = [
         'username', 'ip', 'nullable', 'email', 'phone', 'email_verified_at',

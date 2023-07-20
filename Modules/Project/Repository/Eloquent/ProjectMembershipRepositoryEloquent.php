@@ -11,6 +11,18 @@ use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
 
 class ProjectMembershipRepositoryEloquent implements ProjectMembershipRepository
 {
+
+    public function all($project)
+    {
+        $query = ProjectMembership::orderBy('created_at', 'desc')->where('project_id', $project);
+        // $query->when(request()->has('q'), function ($query) {
+        //     $searchTerm = "%" . request()->q . "%";
+        //     $query->where(function ($query) use ($searchTerm) {
+        //         $query->where('title', 'LIKE', $searchTerm);
+        //     });
+        // });
+        return $query->paginate();
+    }
     public function find($value, $condition = "id")
     {
         return ProjectMembership::query()->where($condition, $value)->first();

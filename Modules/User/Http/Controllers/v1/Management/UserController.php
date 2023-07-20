@@ -12,7 +12,6 @@ use Illuminate\Validation\Rules\Enum;
 use Modules\Common\Services\ApiService;
 use Modules\User\Http\Requests\v1\Management\User\UserRequest;
 use Modules\User\Transformers\v1\Management\UserResource;
-use Modules\User\Repository\v1\App\UserRepositoryInterface;
 
 class UserController extends Controller
 {

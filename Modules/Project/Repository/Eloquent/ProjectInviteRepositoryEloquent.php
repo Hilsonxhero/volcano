@@ -48,7 +48,7 @@ class ProjectInviteRepositoryEloquent implements ProjectInviteRepository
 
             if (
                 !$this->doesntHaveMember($membership['email'],  $membership['project_id']) &&
-                !resolve(ProjectMembershipRepositoryInterface::class)->doesntHaveMember($membership['email'],  $membership['project_id'])
+                !projectMembershipRepo()->doesntHaveMember($membership['email'],  $membership['project_id'])
             ) {
                 $project_invite =   ProjectInvite::query()->create($membership);
 

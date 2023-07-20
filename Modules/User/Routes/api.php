@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Modules\User\Http\Controllers\v1\App\Profile\UpdateEmailController;
+use Modules\User\Http\Controllers\v1\App\Profile\UpdatePhoneController;
 use Modules\User\Http\Controllers\v1\App\Profile\UpdateProfileController;
 
 Route::prefix('v1/management')->middleware(['auth.panel', 'auth:api'])->group(function () {
@@ -14,10 +16,11 @@ Route::prefix('v1/application')->group(function () {
         Route::prefix('update')->group(
             function () {
                 Route::post('username', [UpdateProfileController::class, 'username']);
-                Route::post('email', [UpdateProfileController::class, 'email']);
-                Route::post('password', [UpdateProfileController::class, 'password']);
-                Route::post('mobile/request', [UpdateProfileController::class, 'mobileRequest']);
-                Route::post('mobile/verify', [UpdateProfileController::class, 'mobileVerify']);
+                Route::post('avatar', [UpdateProfileController::class, 'avatar']);
+                Route::post('email/request', [UpdateEmailController::class, 'request']);
+                Route::post('email/confirm', [UpdateEmailController::class, 'confirm']);
+                Route::post('mobile/request', [UpdatePhoneController::class, 'request']);
+                Route::post('mobile/confirm', [UpdatePhoneController::class, 'confirm']);
             }
         );
     });
