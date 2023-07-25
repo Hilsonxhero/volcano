@@ -43,6 +43,7 @@ class ServiceController extends Controller
     {
         $data = array(
             'title' => $request->title,
+            'is_promotion' => $request->is_promotion,
             'description' => $request->description,
             'status' => $request->status,
         );
@@ -73,6 +74,7 @@ class ServiceController extends Controller
     {
         $data = array(
             'title' => $request->title,
+            'is_promotion' => $request->is_promotion,
             'description' => $request->description,
             'status' => $request->status,
         );

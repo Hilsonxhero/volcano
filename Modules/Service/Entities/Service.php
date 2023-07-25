@@ -15,6 +15,7 @@ class Service extends Model implements HasMedia
 
     protected $fillable = [
         "title",
+        "is_promotion",
         "slug",
         "description",
         "status",

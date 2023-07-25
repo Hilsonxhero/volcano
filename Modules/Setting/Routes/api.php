@@ -8,3 +8,11 @@ Route::prefix('v1/management')->middleware(['auth.panel', 'auth:api'])->group(fu
         }
     );
 });
+
+Route::prefix('v1/application')->group(function () {
+    Route::prefix('setting')->group(
+        function () {
+            Route::get("/variables", [\Modules\Setting\Http\Controllers\v1\Management\SettingController::class, 'index']);
+        }
+    );
+});
