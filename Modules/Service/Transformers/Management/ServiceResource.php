@@ -21,8 +21,8 @@ class ServiceResource extends JsonResource
             'status' => $this->status,
             'is_promotion' => $this->is_promotion,
             'media' => [
-                'main' => $this->getFirstMediaUrl('main'),
-                'thumb' => $this->getFirstMediaUrl('main', 'thumb')
+                'main' => $this->getFirstMediaUrl('default'),
+                'thumb' => $this->getFirstMediaUrl('default', 'thumb')
             ],
         ];
     }

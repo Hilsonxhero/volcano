@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Page\Transformers\v1\Management;
+namespace Modules\Service\Transformers\Web;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PageResource extends JsonResource
+class ServiceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,13 @@ class PageResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'key' => $this->key,
             'description' => $this->description,
+            'status' => $this->status,
+            'is_promotion' => $this->is_promotion,
+            'media' => [
+                'main' => $this->getFirstMediaUrl('default'),
+                'thumb' => $this->getFirstMediaUrl('default', 'thumb')
+            ],
         ];
     }
 }

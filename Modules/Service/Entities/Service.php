@@ -3,10 +3,11 @@
 namespace Modules\Service\Entities;
 
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Service extends Model implements HasMedia
@@ -20,6 +21,14 @@ class Service extends Model implements HasMedia
         "description",
         "status",
     ];
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(300)
+            ->height(300)
+            ->format(Manipulations::FORMAT_PNG);
+    }
 
     protected static function newFactory()
     {

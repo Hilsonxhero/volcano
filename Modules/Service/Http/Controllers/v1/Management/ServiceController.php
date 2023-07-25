@@ -48,8 +48,10 @@ class ServiceController extends Controller
             'status' => $request->status,
         );
         $service = serviceRepo()->create($data);
-        base64($request->media) ? $service->addMediaFromBase64($request->media)->toMediaCollection('main')
-            : $service->addMedia($request->media)->toMediaCollection('main');
+        if ($request->filled('media')) {
+            base64($request->media) ? $service->addMediaFromBase64($request->media)->toMediaCollection()
+                : $service->addMedia($request->media)->toMediaCollection();
+        }
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -79,6 +81,7 @@ class ServiceController extends Controller
             'status' => $request->status,
         );
         $service = serviceRepo()->update($id, $data);
+
         if ($request->media) {
             $service->clearMediaCollectionExcept();
             base64($request->media) ? $service->addMediaFromBase64($request->media)->toMediaCollection()

@@ -3,6 +3,7 @@
 namespace Modules\Service\Repository\Eloquent;
 
 use Modules\Service\Entities\Service;
+use Modules\Service\Enums\ServiceStatus;
 use Modules\Service\Repository\Contracts\ServiceRepository;
 
 class ServiceRepositoryEloquent implements ServiceRepository
@@ -18,6 +19,18 @@ class ServiceRepositoryEloquent implements ServiceRepository
             });
         });
         return $query->paginate();
+    }
+
+    public function getPromotionServices()
+    {
+        $services = Service::query()->where('status', ServiceStatus::ACTIVE->value)->where('is_promotion', true)->take(4)->get();
+        return $services;
+    }
+
+    public function getMainServices()
+    {
+        $services = Service::query()->where('status', ServiceStatus::ACTIVE->value)->where('is_promotion', false)->take(6)->get();
+        return $services;
     }
 
     public function find($value, $condition = "id")
