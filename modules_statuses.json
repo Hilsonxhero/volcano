@@ -13,5 +13,6 @@
     "Category": true,
     "Service": true,
     "Mail": true,
-    "Web": true
+    "Web": true,
+    "Feature": true
 }
