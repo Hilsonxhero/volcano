@@ -3,6 +3,7 @@
 namespace Modules\Feature\Repository\Eloquent;
 
 use Modules\Feature\Entities\Feature;
+use Modules\Feature\Enums\FeatureStatus;
 use Modules\Service\Enums\ServiceStatus;
 use Modules\Feature\Repository\Contracts\FeatureRepository;
 
@@ -19,6 +20,11 @@ class FeatureRepositoryEloquent implements FeatureRepository
             });
         });
         return $query->paginate();
+    }
+    public function takeActiveFeatures()
+    {
+        $features = Feature::query()->orderByDesc('created_at')->where('status', FeatureStatus::ACTIVE->value)->get();
+        return $features;
     }
 
     public function getPromotionServices()

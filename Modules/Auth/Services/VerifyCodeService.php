@@ -2,9 +2,8 @@
 
 namespace Modules\Auth\Services;
 
-use Carbon\Carbon;
 
-use Modules\Auth\Entities\SmsCode;
+use Modules\Auth\Entities\VerificationCode;
 
 class VerifyCodeService
 {
@@ -16,37 +15,37 @@ class VerifyCodeService
         return random_int(self::$min, self::$max);
     }
 
-    public static function store($phone, $code)
+    public static function store($username, $code)
     {
 
-        return SmsCode::query()->create([
-            'phone' => $phone,
+        return VerificationCode::query()->create([
+            'username' => $username,
             'code' => $code,
             'ttl' => now()->addMinutes(2),
             'expired_at' => now()->addMinutes(2)
         ]);
     }
 
-    public static function get($phone, $code)
+    public static function get($username, $code)
     {
-        return SmsCode::where('phone', $phone)->first()->code;
+        return VerificationCode::where('username', $username)->first()->code;
     }
 
-    public static function has($phone)
+    public static function has($username)
     {
-        return SmsCode::where('phone', $phone)->where('expired_at', '>', now())->first();
+        return VerificationCode::where('username', $username)->where('expired_at', '>', now())->first();
     }
 
-    public static function destroy($phone)
+    public static function destroy($username)
     {
-        return SmsCode::where('phone', $phone)->delete();
+        return VerificationCode::where('username', $username)->delete();
     }
 
-    public static function check($phone, $code)
+    public static function check($username, $code)
     {
-        $exists = self::has($phone);
+        $exists = self::has($username);
         if ($exists && $exists->code == $code) {
-            self::destroy($phone);
+            self::destroy($username);
             return true;
         }
 

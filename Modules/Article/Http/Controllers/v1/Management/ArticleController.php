@@ -12,12 +12,7 @@ use Modules\Article\Repository\ArticleRepositoryInterface;
 
 class ArticleController extends Controller
 {
-    private $articleRepo;
 
-    public function __construct(ArticleRepositoryInterface $articleRepo)
-    {
-        $this->articleRepo = $articleRepo;
-    }
 
     /**
      * Display a listing of the resource.
@@ -25,7 +20,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = $this->articleRepo->all();
+        $articles = articleRepo()->all();
         $articles_collection = ArticleResource::collection($articles);
         ApiService::_success(
             array(
@@ -55,10 +50,8 @@ class ArticleController extends Controller
             'category_id' => $request->category_id,
             'published_at' => now(),
         );
-        $article = $this->articleRepo->create($data);
-        base64($request->image) ? $article->addMediaFromBase64($request->image)->toMediaCollection('main')
-            : $article->addMedia($request->image)->toMediaCollection('main');
-
+        $article = articleRepo()->create($data);
+        $article->addMedia($request->image)->toMediaCollection('main');
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -69,7 +62,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = $this->articleRepo->show($id);
+        $article = articleRepo()->show($id);
         return new ArticleResource($article);
     }
 
@@ -81,7 +74,18 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, $id)
     {
-        $article = $this->articleRepo->update($id, $request);
+        $data = array(
+            'title' => $request->title,
+            'content' => $request->content,
+            'description' => $request->description,
+            'status' => $request->status,
+            'category_id' => $request->category_id,
+        );
+        $article = articleRepo()->update($id, $data);
+        if ($request->image) {
+            $article->clearMediaCollectionExcept('main');
+            $article->addMedia($request->image)->toMediaCollection('main');
+        }
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -92,7 +96,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        $article = $this->articleRepo->delete($id);
+        $article = articleRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

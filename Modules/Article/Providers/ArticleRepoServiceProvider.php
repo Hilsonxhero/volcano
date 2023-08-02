@@ -3,8 +3,8 @@
 namespace Modules\Article\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Modules\Article\Repository\ArticleRepository;
-use Modules\Article\Repository\ArticleRepositoryInterface;
+use Modules\Article\Repository\Contracts\ArticleRepository;
+use Modules\Article\Repository\Eloquent\ArticleRepositoryEloquent;
 
 class ArticleRepoServiceProvider extends ServiceProvider
 {
@@ -25,6 +25,6 @@ class ArticleRepoServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(ArticleRepositoryInterface::class, ArticleRepository::class);
+        $this->app->bind(ArticleRepository::class, ArticleRepositoryEloquent::class);
     }
 }

@@ -17,12 +17,12 @@ class FeatureResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'description' => $this->description,
             'status' => $this->status,
-            'is_promotion' => $this->is_promotion,
             'media' => [
-                'main' => $this->getFirstMediaUrl('default'),
-                'thumb' => $this->getFirstMediaUrl('default', 'thumb')
+                'cover' => $this->getFirstMediaUrl('cover'),
+                'icon' => $this->getFirstMediaUrl('icon')
             ],
         ];
     }

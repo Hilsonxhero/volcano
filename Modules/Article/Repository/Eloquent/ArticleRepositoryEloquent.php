@@ -1,15 +1,13 @@
 <?php
 
-namespace Modules\Article\Repository;
+namespace Modules\Article\Repository\Eloquent;
 
-use App\Services\ApiService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\Article\Entities\Article;
 use Modules\Article\Enums\ArticleStatus;
+use Modules\Article\Repository\Contracts\ArticleRepository;
 
-class ArticleRepository implements ArticleRepositoryInterface
+class ArticleRepositoryEloquent implements ArticleRepository
 {
-
     public function all()
     {
         $query = Article::query()->orderBy('created_at', 'desc')->with(['category']);
@@ -21,6 +19,12 @@ class ArticleRepository implements ArticleRepositoryInterface
             });
         });
         return $query->paginate();
+    }
+
+    public function takeActiveArticles()
+    {
+        $articles = Article::query()->orderByDesc('created_at')->where('status', ArticleStatus::ENABLE->value)->take(4)->get();
+        return $articles;
     }
 
     public function get()
@@ -67,25 +71,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function update($id, $data)
     {
         $article = $this->find($id);
-
-        $article->update([
-            'category_id' => $data->category_id,
-            'title' => $data->title,
-            'content' => $data->content,
-            'description' => $data->description,
-            'status' => $data->status,
-            'published_at' => now(),
-        ]);
-
-
-        if ($data->input('image')) {
-
-            $article->clearMediaCollectionExcept('main');
-
-            base64($data->image) ? $article->addMediaFromBase64($data->image)->toMediaCollection('main')
-                : $article->addMedia($data->image)->toMediaCollection('main');
-        }
-
+        $article->update($data);
         return $article;
     }
     public function show($id)

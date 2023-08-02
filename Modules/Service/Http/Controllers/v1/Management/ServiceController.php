@@ -48,7 +48,7 @@ class ServiceController extends Controller
             'status' => $request->status,
         );
         $service = serviceRepo()->create($data);
-        if ($request->filled('media')) {
+        if ($request->media) {
             base64($request->media) ? $service->addMediaFromBase64($request->media)->toMediaCollection()
                 : $service->addMedia($request->media)->toMediaCollection();
         }

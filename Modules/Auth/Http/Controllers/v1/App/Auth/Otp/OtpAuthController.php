@@ -22,19 +22,19 @@ class OtpAuthController extends Controller
     {
 
         $request->validate([
-            'phone' => ['required'],
+            'username' => ['required'],
         ]);
 
-        $phone = $request->input('phone');
+        $username = $request->input('username');
 
-        $user = User::query()->wherePhone($phone)->first();
+        $user = User::query()->whereEmail($username)->first();
 
-        $has_exists = VerifyCodeService::has($phone);
+        $has_exists = VerifyCodeService::has($username);
 
         if (!$has_exists) {
             $code = VerifyCodeService::generate();
-            VerifyCodeService::destroy($phone);
-            $ttl = VerifyCodeService::store($phone, $code);
+            VerifyCodeService::destroy($username);
+            $ttl = VerifyCodeService::store($username, $code);
         } else {
             $ttl = $has_exists;
             $code = $has_exists->code;
@@ -45,7 +45,7 @@ class OtpAuthController extends Controller
         //     ->notify(new VerifyPhoneNotification($phone, $code));
 
         return  ApiService::_success([
-            'phone' => $phone,
+            'username' => $username,
             'has_account' => !!$user,
             'login_method' => 'otp',
             'ttl' => Carbon::parse($ttl->ttl)->DiffInSeconds(now())

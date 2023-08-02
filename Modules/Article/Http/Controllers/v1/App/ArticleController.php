@@ -2,22 +2,15 @@
 
 namespace Modules\Article\Http\Controllers\v1\App;
 
-use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Common\Services\ApiService;
 use Modules\Article\Http\Requests\ArticleRequest;
-use Modules\Article\Repository\ArticleRepositoryInterface;
 use Modules\Article\Transformers\ArticleResource;
 
 class ArticleController extends Controller
 {
-    private $articleRepo;
-
-    public function __construct(ArticleRepositoryInterface $articleRepo)
-    {
-        $this->articleRepo = $articleRepo;
-    }
 
     /**
      * Display a listing of the resource.
@@ -25,7 +18,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = $this->articleRepo->get();
+        $articles = articleRepo()->get();
         $articles_collection = ArticleResource::collection($articles);
 
 
@@ -48,11 +41,11 @@ class ArticleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $article = $this->articleRepo->show($id);
+        $article = articleRepo()->show($id);
 
         $article_collection = new ArticleResource($article);
 
-        $related_articles =  ArticleResource::collection($this->articleRepo->related($article));
+        $related_articles =  ArticleResource::collection(articleRepo()->related($article));
 
 
         ApiService::_success(

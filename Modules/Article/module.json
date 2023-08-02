@@ -8,6 +8,8 @@
         "Modules\\Article\\Providers\\ArticleServiceProvider"
     ],
     "aliases": {},
-    "files": [],
+    "files": [
+        "Helpers/helpers.php"
+    ],
     "requires": []
 }
