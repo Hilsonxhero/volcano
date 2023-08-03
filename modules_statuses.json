@@ -14,5 +14,6 @@
     "Service": true,
     "Mail": true,
     "Web": true,
-    "Feature": true
+    "Feature": true,
+    "About": true
 }
