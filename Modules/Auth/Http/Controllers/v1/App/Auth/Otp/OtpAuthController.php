@@ -14,6 +14,7 @@ use GuzzleHttp\Exception\ClientException;
 use Modules\User\Events\UserAuthenticatied;
 use Illuminate\Support\Facades\Notification;
 use Modules\Auth\Services\VerifyCodeService;
+use Modules\Auth\Notifications\v1\App\VerifyMailNotification;
 use Modules\Auth\Notifications\v1\App\VerifyPhoneNotification;
 
 class OtpAuthController extends Controller
@@ -43,6 +44,9 @@ class OtpAuthController extends Controller
 
         // Notification::route('sms', null)
         //     ->notify(new VerifyPhoneNotification($phone, $code));
+        Notification::route('mail', null)
+            ->notify(new VerifyMailNotification($username, $code));
+
 
         return  ApiService::_success([
             'username' => $username,
@@ -54,22 +58,22 @@ class OtpAuthController extends Controller
 
     public function login(Request $request)
     {
-        $phone = $request->input('username');
+        $username = $request->input('username');
 
         $code = $request->input('code');
 
-        $status = VerifyCodeService::check($phone, $code);
+        $status = VerifyCodeService::check($username, $code);
 
         // if (!$status) {
         //     ApiService::_throw(trans('response.auth.invalid_code'), 200);
         // }
 
-        $user = User::where('phone', $phone)->first();
+        $user = User::where('email', $username)->first();
 
         if (!$user) {
             $user = User::create([
-                'username' => $phone,
-                'phone' => $phone,
+                'username' => $username,
+                'email' => $username,
             ]);
         }
 
