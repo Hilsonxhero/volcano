@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('v1/application')->group(function () {
+    Route::get("about/variables", [\Modules\About\Http\Controllers\v1\Web\AboutController::class, 'show']);
 });
 
 Route::prefix('v1/management')->middleware(['auth.panel', 'auth:api'])->group(function () {

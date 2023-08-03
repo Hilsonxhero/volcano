@@ -32,7 +32,7 @@ class ArticleRepositoryEloquent implements ArticleRepository
         return Article::orderBy('created_at', 'desc')
             ->where('status', ArticleStatus::ENABLE->value)
             ->with(['category'])
-            ->paginate(20);
+            ->paginate(6);
     }
 
     public function related($article)
