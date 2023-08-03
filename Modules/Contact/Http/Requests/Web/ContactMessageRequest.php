@@ -16,7 +16,7 @@ class ContactMessageRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'email' => ['required'],
+            'email' => ['required', 'email'],
             'content' => ['required'],
         ];
     }

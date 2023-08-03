@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
-use Modules\Contact\Http\Requests\Management\ContactMessageRequest;
+use Illuminate\Support\Facades\Notification;
+use Modules\Contact\Enums\ContactMessageStatus;
 use Modules\Contact\Transformers\Management\ContactMessageResource;
+use Modules\Contact\Notifications\App\ContactMessageAnswerNotification;
 
 class ContactMessageController extends Controller
 {
@@ -49,13 +51,18 @@ class ContactMessageController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(ContactMessageRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $data = array(
-            'status' => $request->status,
-            'answer' => $request->answer,
+            'status' => ContactMessageStatus::ANSWER->value,
         );
         $message = contactMessageRepo()->update($id, $data);
+        $mail_data = array(
+            'answer' => $request->answer,
+            'email' => $message->email,
+            'content' => $message->content,
+        );
+        Notification::route('mail', null)->notify(new ContactMessageAnswerNotification($mail_data));
         ApiService::_success(trans('response.responses.200'));
     }
 
