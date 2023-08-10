@@ -21,8 +21,19 @@ class RoleRepositoryEloquent implements RoleRepository
     }
 
 
-    public function get()
+    public function get($project = null)
     {
+        if (!is_null($project)) {
+            $query = Role::query()->orderBy('created_at', 'desc')->where('project_id', $project);
+            $query->when(request()->has('q'), function ($query) {
+                $searchTerm = "%" . request()->q . "%";
+                $query->where(function ($query) use ($searchTerm) {
+                    $query->where('title', 'LIKE', $searchTerm)
+                        ->orWhere('name', 'LIKE', $searchTerm);
+                });
+            });
+            return $query->paginate();
+        }
         $roles = Role::query()->get();
         return $roles;
     }

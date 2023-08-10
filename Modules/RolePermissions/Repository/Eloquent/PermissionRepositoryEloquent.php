@@ -19,6 +19,16 @@ class PermissionRepositoryEloquent implements PermissionRepository
         });
         return $query->paginate();
     }
+    public function getPortalPermissions()
+    {
+        $query = Permission::query()
+            ->with('children')
+            ->orderBy('created_at', 'desc')
+            ->where('is_portal', true)
+            ->whereNull('parent_id');
+        return $query->get();
+    }
+
 
     public function select($q)
     {

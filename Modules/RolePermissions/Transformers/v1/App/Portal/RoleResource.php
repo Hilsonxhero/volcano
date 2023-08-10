@@ -18,11 +18,12 @@ class RoleResource extends JsonResource
     {
         return [
             RoleFields::ID          => $this->{RoleFields::ID},
-            RoleFields::KEY         => $this->{RoleFields::NAME},
+            RoleFields::NAME         => $this->{RoleFields::NAME},
             RoleFields::TITLE       => $this->{RoleFields::TITLE},
             RoleFields::PARENT_ID   => $this->{RoleFields::PARENT_ID},
-            RoleFields::PARENT_NAME => $this->parent?->{RoleFields::NAME},
-            RoleFields::CHILDREN    => PortalRoleResource::collection($this->children),
+            RoleFields::PARENT_NAME => $this->parent?->{RoleFields::TITLE},
+            RoleFields::CHILDREN    => RoleResource::collection($this->children),
+            'permissions' => $this->permissions()->pluck('id')
         ];
     }
 }
