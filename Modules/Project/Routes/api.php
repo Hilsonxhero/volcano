@@ -15,6 +15,7 @@ Route::prefix('v1/application')->group(function () {
             Route::apiResource("{id}/roles", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class);
             Route::prefix("{id}/enumerations")->group(function () {
                 Route::apiResource("time/categories", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTimeCategoryController::class);
+                Route::apiResource("trackers", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTrackerController::class);
             });
             Route::get("{id}/permissions", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectPermissionController::class, 'index']);
             Route::post("invite/membership", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'store']);
