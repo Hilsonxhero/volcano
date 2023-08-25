@@ -1,10 +1,11 @@
 <?php
 
+use Modules\Project\Entities\ProjectTimeCategory;
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
 use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
 use Modules\Project\Repository\Contracts\ProjectPageRepository;
 use Modules\Project\Repository\Contracts\ProjectRepository;
-
+use Modules\Project\Repository\Contracts\ProjectTimeCategoryRepository;
 
 if (!function_exists('projectRepo')) {
     /**
@@ -53,5 +54,17 @@ if (!function_exists('projectInviteRepo')) {
     function projectInviteRepo(): ProjectInviteRepository
     {
         return resolve(ProjectInviteRepository::class);
+    }
+}
+
+if (!function_exists('projectTimeCategoryRepo')) {
+    /**
+     * Get the ProjectTimeCategory repo.
+     *
+     * @return ProjectTimeCategoryRepository
+     */
+    function projectTimeCategoryRepo(): ProjectTimeCategoryRepository
+    {
+        return resolve(ProjectTimeCategoryRepository::class);
     }
 }

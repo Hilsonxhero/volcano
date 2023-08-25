@@ -11,6 +11,8 @@ use Modules\Project\Repository\Eloquent\ProjectPageRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectInviteRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectMembershipRepositoryEloquent;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Modules\Project\Repository\Contracts\ProjectTimeCategoryRepository;
+use Modules\Project\Repository\Eloquent\ProjectTimeCategoryRepositoryEloquent;
 
 class ProjectRepoServiceProvider extends ServiceProvider
 {
@@ -35,5 +37,6 @@ class ProjectRepoServiceProvider extends ServiceProvider
         $this->app->bind(ProjectRepository::class, ProjectRepositoryEloquent::class);
         $this->app->bind(ProjectMembershipRepository::class, ProjectMembershipRepositoryEloquent::class);
         $this->app->bind(ProjectPageRepository::class, ProjectPageRepositoryEloquent::class);
+        $this->app->bind(ProjectTimeCategoryRepository::class, ProjectTimeCategoryRepositoryEloquent::class);
     }
 }
