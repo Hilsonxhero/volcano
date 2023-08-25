@@ -2,7 +2,7 @@
 
 return [
     'permission' => [
-        'user_management' => [
+        'service_management' => [
             'index',
             'show',
             'store',
