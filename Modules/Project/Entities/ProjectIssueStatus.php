@@ -17,6 +17,11 @@ class ProjectIssueStatus extends Model
         'status',
     ];
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     // protected static function newFactory()
     // {
     //     return \Modules\Project\Database\factories\ProjectIssueStatusFactory::new();

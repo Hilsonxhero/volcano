@@ -1,7 +1,7 @@
 <?php
 
-use Modules\Project\Entities\ProjectTimeCategory;
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
+use Modules\Project\Repository\Contracts\ProjectIssueStatusRepository;
 use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
 use Modules\Project\Repository\Contracts\ProjectPageRepository;
 use Modules\Project\Repository\Contracts\ProjectRepository;
@@ -78,5 +78,17 @@ if (!function_exists('projectTrackerRepo')) {
     function projectTrackerRepo(): ProjectTrackerRepository
     {
         return resolve(ProjectTrackerRepository::class);
+    }
+}
+
+if (!function_exists('projectIssueStatusRepo')) {
+    /**
+     * Get the projectIssueStatus repo.
+     *
+     * @return ProjectIssueStatusRepository
+     */
+    function projectIssueStatusRepo(): ProjectIssueStatusRepository
+    {
+        return resolve(ProjectIssueStatusRepository::class);
     }
 }
