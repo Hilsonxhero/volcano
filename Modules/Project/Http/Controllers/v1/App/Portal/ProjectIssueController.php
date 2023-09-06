@@ -59,6 +59,12 @@ class ProjectIssueController extends Controller
             'status' => ProjectIssueStatus::ACTIVE->value
         );
         $issue = projectIssueRepo()->store($data);
+
+        if ($request->attachments) {
+            foreach ($request->attachments as $key => $attachment) {
+                $issue->addMedia($attachment)->toMediaCollection();
+            }
+        }
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -69,8 +75,8 @@ class ProjectIssueController extends Controller
      */
     public function show($prokect, $id)
     {
-        $category = projectIssueRepo()->show($id);
-        $resource = new ProjectIssueResource($category);
+        $issue = projectIssueRepo()->show($id);
+        $resource = new ProjectIssueResource($issue);
         ApiService::_success($resource);
     }
 
@@ -82,13 +88,29 @@ class ProjectIssueController extends Controller
      */
     public function update(ProjectIssueRequest $request, $project, $id)
     {
+        $user = auth()->user();
         $data = array(
             'title' => $request->input('title'),
             'description' => $request->input('description'),
+            'note' => $request->input('note'),
             'project_id' => $request->input('project_id'),
-            'status' => $request->status,
+            'project_tracker_id' => $request->input('project_tracker_id'),
+            'project_issue_statuse_id' => $request->input('project_issue_statuse_id'),
+            'assigned_to_id' => $request->input('assigned_to_id'),
+            'priority_id' => $request->input('priority_id'),
+            'start_date' => $request->input('start_date') ?  createDatetimeFromFormat($request->start_date, "Y/m/d") : null,
+            'end_date' => $request->input('end_date') ?  createDatetimeFromFormat($request->end_date, "Y/m/d") : null,
+            'estimated_hours' => $request->input('estimated_hours'),
+            'done_ratio' => $request->input('done_ratio'),
+            'parent_id' => $request->input('parent_id'),
+            'status' => ProjectIssueStatus::ACTIVE->value
         );
-        $category = projectIssueRepo()->update($data, $id);
+        $issue = projectIssueRepo()->update($data, $id);
+        if ($request->attachments) {
+            foreach ($request->attachments as $key => $attachment) {
+                $issue->addMedia($attachment)->toMediaCollection();
+            }
+        }
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -99,7 +121,7 @@ class ProjectIssueController extends Controller
      */
     public function destroy($project, $id)
     {
-        $category = projectIssueRepo()->delete($id);
+        $issue = projectIssueRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

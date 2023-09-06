@@ -17,7 +17,18 @@ class ProjectIssueResource extends JsonResource
     {
         return [
             'id' => $this->id,
-
+            'title' => $this->title,
+            'description' => $this->description,
+            'note' => $this->note,
+            'project_id' => $this->project_id,
+            'tracker' => $this->tracker,
+            'issue_status' => $this->issue_status,
+            'creator' => $this->creator,
+            'assigned' => $this->assigned,
+            'parent' => $this->parent,
+            'project_priority' => $this->project_priority,
+            'status' => $this->status,
+            'attachments' => $this->attachment_media,
         ];
     }
 }

@@ -2,14 +2,19 @@
 
 namespace Modules\Project\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\User\Entities\User;
+use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ProjectIssue extends Model
+
+class ProjectIssue extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'project_id',
@@ -40,11 +45,11 @@ class ProjectIssue extends Model
     ];
     public function tracker()
     {
-        return $this->belongsTo(ProjectTracker::class);
+        return $this->belongsTo(ProjectTracker::class, 'project_tracker_id', 'id');
     }
     public function issue_status()
     {
-        return $this->belongsTo(ProjectIssueStatus::class);
+        return $this->belongsTo(ProjectIssueStatus::class, 'project_issue_statuse_id', 'id');
     }
     public function creator()
     {
@@ -65,6 +70,20 @@ class ProjectIssue extends Model
     public function project_priority()
     {
         return $this->belongsTo(ProjectPriority::class);
+    }
+
+    protected function attachmentMedia(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $attachment_items = $this->getMedia();
+                $attachments = array();
+                foreach ($attachment_items as $key => $mediaItem) {
+                    array_push($attachments, ['path' => $mediaItem->getUrl(), 'id' => $mediaItem->id]);
+                }
+                return $attachments;
+            }
+        );
     }
 
     // protected static function newFactory()

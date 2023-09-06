@@ -23,10 +23,10 @@ return new class extends Migration
             $table->foreignId("priority_id")->nullable()->constrained('project_priorities')->cascadeOnDelete();
             $table->string("title");
             $table->text("description");
-            $table->text("note");
+            $table->text("note")->nullable();
             $table->timestamp("start_date");
-            $table->timestamp("end_date");
-            $table->string("estimated_hours");
+            $table->timestamp("end_date")->nullable();
+            $table->string("estimated_hours")->nullable();
             $table->string("done_ratio");
             $table->string("status");
             $table->softDeletes();
