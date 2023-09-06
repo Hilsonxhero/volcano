@@ -34,6 +34,17 @@ class ProjectTrackerController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function select(Request $request, $id)
+    {
+        $trackers = projectTrackerRepo()->get($id);
+        $trackers_collection = ProjectTrackerResource::collection($trackers);
+        ApiService::_success($trackers_collection);
+    }
+
+    /**
      * Store a newly created resource in storage.
      * @param Request $request
      * @return Response

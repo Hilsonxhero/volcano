@@ -5,6 +5,7 @@ use Modules\Project\Repository\Contracts\ProjectIssueRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueStatusRepository;
 use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
 use Modules\Project\Repository\Contracts\ProjectPageRepository;
+use Modules\Project\Repository\Contracts\ProjectPriorityRepository;
 use Modules\Project\Repository\Contracts\ProjectRepository;
 use Modules\Project\Repository\Contracts\ProjectTimeCategoryRepository;
 use Modules\Project\Repository\Contracts\ProjectTrackerRepository;
@@ -103,5 +104,17 @@ if (!function_exists('projectIssueRepo')) {
     function projectIssueRepo(): ProjectIssueRepository
     {
         return resolve(ProjectIssueRepository::class);
+    }
+}
+
+if (!function_exists('projectPriorityRepo')) {
+    /**
+     * Get the ProjectPriority repo.
+     *
+     * @return ProjectPriorityRepository
+     */
+    function projectPriorityRepo(): ProjectPriorityRepository
+    {
+        return resolve(ProjectPriorityRepository::class);
     }
 }

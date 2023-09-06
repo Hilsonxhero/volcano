@@ -34,6 +34,17 @@ class ProjectIssueStatusController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function select(Request $request, $id)
+    {
+        $statuses = projectIssueStatusRepo()->get($id);
+        $statuses_collection = ProjectIssueStatusResource::collection($statuses);
+        ApiService::_success($statuses_collection);
+    }
+
+    /**
      * Store a newly created resource in storage.
      * @param Request $request
      * @return Response

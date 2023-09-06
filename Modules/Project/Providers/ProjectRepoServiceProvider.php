@@ -19,7 +19,9 @@ use Modules\Project\Repository\Eloquent\ProjectMembershipRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectIssueStatusRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectTimeCategoryRepositoryEloquent;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Modules\Project\Repository\Contracts\ProjectPriorityRepository;
 use Modules\Project\Repository\Eloquent\ProjectIssueRepositoryEloquent;
+use Modules\Project\Repository\Eloquent\ProjectPriorityRepositoryEloquent;
 
 class ProjectRepoServiceProvider extends ServiceProvider
 {
@@ -48,5 +50,6 @@ class ProjectRepoServiceProvider extends ServiceProvider
         $this->app->bind(ProjectTrackerRepository::class, ProjectTrackerRepositoryEloquent::class);
         $this->app->bind(ProjectIssueStatusRepository::class, ProjectIssueStatusRepositoryEloquent::class);
         $this->app->bind(ProjectIssueRepository::class, ProjectIssueRepositoryEloquent::class);
+        $this->app->bind(ProjectPriorityRepository::class, ProjectPriorityRepositoryEloquent::class);
     }
 }

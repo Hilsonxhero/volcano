@@ -24,7 +24,7 @@ class ProjectIssueStatusRepositoryEloquent implements ProjectIssueStatusReposito
 
     public function get($id)
     {
-        $pages = ProjectIssueStatus::query()->where('project_id', $id)->whereNull('parent_id')->orderByDesc('created_at')->get();
+        $pages = ProjectIssueStatus::query()->where('project_id', $id)->orderByDesc('created_at')->get();
         return $pages;
     }
 

@@ -33,6 +33,18 @@ class ProjectUserController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function select(Request $request, $id)
+    {
+        $members = projectMembershipRepo()->getByProject($id);
+        $members = ProjectMemberResource::collection($members);
+        ApiService::_success($members);
+    }
+
+
+    /**
      * Store a newly created resource in storage.
      * @param Request $request
      * @return Response
