@@ -1,6 +1,7 @@
 <?php
 
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
+use Modules\Project\Repository\Contracts\ProjectIssueRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueStatusRepository;
 use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
 use Modules\Project\Repository\Contracts\ProjectPageRepository;
@@ -90,5 +91,17 @@ if (!function_exists('projectIssueStatusRepo')) {
     function projectIssueStatusRepo(): ProjectIssueStatusRepository
     {
         return resolve(ProjectIssueStatusRepository::class);
+    }
+}
+
+if (!function_exists('projectIssueRepo')) {
+    /**
+     * Get the projectIssue repo.
+     *
+     * @return ProjectIssueRepository
+     */
+    function projectIssueRepo(): ProjectIssueRepository
+    {
+        return resolve(ProjectIssueRepository::class);
     }
 }

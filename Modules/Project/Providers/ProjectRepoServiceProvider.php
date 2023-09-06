@@ -2,22 +2,24 @@
 
 namespace Modules\Project\Providers;
 
+use Modules\Project\Entities\ProjectIssueStatus;
 use Modules\Project\Repository\Contracts\ProjectRepository;
 use Modules\Project\Repository\Contracts\ProjectPageRepository;
+use Modules\Project\Repository\Contracts\ProjectIssueRepository;
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
+use Modules\Project\Repository\Contracts\ProjectTrackerRepository;
 use Modules\Project\Repository\Eloquent\ProjectRepositoryEloquent;
 use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
-use Modules\Project\Repository\Eloquent\ProjectPageRepositoryEloquent;
-use Modules\Project\Repository\Eloquent\ProjectInviteRepositoryEloquent;
-use Modules\Project\Repository\Eloquent\ProjectMembershipRepositoryEloquent;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Modules\Project\Entities\ProjectIssueStatus;
 use Modules\Project\Repository\Contracts\ProjectIssueStatusRepository;
+use Modules\Project\Repository\Eloquent\ProjectPageRepositoryEloquent;
 use Modules\Project\Repository\Contracts\ProjectTimeCategoryRepository;
-use Modules\Project\Repository\Contracts\ProjectTrackerRepository;
+use Modules\Project\Repository\Eloquent\ProjectInviteRepositoryEloquent;
+use Modules\Project\Repository\Eloquent\ProjectTrackerRepositoryEloquent;
+use Modules\Project\Repository\Eloquent\ProjectMembershipRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectIssueStatusRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectTimeCategoryRepositoryEloquent;
-use Modules\Project\Repository\Eloquent\ProjectTrackerRepositoryEloquent;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Modules\Project\Repository\Eloquent\ProjectIssueRepositoryEloquent;
 
 class ProjectRepoServiceProvider extends ServiceProvider
 {
@@ -45,5 +47,6 @@ class ProjectRepoServiceProvider extends ServiceProvider
         $this->app->bind(ProjectTimeCategoryRepository::class, ProjectTimeCategoryRepositoryEloquent::class);
         $this->app->bind(ProjectTrackerRepository::class, ProjectTrackerRepositoryEloquent::class);
         $this->app->bind(ProjectIssueStatusRepository::class, ProjectIssueStatusRepositoryEloquent::class);
+        $this->app->bind(ProjectIssueRepository::class, ProjectIssueRepositoryEloquent::class);
     }
 }

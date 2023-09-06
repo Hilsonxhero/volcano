@@ -77,9 +77,8 @@ class CategoryController extends Controller
         ];
         $category = $this->categoryRepo->create($data);
 
-        if ($request->filled('image')) {
-            base64($request->image) ? $category->addMediaFromBase64($request->image)->toMediaCollection()
-                : $category->addMedia($request->image)->toMediaCollection();
+        if ($request->image) {
+            $category->addMedia($request->image)->toMediaCollection();
         }
 
         ApiService::_success($category);
@@ -121,8 +120,7 @@ class CategoryController extends Controller
 
         if ($request->image) {
             $category->clearMediaCollectionExcept();
-            base64($request->image) ? $category->addMediaFromBase64($request->image)->toMediaCollection()
-                : $category->addMedia($request->image)->toMediaCollection();
+            $category->addMedia($request->image)->toMediaCollection();
         }
 
 

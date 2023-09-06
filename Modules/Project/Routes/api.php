@@ -13,6 +13,7 @@ Route::prefix('v1/application')->group(function () {
             Route::apiResource("{id}/pages", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectPageController::class);
             Route::apiResource("{id}/users", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectUserController::class);
             Route::apiResource("{id}/roles", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class);
+            Route::apiResource("{id}/issues", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class);
             Route::prefix("{id}/enumerations")->group(function () {
                 Route::apiResource("time/categories", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTimeCategoryController::class);
                 Route::apiResource("trackers", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTrackerController::class);
