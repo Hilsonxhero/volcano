@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('project_issues', function (Blueprint $table) {
             $table->id();
             $table->foreignId("project_id")->nullable()->constrained('projects')->cascadeOnDelete();
-            $table->foreignId("project_issue_statuse_id")->nullable()->constrained('project_issue_statuses')->cascadeOnDelete();
+            $table->foreignId("project_issue_status_id")->nullable()->constrained('project_issue_statuses')->cascadeOnDelete();
             $table->foreignId("project_tracker_id")->nullable()->constrained('project_trackers')->cascadeOnDelete();
             $table->foreignId("creator_id")->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId("assigned_to_id")->nullable()->constrained('users')->cascadeOnDelete();

@@ -28,7 +28,11 @@ class ProjectIssueResource extends JsonResource
             'parent' => $this->parent,
             'project_priority' => $this->project_priority,
             'status' => $this->status,
+            'estimated_hours' => $this->estimated_hours,
+            'done_ratio' => $this->done_ratio,
             'attachments' => $this->attachment_media,
+            'start_date' => formatGregorian($this->start_date, 'Y/m/d'),
+            'end_date' => formatGregorian($this->end_date, 'Y/m/d'),
         ];
     }
 }

@@ -29,8 +29,25 @@ class ProjectIssueRepositoryEloquent implements ProjectIssueRepository
     }
     public function select($project)
     {
-        $issues = ProjectIssue::query()->where('project_id', $project)->orderByDesc('created_at')->take(25)->get();
-        return $issues;
+        // $issues = ProjectIssue::query()->where('project_id', $project)->orderByDesc('created_at')->take(25)->get();
+        // return $issues;
+
+
+        $query = ProjectIssue::orderBy('created_at', 'desc');
+
+        $query->when(request()->has('q'), function ($query) {
+            $searchTerm = "%" . request()->q . "%";
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', $searchTerm)
+                    ->orWhere('description', 'LIKE', $searchTerm);
+            })
+                ->orWhereHas('parent', function ($query) use ($searchTerm) {
+                    $query->where('title', 'LIKE', $searchTerm)
+                        ->orWhere('description', 'LIKE', $searchTerm);;
+                });
+        });
+
+        return $query->take(25)->get();
     }
 
     public function show($id)
@@ -55,11 +72,9 @@ class ProjectIssueRepositoryEloquent implements ProjectIssueRepository
 
     public function update($data, $id)
     {
-        if (request()->is_default) {
-            ProjectIssue::query()->update(['is_default' => false]);
-        }
-        $page = ProjectIssue::query()->where('id', $id)->update($data);
-        return $page;
+        $issue = $this->find($id, 'id');
+        $issue->update($data);
+        return $issue;
     }
 
     public function delete($id)

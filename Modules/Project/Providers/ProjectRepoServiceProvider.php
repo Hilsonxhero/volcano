@@ -9,19 +9,21 @@ use Modules\Project\Repository\Contracts\ProjectIssueRepository;
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
 use Modules\Project\Repository\Contracts\ProjectTrackerRepository;
 use Modules\Project\Repository\Eloquent\ProjectRepositoryEloquent;
+use Modules\Project\Repository\Contracts\ProjectPriorityRepository;
 use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueStatusRepository;
 use Modules\Project\Repository\Eloquent\ProjectPageRepositoryEloquent;
 use Modules\Project\Repository\Contracts\ProjectTimeCategoryRepository;
+use Modules\Project\Repository\Eloquent\ProjectIssueRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectInviteRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectTrackerRepositoryEloquent;
+use Modules\Project\Repository\Contracts\ProjectIssueAttachmentRepository;
+use Modules\Project\Repository\Eloquent\ProjectPriorityRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectMembershipRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectIssueStatusRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectTimeCategoryRepositoryEloquent;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Modules\Project\Repository\Contracts\ProjectPriorityRepository;
-use Modules\Project\Repository\Eloquent\ProjectIssueRepositoryEloquent;
-use Modules\Project\Repository\Eloquent\ProjectPriorityRepositoryEloquent;
+use Modules\Project\Repository\Eloquent\ProjectIssueAttachmentRepositoryEloquent;
 
 class ProjectRepoServiceProvider extends ServiceProvider
 {
@@ -51,5 +53,6 @@ class ProjectRepoServiceProvider extends ServiceProvider
         $this->app->bind(ProjectIssueStatusRepository::class, ProjectIssueStatusRepositoryEloquent::class);
         $this->app->bind(ProjectIssueRepository::class, ProjectIssueRepositoryEloquent::class);
         $this->app->bind(ProjectPriorityRepository::class, ProjectPriorityRepositoryEloquent::class);
+        $this->app->bind(ProjectIssueAttachmentRepository::class, ProjectIssueAttachmentRepositoryEloquent::class);
     }
 }

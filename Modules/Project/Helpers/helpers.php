@@ -1,6 +1,7 @@
 <?php
 
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
+use Modules\Project\Repository\Contracts\ProjectIssueAttachmentRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueStatusRepository;
 use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
@@ -116,5 +117,17 @@ if (!function_exists('projectPriorityRepo')) {
     function projectPriorityRepo(): ProjectPriorityRepository
     {
         return resolve(ProjectPriorityRepository::class);
+    }
+}
+
+if (!function_exists('projectIssueAttachmentRepo')) {
+    /**
+     * Get the projectIssueAttachment repo.
+     *
+     * @return ProjectIssueAttachmentRepository
+     */
+    function projectIssueAttachmentRepo(): ProjectIssueAttachmentRepository
+    {
+        return resolve(ProjectIssueAttachmentRepository::class);
     }
 }

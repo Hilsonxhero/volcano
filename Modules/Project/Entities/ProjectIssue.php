@@ -18,7 +18,7 @@ class ProjectIssue extends Model implements HasMedia
 
     protected $fillable = [
         'project_id',
-        'project_issue_statuse_id',
+        'project_issue_status_id',
         'project_tracker_id',
         'creator_id',
         'assigned_to_id',
@@ -49,7 +49,7 @@ class ProjectIssue extends Model implements HasMedia
     }
     public function issue_status()
     {
-        return $this->belongsTo(ProjectIssueStatus::class, 'project_issue_statuse_id', 'id');
+        return $this->belongsTo(ProjectIssueStatus::class, 'project_issue_status_id', 'id');
     }
     public function creator()
     {
@@ -57,7 +57,7 @@ class ProjectIssue extends Model implements HasMedia
     }
     public function assigned()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'assigned_to_id', 'id');
     }
     public function parent()
     {
