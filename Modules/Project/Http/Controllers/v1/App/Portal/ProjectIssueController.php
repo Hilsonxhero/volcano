@@ -9,6 +9,7 @@ use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectIssueStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectIssueRequest;
 use Modules\Project\Transformers\v1\App\Portal\ProjectIssueResource;
+use Modules\Project\Transformers\v1\App\Portal\ProjectIssueSelectResource;
 
 class ProjectIssueController extends Controller
 {
@@ -31,6 +32,13 @@ class ProjectIssueController extends Controller
                 )
             )
         );
+    }
+
+    public function select(Request $request, $id)
+    {
+        $issues = projectIssueRepo()->select($id);
+        $issues_collection = ProjectIssueSelectResource::collection($issues);
+        ApiService::_success($issues_collection);
     }
 
     /**

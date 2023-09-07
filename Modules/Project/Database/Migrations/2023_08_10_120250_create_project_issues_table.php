@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId("assigned_to_id")->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId("priority_id")->nullable()->constrained('project_priorities')->cascadeOnDelete();
             $table->string("title");
-            $table->text("description");
+            $table->text("description")->nullable();
             $table->text("note")->nullable();
             $table->timestamp("start_date");
             $table->timestamp("end_date")->nullable();

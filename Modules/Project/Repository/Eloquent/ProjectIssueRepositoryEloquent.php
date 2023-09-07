@@ -22,10 +22,15 @@ class ProjectIssueRepositoryEloquent implements ProjectIssueRepository
         return $query->paginate();
     }
 
-    public function get($id)
+    public function get($project)
     {
-        $pages = ProjectIssue::query()->where('project_id', $id)->whereNull('parent_id')->orderByDesc('created_at')->get();
-        return $pages;
+        $issues = ProjectIssue::query()->where('project_id', $project)->orderByDesc('created_at')->get();
+        return $issues;
+    }
+    public function select($project)
+    {
+        $issues = ProjectIssue::query()->where('project_id', $project)->orderByDesc('created_at')->take(25)->get();
+        return $issues;
     }
 
     public function show($id)
