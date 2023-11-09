@@ -14,8 +14,10 @@ Route::prefix('v1/application')->group(function () {
             Route::apiResource("{id}/users", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectUserController::class);
             Route::get("{id}/users/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectUserController::class, 'select']);
             Route::apiResource("{id}/roles", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class);
+            Route::get("{id}/roles/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class, 'select']);
             Route::apiResource("{id}/issues", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class);
             Route::get("{id}/issues/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class, 'select']);
+            Route::get("{id}/issues/{issue}/children", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class, 'children']);
             Route::post("{id}/issues/attachments/{media}/delete", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjecIssueAttachmentController::class, 'destroy']);
 
 
@@ -32,6 +34,7 @@ Route::prefix('v1/application')->group(function () {
             Route::post("invite/membership/decline", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'decline']);
             Route::get("invite/show/{token}", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'show']);
             Route::post("setup", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'setup']);
+            Route::post("{id}/setting/variables", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'update']);
         });
         Route::get("priorities/select", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectPriorityController::class, 'select']);
         Route::get("dashboard", [\Modules\Project\Http\Controllers\v1\App\Portal\DashboardController::class, 'index']);

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('ip')->nullable();
             $table->bigInteger('point')->default(0);
             $table->string('email')->nullable()->unique();
-            $table->string('phone')->unique();
+            $table->string('phone')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('status')->default(UserStatus::ACTIVE->value)->default(UserStatus::ACTIVE->value);

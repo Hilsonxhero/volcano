@@ -44,5 +44,33 @@ class PermissionTableSeeder extends Seeder
                 }
             }
         }
+
+        foreach ($enabledModules as $module) {
+            $moduleName = $module->getLowerName();
+            // Get permissions for the module
+            $permissions = config("$moduleName.policy.portal_permissions");
+
+            if ($permissions) {
+                // Create permissions for each module
+                foreach ($permissions as $parentName => $children) {
+                    // Create Parent
+                    $parentPermission = Permission::create([
+                        PermissionFields::NAME       => $parentName,
+                        PermissionFields::TITLE      => __("$moduleName::policy.permission.$parentName.parent"),
+                        PermissionFields::GUARD_NAME => 'api',
+                        'is_portal' => true,
+                    ]);
+                    // Create Children
+                    foreach ($children as $permissionName) {
+                        $parentPermission->children()->create([
+                            PermissionFields::NAME       => "{$parentName}_{$permissionName}",
+                            PermissionFields::TITLE      => __("$moduleName::policy.permission.$parentName.$permissionName"),
+                            PermissionFields::GUARD_NAME => 'api',
+                            'is_portal' => true,
+                        ]);
+                    }
+                }
+            }
+        }
     }
 }

@@ -22,8 +22,9 @@ class RoleResource extends JsonResource
             RoleFields::TITLE       => $this->{RoleFields::TITLE},
             RoleFields::PARENT_ID   => $this->{RoleFields::PARENT_ID},
             RoleFields::PARENT_NAME => $this->parent?->{RoleFields::TITLE},
-            RoleFields::CHILDREN    => RoleResource::collection($this->children),
-            'permissions' => $this->permissions()->pluck('id')
+            // RoleFields::CHILDREN    => RoleResource::collection($this->children),
+            'permissions' => $this->permissions()->pluck('id'),
+            'permission_names' => $this->permissions()->pluck('name'),
         ];
     }
 }

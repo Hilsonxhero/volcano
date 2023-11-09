@@ -2,9 +2,12 @@
 
 namespace Modules\RolePermissions\Providers;
 
+use Nwidart\Modules\Laravel\Module;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Nwidart\Modules\Laravel\Module;
+use Modules\RolePermissions\Entities\Role;
+use Modules\RolePermissions\Policies\RolePolicy;
 
 class RolePermissionsServiceProvider extends ServiceProvider
 {
@@ -29,6 +32,11 @@ class RolePermissionsServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        Gate::policy(Role::class, RolePolicy::class);
+
+        // Gate::before(function ($user) {
+        //     return $user->hasPermissionTo('system_administrator') ? true : null;
+        // });
     }
 
     /**

@@ -63,6 +63,10 @@ class ProjectIssue extends Model implements HasMedia
     {
         return $this->belongsTo(ProjectIssue::class);
     }
+    public function children()
+    {
+        return $this->hasMany(ProjectIssue::class, 'parent_id', 'id');
+    }
     public function project()
     {
         return $this->belongsTo(Project::class);

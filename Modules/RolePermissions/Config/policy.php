@@ -7,14 +7,17 @@ return [
         ],
 
         'super_admin_group' => [
-            'system_administrator'
+            'system_administrator',
         ],
         'developer_group' => [
             'programmer'
         ],
         'inspector_group' => [
             'inspector'
-        ]
+        ],
+        'portal_group' => [
+            'project_manager'
+        ],
     ],
     'permission' => [
         'role' => [
@@ -22,6 +25,9 @@ return [
             'store',
             'update',
             'delete'
+        ],
+        'super_admin_group' => [
+            'system_administrator',
         ],
         'permission' => [
             'index'
@@ -31,5 +37,8 @@ return [
         'system_administrator' => ['*'],
         'programmer'           => ['*'],
         // 'regular_user'         => ['user'],
-    ]
+    ],
+    'portal_permission_role' => [
+        'project_manager' => ['*'],
+    ],
 ];

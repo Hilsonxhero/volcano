@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Notification;
 use Modules\Auth\Services\VerifyCodeService;
 use Modules\Auth\Notifications\v1\App\VerifyMailNotification;
 use Modules\Auth\Notifications\v1\App\VerifyPhoneNotification;
+use Modules\User\Transformers\v1\App\UserResource;
 
 class OtpAuthController extends Controller
 {
@@ -110,7 +111,7 @@ class OtpAuthController extends Controller
 
     public function init(Request $request)
     {
-        // return new ShowUserResource(auth()->user());
+        return new UserResource(auth()->user());
         return auth()->user();
     }
 

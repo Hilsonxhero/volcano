@@ -3,6 +3,7 @@
 namespace Modules\User\Transformers\v1\App;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\RolePermissions\Transformers\v1\App\Portal\RoleResource;
 
 class UserResource extends JsonResource
 {
@@ -22,6 +23,8 @@ class UserResource extends JsonResource
             'status' => $this->status,
             'is_superuser' => $this->is_superuser,
             'point' => $this->point,
+            'role' => new RoleResource($this->role),
+            // 'role' => $this->role,
             'created_at' => formatGregorian($this->created_at, '%A, %d %B'),
             'media' => [
                 'avatar' => $this->getFirstMediaUrl('avatar'),

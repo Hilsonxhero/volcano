@@ -12,10 +12,11 @@ class SyncPermissionToRoleTableSeeder extends Seeder
 {
 
     protected array $rolePermission;
-
+    protected array $portalRolePermission;
     public function __construct()
     {
         $this->rolePermission = config('rolepermissions.policy.permission_role');
+        $this->portalRolePermission = config('rolepermissions.policy.portal_permission_role');
     }
 
     /**
@@ -31,6 +32,25 @@ class SyncPermissionToRoleTableSeeder extends Seeder
 
             if ($role) {
                 $permissionsQuery = Permission::query();
+
+                if ($permissionGroups === ['*'])
+                    $permissionsQuery->whereNull(PermissionFields::PARENT_ID);
+                else
+                    $permissionsQuery->whereIn(PermissionFields::NAME, $permissionGroups);
+
+                $permissionsIds = $permissionsQuery->get()
+                    ->flatMap(fn ($group) => $group->children()->pluck(PermissionFields::ID)->toArray());
+
+                // Sync Permission Ids To Role
+                $role->permissions()->sync($permissionsIds);
+            }
+        }
+        foreach ($this->portalRolePermission as $roleName => $permissionGroups) {
+
+            $role = Role::where(RoleFields::NAME, $roleName)->first();
+
+            if ($role) {
+                $permissionsQuery = Permission::query()->where('is_portal', true);
 
                 if ($permissionGroups === ['*'])
                     $permissionsQuery->whereNull(PermissionFields::PARENT_ID);

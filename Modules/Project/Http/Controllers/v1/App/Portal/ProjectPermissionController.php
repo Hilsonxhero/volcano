@@ -17,7 +17,7 @@ class ProjectPermissionController extends Controller
      */
     public function index(Request $request, $id)
     {
-        $permissions = permissionRepo()->getPortalPermissions($id);
+        $permissions = permissionRepo()->getPortalPermissions();
         $permissions_collection = PermissionResource::collection($permissions);
         ApiService::_success($permissions_collection);
     }

@@ -39,6 +39,7 @@ class CommonServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
+        $this->app->register(KernelServiceProvider::class);
     }
 
     /**

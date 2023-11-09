@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId("project_tracker_id")->nullable()->constrained('project_trackers')->cascadeOnDelete();
             $table->foreignId("creator_id")->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId("assigned_to_id")->nullable()->constrained('users')->cascadeOnDelete();
-            $table->foreignId("priority_id")->nullable()->constrained('project_priorities')->cascadeOnDelete();
+            $table->foreignId("project_priority_id")->nullable()->constrained('project_priorities')->cascadeOnDelete();
             $table->string("title");
             $table->text("description")->nullable();
             $table->text("note")->nullable();

@@ -53,4 +53,11 @@ class ProjectRepositoryEloquent implements ProjectRepository
     {
         return Project::query()->create($data);
     }
+
+    public function update($id, $data)
+    {
+        $project = $this->find($id);
+        $project->update($data);
+        return $project;
+    }
 }

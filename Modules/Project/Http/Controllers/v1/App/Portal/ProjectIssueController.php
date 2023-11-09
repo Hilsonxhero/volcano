@@ -41,6 +41,25 @@ class ProjectIssueController extends Controller
         ApiService::_success($issues_collection);
     }
 
+    public function children(Request $request, $project, $id)
+    {
+        $issues = projectIssueRepo()->children($id);
+        $issues_collection = ProjectIssueResource::collection($issues);
+        ApiService::_success(
+            array(
+                'children' => $issues_collection,
+                'pager' => array(
+                    'pages' => $issues_collection->lastPage(),
+                    'total' => $issues_collection->total(),
+                    'current_page' => $issues_collection->currentPage(),
+                    'per_page' => $issues_collection->perPage(),
+                )
+            )
+        );
+    }
+
+
+
     /**
      * Store a newly created resource in storage.
      * @param Request $request

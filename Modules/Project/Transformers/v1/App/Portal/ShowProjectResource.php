@@ -23,6 +23,7 @@ class ShowProjectResource extends JsonResource
             'status' => $this->status,
             'date_last_activity' => $this->date_last_activity,
             'date_last_view' => $this->date_last_view,
+            'meta' => $this->getMetas(),
             'create_at' =>  formatGregorian($this->created_at, '%A, %d %B'),
         ];
     }

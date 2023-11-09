@@ -5,11 +5,13 @@ namespace Modules\Project\Http\Controllers\v1\App\Portal;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Common\Http\Controllers\Api\ApiController;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Http\Requests\v1\App\ProjectRoleRequest;
+use Modules\RolePermissions\Entities\Role;
 use Modules\RolePermissions\Transformers\v1\App\Portal\RoleResource;
 
-class ProjectRoleController extends Controller
+class ProjectRoleController extends ApiController
 {
 
     /**
@@ -18,7 +20,25 @@ class ProjectRoleController extends Controller
      */
     public function index(Request $request, $id)
     {
+        $this->authorize('manage', Role::class);
         $roles = roleRepo()->get($id);
+        $roles_collection = RoleResource::collection($roles);
+        ApiService::_success(
+            array(
+                'roles' => $roles_collection,
+                'pager' => array(
+                    'pages' => $roles_collection->lastPage(),
+                    'total' => $roles_collection->total(),
+                    'current_page' => $roles_collection->currentPage(),
+                    'per_page' => $roles_collection->perPage(),
+                )
+            )
+        );
+    }
+
+    public function select(Request $request, $id)
+    {
+        $roles = roleRepo()->select($id);
         $roles_collection = RoleResource::collection($roles);
         ApiService::_success(
             array(
@@ -79,6 +99,7 @@ class ProjectRoleController extends Controller
             'project_id' => $project,
         );
         $role = roleRepo()->update($id, $data);
+        $role->syncPermissions($request->permissions);
         ApiService::_success(trans('response.responses.200'));
     }
 
