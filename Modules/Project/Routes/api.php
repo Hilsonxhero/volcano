@@ -15,12 +15,15 @@ Route::prefix('v1/application')->group(function () {
             Route::get("{id}/users/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectUserController::class, 'select']);
             Route::apiResource("{id}/roles", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class);
             Route::get("{id}/roles/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class, 'select']);
+            // issue
             Route::apiResource("{id}/issues", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class);
+            // issue times
+            Route::apiResource("{id}/issue/{issue}/times", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueTimeController::class);
             Route::get("{id}/issues/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class, 'select']);
             Route::get("{id}/issues/{issue}/children", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class, 'children']);
+            // issue attachments
             Route::post("{id}/issues/attachments/{media}/delete", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjecIssueAttachmentController::class, 'destroy']);
-
-
+            // enumerations
             Route::prefix("{id}/enumerations")->group(function () {
                 Route::apiResource("time/categories", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTimeCategoryController::class);
                 Route::apiResource("trackers", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTrackerController::class);
@@ -28,11 +31,14 @@ Route::prefix('v1/application')->group(function () {
                 Route::get("issue/select/statuses", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueStatusController::class, 'select']);
                 Route::get("trackers/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectTrackerController::class, 'select']);
             });
+            // permissions
             Route::get("{id}/permissions", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectPermissionController::class, 'index']);
+            // membership
             Route::post("invite/membership", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'store']);
             Route::post("invite/membership/confirmation", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'confirmation']);
             Route::post("invite/membership/decline", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'decline']);
             Route::get("invite/show/{token}", [\Modules\Project\Http\Controllers\v1\App\ProjectInviteController::class, 'show']);
+            // project setup
             Route::post("setup", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'setup']);
             Route::post("{id}/setting/variables", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'update']);
         });

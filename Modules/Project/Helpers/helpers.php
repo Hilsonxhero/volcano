@@ -9,6 +9,7 @@ use Modules\Project\Repository\Contracts\ProjectPageRepository;
 use Modules\Project\Repository\Contracts\ProjectPriorityRepository;
 use Modules\Project\Repository\Contracts\ProjectRepository;
 use Modules\Project\Repository\Contracts\ProjectTimeCategoryRepository;
+use Modules\Project\Repository\Contracts\ProjectTimeEntryRepository;
 use Modules\Project\Repository\Contracts\ProjectTrackerRepository;
 
 if (!function_exists('projectRepo')) {
@@ -129,5 +130,18 @@ if (!function_exists('projectIssueAttachmentRepo')) {
     function projectIssueAttachmentRepo(): ProjectIssueAttachmentRepository
     {
         return resolve(ProjectIssueAttachmentRepository::class);
+    }
+}
+
+
+if (!function_exists('ProjectTimeEntryRepo')) {
+    /**
+     * Get the ProjectTimeEntry repo.
+     *
+     * @return ProjectTimeEntryRepository
+     */
+    function ProjectTimeEntryRepo(): ProjectTimeEntryRepository
+    {
+        return resolve(ProjectTimeEntryRepository::class);
     }
 }

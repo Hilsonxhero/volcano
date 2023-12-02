@@ -42,9 +42,11 @@ class AboutController extends Controller
     {
         $options = config('about.options');
         $variables = [];
+
         foreach ($options as $option) {
             if ($request->{$option}) {
                 $value = $this->isJson($request->input($option)) ? json_encode(json_decode($request->input($option), true)) : json_encode($request->input($option));
+
                 if ($request->file($option)) {
                     $variable = aboutRepo()->find($option);
                     if ($variable) {

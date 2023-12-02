@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('about_page', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->longText('value');
+            $table->longText('value')->nullable();
         });
     }
 

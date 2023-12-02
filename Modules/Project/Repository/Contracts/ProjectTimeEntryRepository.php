@@ -2,8 +2,8 @@
 
 namespace Modules\Project\Repository\Contracts;
 
-interface ProjectIssueRepository
+interface ProjectTimeEntryRepository
 {
     public function store($data);
-    public function find($value, $field = "id");
+    public function find($value, $field);
 }

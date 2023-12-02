@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId("project_issue_id")->nullable()->constrained('project_issues')->cascadeOnDelete();
             $table->foreignId("project_time_category_id")->nullable()->constrained('project_time_categories')->cascadeOnDelete();
             $table->foreignId("user_id")->nullable()->constrained('users')->cascadeOnDelete();
-            $table->string("title");
-            $table->text("description");
+            $table->string("title")->nullable();
+            $table->text("description")->nullable();
             $table->timestamp("spent_on");
             $table->string("hours");
             $table->softDeletes();
