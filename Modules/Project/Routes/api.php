@@ -17,6 +17,8 @@ Route::prefix('v1/application')->group(function () {
             Route::get("{id}/roles/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class, 'select']);
             // issue
             Route::apiResource("{id}/issues", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class);
+            // project issue times
+            Route::apiResource("{id}/issue/entries/times", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTimeEntryController::class);
             // issue times
             Route::apiResource("{id}/issue/{issue}/times", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueTimeController::class);
             Route::get("{id}/issues/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class, 'select']);

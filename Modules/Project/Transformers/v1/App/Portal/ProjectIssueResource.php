@@ -35,6 +35,7 @@ class ProjectIssueResource extends JsonResource
             'attachments' => $this->attachment_media,
             'start_date' => formatGregorian($this->start_date, 'Y/m/d'),
             'end_date' => formatGregorian($this->end_date, 'Y/m/d'),
+            'total_hours' => $this->totalHours
         ];
     }
 }

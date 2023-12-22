@@ -70,11 +70,11 @@ class ProjectIssueTimeController extends Controller
         $user = auth()->user();
         $issue = projectIssueRepo()->find($request->project_issue_id);
         $data = array(
-            'project_id' => $issue->project_id,
-            'project_issue_id' => $issue->id,
+            'project_id' => $project,
+            'project_issue_id' => $issue->id ?? null,
             'project_time_category_id' => $request->project_time_category_id,
             'user_id' => $user->id,
-            'spent_on' => $request->input('spent_on') ? createDatetimeFromFormat($request->spent_on) : null,
+            'spent_on' => $request->input('spent_on') ? createDatetimeFromFormat($request->spent_on, "Y/m/d") : null,
             'hours' => $request->hours,
             'description' => $request->input('description'),
         );

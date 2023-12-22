@@ -90,8 +90,28 @@ class ProjectIssue extends Model implements HasMedia
         );
     }
 
-    // protected static function newFactory()
-    // {
-    //     return \Modules\Project\Database\factories\ProjectIssueFactory::new();
-    // }
+    public function times()
+    {
+        return $this->hasMany(ProjectTimeEntry::class, 'project_issue_id', 'id');
+    }
+
+    protected function totalHours(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // Access all related time entries
+                $timeEntries = $this->times;
+                // Calculate total hours
+                $totalHours = 0;
+                foreach ($timeEntries as $entry) {
+                    // Convert the time format (HH:MM) to minutes and add to the total
+                    list($hours, $minutes) = explode(':', $entry->hours);
+                    $totalHours += $hours * 60 + $minutes;
+                }
+                // Convert total minutes back to HH:MM format
+                $formattedTotalHours = sprintf("%02d:%02d", $totalHours / 60, $totalHours % 60);
+                return $formattedTotalHours;
+            }
+        );
+    }
 }
