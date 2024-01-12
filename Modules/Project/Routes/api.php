@@ -15,17 +15,29 @@ Route::prefix('v1/application')->group(function () {
             Route::get("{id}/users/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectUserController::class, 'select']);
             Route::apiResource("{id}/roles", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class);
             Route::get("{id}/roles/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class, 'select']);
+
             // issue
+
             Route::apiResource("{id}/issues", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class);
+
             // project issue times
+
             Route::apiResource("{id}/issue/entries/times", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTimeEntryController::class);
+            Route::post("{id}/issue/entries/time/report", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectTimeReportController::class, 'store']);
+
+
             // issue times
+
             Route::apiResource("{id}/issue/{issue}/times", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueTimeController::class);
             Route::get("{id}/issues/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class, 'select']);
             Route::get("{id}/issues/{issue}/children", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class, 'children']);
+
             // issue attachments
+
             Route::post("{id}/issues/attachments/{media}/delete", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjecIssueAttachmentController::class, 'destroy']);
+
             // enumerations
+
             Route::prefix("{id}/enumerations")->group(function () {
                 Route::apiResource("time/categories", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTimeCategoryController::class);
                 Route::apiResource("trackers", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectTrackerController::class);

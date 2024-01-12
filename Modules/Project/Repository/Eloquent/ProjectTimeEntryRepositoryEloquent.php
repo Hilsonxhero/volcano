@@ -59,4 +59,8 @@ class ProjectTimeEntryRepositoryEloquent implements ProjectTimeEntryRepository
         $time->delete();
         return true;
     }
+
+    public function getReport($product, $user)
+    {
+    }
 }

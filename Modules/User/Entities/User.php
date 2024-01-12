@@ -2,21 +2,22 @@
 
 namespace Modules\User\Entities;
 
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
 use Laravel\Passport\HasApiTokens;
 use Modules\Project\Entities\Project;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Project\Entities\ProjectTimeEntry;
 use Modules\Project\Entities\ProjectMembership;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Image\Manipulations;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 class User extends Authenticatable implements HasMedia
@@ -79,5 +80,25 @@ class User extends Authenticatable implements HasMedia
     public function isSuperUser()
     {
         return $this->is_superuser;
+    }
+    public function times()
+    {
+        return $this->hasMany(ProjectTimeEntry::class, 'user_id', 'id');
+    }
+
+    protected function totalTimeHours(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $timeEntries = $this->times;
+                $totalHours = 0;
+                foreach ($timeEntries as $entry) {
+                    list($hours, $minutes) = explode(':', $entry->hours);
+                    $totalHours += $hours * 60 + $minutes;
+                }
+                $formattedTotalHours = sprintf("%02d:%02d", $totalHours / 60, $totalHours % 60);
+                return $formattedTotalHours;
+            }
+        );
     }
 }

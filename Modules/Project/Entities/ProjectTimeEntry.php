@@ -2,10 +2,11 @@
 
 namespace Modules\Project\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\User\Entities\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProjectTimeEntry extends Model
 {
@@ -36,5 +37,17 @@ class ProjectTimeEntry extends Model
     public function category()
     {
         return $this->belongsTo(ProjectTimeCategory::class, 'project_time_category_id', 'id');
+    }
+
+    protected function totalHours(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $totalHours = 0;
+                list($hours, $minutes) = explode(':', $this->hours);
+                $totalHours += $hours * 60 + $minutes;
+                return $totalHours;
+            }
+        );
     }
 }
