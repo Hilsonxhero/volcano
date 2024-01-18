@@ -16,6 +16,10 @@ Route::prefix('v1/application')->group(function () {
             Route::apiResource("{id}/roles", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class);
             Route::get("{id}/roles/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class, 'select']);
 
+            // boards
+
+            Route::apiResource("{id}/boards", \Modules\Project\Http\Controllers\v1\App\Portal\Board\BoardController::class);
+            Route::apiResource("board/{id}/lists", \Modules\Project\Http\Controllers\v1\App\Portal\Board\BoardListController::class);
             // issue
 
             Route::apiResource("{id}/issues", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectIssueController::class);

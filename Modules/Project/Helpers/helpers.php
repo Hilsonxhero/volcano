@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Project\Repository\Contracts\BoardListRepository;
+use Modules\Project\Repository\Contracts\BoardRepository;
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueAttachmentRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueRepository;
@@ -143,5 +145,31 @@ if (!function_exists('ProjectTimeEntryRepo')) {
     function ProjectTimeEntryRepo(): ProjectTimeEntryRepository
     {
         return resolve(ProjectTimeEntryRepository::class);
+    }
+}
+
+
+if (!function_exists('boardRepo')) {
+    /**
+     * Get the board repo.
+     *
+     * @return BoardRepository
+     */
+    function boardRepo(): BoardRepository
+    {
+        return resolve(BoardRepository::class);
+    }
+}
+
+
+if (!function_exists('boardListRepo')) {
+    /**
+     * Get the boardList repo.
+     *
+     * @return BoardListRepository
+     */
+    function boardListRepo(): BoardListRepository
+    {
+        return resolve(BoardListRepository::class);
     }
 }
