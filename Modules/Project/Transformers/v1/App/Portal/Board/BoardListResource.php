@@ -22,7 +22,7 @@ class BoardListResource extends JsonResource
             'short_link' => $this->short_link,
             'status' => $this->status,
             'position' => $this->position,
-            'board' => new BoardResource($this->board),
+            // 'board' => new BoardResource($this->board),
         ];
     }
 }

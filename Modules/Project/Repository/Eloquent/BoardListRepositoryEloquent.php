@@ -24,7 +24,7 @@ class BoardListRepositoryEloquent implements BoardListRepository
 
     public function get($id)
     {
-        $boards = BoardList::query()->where('board_id', $id)->orderByDesc('created_at')->get();
+        $boards = BoardList::query()->where('board_id', $id)->get();
         return $boards;
     }
 
