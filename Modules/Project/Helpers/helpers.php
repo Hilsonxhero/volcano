@@ -1,5 +1,6 @@
 <?php
 
+use Modules\Project\Repository\Contracts\BoardCardRepository;
 use Modules\Project\Repository\Contracts\BoardListRepository;
 use Modules\Project\Repository\Contracts\BoardRepository;
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
@@ -171,5 +172,17 @@ if (!function_exists('boardListRepo')) {
     function boardListRepo(): BoardListRepository
     {
         return resolve(BoardListRepository::class);
+    }
+}
+
+if (!function_exists('boardCardRepo')) {
+    /**
+     * Get the board card repo.
+     *
+     * @return BoardCardRepository
+     */
+    function boardCardRepo(): BoardCardRepository
+    {
+        return resolve(BoardCardRepository::class);
     }
 }

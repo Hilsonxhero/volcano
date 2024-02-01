@@ -3,6 +3,7 @@
 namespace Modules\Project\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Project\Entities\BoardCard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BoardList extends Model
@@ -27,5 +28,10 @@ class BoardList extends Model
     public function board()
     {
         return $this->belongsTo(Board::class);
+    }
+
+    public function cards()
+    {
+        return $this->hasMany(BoardCard::class);
     }
 }

@@ -5,7 +5,7 @@ namespace Modules\Project\Transformers\v1\App\Portal\Board;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 
-class BoardListResource extends JsonResource
+class BoardCardResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,10 +19,8 @@ class BoardListResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'short_link' => $this->short_link,
+            'board_list_id' => $this->board_list_id,
             'status' => $this->status,
-            'position' => $this->position,
-            'cards' => BoardCardResource::collection($this->cards)
             // 'board' => new BoardResource($this->board),
         ];
     }

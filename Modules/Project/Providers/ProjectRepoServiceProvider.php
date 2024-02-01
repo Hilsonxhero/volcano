@@ -23,9 +23,11 @@ use Modules\Project\Repository\Eloquent\ProjectMembershipRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectIssueStatusRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectTimeCategoryRepositoryEloquent;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Modules\Project\Repository\Contracts\BoardCardRepository;
 use Modules\Project\Repository\Contracts\BoardListRepository;
 use Modules\Project\Repository\Contracts\BoardRepository;
 use Modules\Project\Repository\Contracts\ProjectTimeEntryRepository;
+use Modules\Project\Repository\Eloquent\BoardCardRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\BoardListRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\BoardRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectIssueAttachmentRepositoryEloquent;
@@ -63,5 +65,6 @@ class ProjectRepoServiceProvider extends ServiceProvider
         $this->app->bind(ProjectTimeEntryRepository::class, ProjectTimeEntryRepositoryEloquent::class);
         $this->app->bind(BoardRepository::class, BoardRepositoryEloquent::class);
         $this->app->bind(BoardListRepository::class, BoardListRepositoryEloquent::class);
+        $this->app->bind(BoardCardRepository::class, BoardCardRepositoryEloquent::class);
     }
 }
