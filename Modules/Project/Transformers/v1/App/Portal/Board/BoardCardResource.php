@@ -21,6 +21,7 @@ class BoardCardResource extends JsonResource
             'description' => $this->description,
             'board_list_id' => $this->board_list_id,
             'status' => $this->status,
+            'attachments' => $this->attachment_media,
             // 'board' => new BoardResource($this->board),
         ];
     }

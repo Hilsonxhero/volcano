@@ -47,8 +47,9 @@ class BoardListRepositoryEloquent implements BoardListRepository
 
     public function update($data, $id)
     {
-        $board = BoardList::query()->where('id', $id)->update($data);
-        return $board;
+        $list = $this->find($id, 'id');
+        $list->update($data);
+        return $list;
     }
 
     public function delete($id)

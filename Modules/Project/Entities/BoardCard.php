@@ -2,13 +2,17 @@
 
 namespace Modules\Project\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\User\Entities\User;
+use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class BoardCard extends Model
+class BoardCard extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         "title",
@@ -32,4 +36,18 @@ class BoardCard extends Model
     // {
     //     return \Modules\Project\Database\factories\BoardCardFactory::new();
     // }
+
+    protected function attachmentMedia(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $attachment_items = $this->getMedia();
+                $attachments = array();
+                foreach ($attachment_items as $key => $mediaItem) {
+                    array_push($attachments, ['path' => $mediaItem->getUrl(), 'id' => $mediaItem->id]);
+                }
+                return $attachments;
+            }
+        );
+    }
 }

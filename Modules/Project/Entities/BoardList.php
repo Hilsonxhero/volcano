@@ -32,6 +32,6 @@ class BoardList extends Model
 
     public function cards()
     {
-        return $this->hasMany(BoardCard::class);
+        return $this->hasMany(BoardCard::class)->orderBy('position', 'asc');
     }
 }

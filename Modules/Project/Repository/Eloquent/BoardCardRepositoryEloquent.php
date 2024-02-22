@@ -23,7 +23,7 @@ class BoardCardRepositoryEloquent implements BoardCardRepository
 
     public function get($id)
     {
-        $boards = BoardCard::query()->where('board_id', $id)->get();
+        $boards = BoardCard::query()->where('board_id', $id)->orderBy('position', 'desc')->get();
         return $boards;
     }
 
@@ -46,7 +46,8 @@ class BoardCardRepositoryEloquent implements BoardCardRepository
 
     public function update($data, $id)
     {
-        $board = BoardCard::query()->where('id', $id)->update($data);
+        $board = $this->find($id, 'id');
+        $board->update($data);
         return $board;
     }
 

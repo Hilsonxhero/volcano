@@ -39,7 +39,7 @@ class BoardListController extends Controller
             'status' => CommonStatus::ACTIVE->value,
         );
         $board_list = boardListRepo()->store($data);
-        ApiService::_success(trans('response.responses.200'));
+        ApiService::_success(new BoardListResource($board_list));
     }
 
     /**
@@ -67,7 +67,7 @@ class BoardListController extends Controller
             'description' => $request->input('description'),
         );
         $board_list = boardListRepo()->update($data, $id);
-        ApiService::_success(trans('response.responses.200'));
+        ApiService::_success(new BoardListResource($board_list));
     }
 
     /**
