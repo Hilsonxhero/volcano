@@ -2,6 +2,7 @@
 
 use Modules\Project\Repository\Contracts\BoardCardRepository;
 use Modules\Project\Repository\Contracts\BoardListRepository;
+use Modules\Project\Repository\Contracts\BoardMemberRepository;
 use Modules\Project\Repository\Contracts\BoardRepository;
 use Modules\Project\Repository\Contracts\ProjectInviteRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueAttachmentRepository;
@@ -184,5 +185,17 @@ if (!function_exists('boardCardRepo')) {
     function boardCardRepo(): BoardCardRepository
     {
         return resolve(BoardCardRepository::class);
+    }
+}
+
+if (!function_exists('boardMemberRepo')) {
+    /**
+     * Get the board member repo.
+     *
+     * @return BoardMemberRepository
+     */
+    function boardMemberRepo(): BoardMemberRepository
+    {
+        return resolve(BoardMemberRepository::class);
     }
 }

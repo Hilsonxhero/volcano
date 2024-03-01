@@ -1,4 +1,5 @@
-FROM ubuntu:22.04
+# FROM ubuntu:22.04
+FROM docker.arvancloud.ir/ubuntu:22.04
 
 LABEL maintainer="Taylor Otwell"
 

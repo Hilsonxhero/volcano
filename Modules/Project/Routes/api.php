@@ -27,9 +27,11 @@ Route::prefix('v1/application')->group(function () {
             // board cards
 
             Route::apiResource("board/list/{id}/cards", \Modules\Project\Http\Controllers\v1\App\Portal\Board\BoardCardController::class);
-
             Route::post("board/card/position", [\Modules\Project\Http\Controllers\v1\App\Portal\Board\BoardCardController::class, 'position']);
 
+            // board members
+
+            Route::apiResource("board/{id}/members", \Modules\Project\Http\Controllers\v1\App\Portal\Board\BoardMemberController::class);
 
             // issue
 

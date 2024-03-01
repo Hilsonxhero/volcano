@@ -25,6 +25,7 @@ class BoardResource extends JsonResource
             'date_last_view' => $this->date_last_view,
             'project' => $this->project,
             'user' => $this->user,
+            'members' => BoardMemberResource::collection($this->members),
         ];
     }
 }

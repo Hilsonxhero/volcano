@@ -29,7 +29,10 @@ class Board extends Model
     {
         return $this->belongsTo(Project::class);
     }
-
+    public function members()
+    {
+        return $this->hasMany(BoardMember::class);
+    }
     // protected static function newFactory()
     // {
     //     return \Modules\Project\Database\factories\BoardFactory::new();

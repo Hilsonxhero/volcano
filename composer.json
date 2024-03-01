@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.6",
+        "guzzlehttp/guzzle": "^7.7",
         "hilsonxhero/elasticvision": "^2.0",
         "laravel/framework": "^10.10",
         "laravel/octane": "^2.0",
@@ -19,6 +19,8 @@
         "melipayamak/php": "1.0.0",
         "morilog/jalali": "3.*",
         "nwidart/laravel-modules": "^10.0",
+        "php-http/guzzle7-adapter": "^1.0",
+        "railsware/mailtrap-php": "^1.7",
         "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-permission": "^5.10"
     },

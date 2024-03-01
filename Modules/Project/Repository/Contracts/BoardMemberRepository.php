@@ -2,9 +2,10 @@
 
 namespace Modules\Project\Repository\Contracts;
 
-interface BoardCardRepository
+interface BoardMemberRepository
 {
-    public function store($data);
+    public function create($data);
     public function find($value, $condition = "id");
     public function update($data, $id);
+    public function delete($id);
 }
