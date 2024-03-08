@@ -67,6 +67,13 @@ return [
             'update',
             'delete',
         ],
+        'portal_boards_management' => [
+            'index',
+            'show',
+            'store',
+            'update',
+            'delete',
+        ],
     ],
 
 ];

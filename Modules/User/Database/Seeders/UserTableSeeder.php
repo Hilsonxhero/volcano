@@ -40,7 +40,7 @@ class UserTableSeeder extends Seeder
             UserFields::PASSWORD          => Hash::make("password"),
             UserFields::STATUS            => UserStatus::ACTIVE->value
         ]);
-        $user->assignRole('system_administrator');
+        $user->assignRole('system_administrator', 'project_manager');
         return $this;
     }
 

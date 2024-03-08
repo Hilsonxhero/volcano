@@ -32,10 +32,12 @@ class BoardListController extends Controller
     public function store(BoardListRequest $request, $project)
     {
         $user = auth()->user();
+        $board = boardRepo()->find($request->input('board_id'), "short_link");
+
         $data = array(
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'board_id' => $request->input('board_id'),
+            'board_id' => $board->id,
             'status' => CommonStatus::ACTIVE->value,
         );
         $board_list = boardListRepo()->store($data);

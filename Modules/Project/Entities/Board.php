@@ -2,9 +2,10 @@
 
 namespace Modules\Project\Entities;
 
+use Illuminate\Support\Str;
+use Modules\User\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\User\Entities\User;
 
 class Board extends Model
 {
@@ -37,4 +38,12 @@ class Board extends Model
     // {
     //     return \Modules\Project\Database\factories\BoardFactory::new();
     // }
+
+
+    public static function booted()
+    {
+        static::creating(function ($board) {
+            $board->short_link = Str::random(8);
+        });
+    }
 }

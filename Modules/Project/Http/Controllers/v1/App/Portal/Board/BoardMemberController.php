@@ -6,7 +6,10 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Modules\Common\Services\ApiService;
+use Modules\Project\Emails\SendJoinBoardMail;
 use Modules\Project\Http\Requests\v1\App\Portal\Board\BoardMemberRequest;
 use Modules\Project\Transformers\v1\App\Portal\Board\BoardMemberResource;
 
@@ -41,20 +44,29 @@ class BoardMemberController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(BoardMemberRequest $request, $board)
+    public function store(BoardMemberRequest $request, $id)
     {
         $user = auth()->user();
         $invited_user = userRepo()->find($request->email, "email");
+        $invited_board = boardRepo()->find($id, "short_link");
         $data = [
             'email' => $request->email,
             'inviter_id' => $user->id,
-            'board_id' => $board,
-            'token' => Str::uuid(),
+            'board_id' => $invited_board->id,
+            'token' =>  Hash::make($request->email),
             'role' => 'member',
             'status' => 'pending',
             'user_id' => !is_null($invited_user) ? $invited_user->id : null
         ];
+
         $member =  boardMemberRepo()->create($data);
+        $mail_data  = [
+            'name' => $user->username,
+            'board' => $invited_board,
+            'url' => front_path("portal/projects/board/confirmation", ['token' => $member->token, 'id' => $member->id])
+        ];
+
+        Mail::to($member->email)->send(new SendJoinBoardMail($mail_data));
         $board_members = BoardMemberResource::collection($member->board->members);
         ApiService::_success($board_members);
         // ApiService::_success(new BoardMemberResource($member));

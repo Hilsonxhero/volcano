@@ -18,7 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Modules\Project\Entities\Board;
+use Modules\Project\Entities\BoardMember;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -84,6 +85,11 @@ class User extends Authenticatable implements HasMedia
     public function times()
     {
         return $this->hasMany(ProjectTimeEntry::class, 'user_id', 'id');
+    }
+
+    public function boards()
+    {
+        return $this->hasMany(BoardMember::class, 'user_id', 'id');
     }
 
     protected function totalTimeHours(): Attribute

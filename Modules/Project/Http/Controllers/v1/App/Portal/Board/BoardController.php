@@ -4,7 +4,9 @@ namespace Modules\Project\Http\Controllers\v1\App\Portal\Board;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Modules\Project\Entities\Board;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Modules\Common\Enums\CommonStatus;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Http\Requests\v1\App\Portal\Board\BoardRequest;
@@ -19,6 +21,7 @@ class BoardController extends Controller
      */
     public function index(Request $request, $id)
     {
+        $this->authorize('manage', [Board::class, $id]);
         $boards = boardRepo()->get($id);
         $boards = BoardResource::collection($boards);
         ApiService::_success($boards);
@@ -40,6 +43,16 @@ class BoardController extends Controller
             'status' => CommonStatus::ACTIVE->value,
         );
         $board = boardRepo()->store($data);
+        $data = [
+            'email' => $user->email,
+            'inviter_id' => $user->id,
+            'board_id' => $board->id,
+            'token' =>  Hash::make($user->email),
+            'role' => 'owner',
+            'status' => 'confirmed',
+            'user_id' => $user->id
+        ];
+        $member =  boardMemberRepo()->create($data);
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -50,7 +63,8 @@ class BoardController extends Controller
      */
     public function show($project, $id)
     {
-        $board = boardRepo()->show($id);
+        $board = boardRepo()->show($id, "short_link");
+        $this->authorize('show', [Board::class, $board]);
         $resource = new BoardResource($board);
         ApiService::_success($resource);
     }
@@ -63,13 +77,14 @@ class BoardController extends Controller
      */
     public function update(BoardRequest $request, $project, $id)
     {
+        $board = boardRepo()->find($id, "short_link");
         $data = array(
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             // 'status' => $request->input('status')
         );
-        $board = boardRepo()->update($data, $id);
-        ApiService::_success(trans('response.responses.200'));
+        $board = boardRepo()->update($data, $board->id);
+        ApiService::_success(new BoardResource($board));
     }
 
     /**

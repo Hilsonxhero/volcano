@@ -32,6 +32,8 @@ Route::prefix('v1/application')->group(function () {
             // board members
 
             Route::apiResource("board/{id}/members", \Modules\Project\Http\Controllers\v1\App\Portal\Board\BoardMemberController::class);
+            Route::get("board/invite/confirmation/{id}", [\Modules\Project\Http\Controllers\v1\App\Portal\Board\BoardMemberConfimrationController::class, "show"]);
+            Route::post("board/invite/confirmation/{id}", [\Modules\Project\Http\Controllers\v1\App\Portal\Board\BoardMemberConfimrationController::class, "store"]);
 
             // issue
 
