@@ -47,6 +47,12 @@ class ProjectTrackerRepositoryEloquent implements ProjectTrackerRepository
         return $page;
     }
 
+    public function insert($data)
+    {
+        $page = ProjectTracker::query()->insert($data);
+        return $page;
+    }
+
     public function update($data, $id)
     {
         if (request()->is_default) {

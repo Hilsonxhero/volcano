@@ -49,6 +49,12 @@ class ProjectTimeCategoryRepositoryEloquent implements ProjectTimeCategoryReposi
         return $page;
     }
 
+    public function insert($data)
+    {
+        $page = ProjectTimeCategory::query()->insert($data);
+        return $page;
+    }
+
     public function update($data, $id)
     {
         if (request()->is_default) {

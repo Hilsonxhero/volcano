@@ -4,14 +4,16 @@ namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Modules\User\Entities\User;
 use Illuminate\Routing\Controller;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectStatus;
+use Modules\Project\Jobs\AddProjectPartial;
 use Modules\Project\Enums\ProjectMemberStatus;
+use Modules\Project\Enums\ProjectTimeCategoryStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectRequest;
 use Modules\Project\Transformers\v1\App\Portal\ProjectResource;
 use Modules\Project\Transformers\v1\App\Portal\ShowProjectResource;
-use Modules\User\Entities\User;
 
 class ProjectController extends Controller
 {
@@ -63,6 +65,7 @@ class ProjectController extends Controller
             'status' => ProjectStatus::ACTIVE->value,
         );
         $project = projectRepo()->create($data);
+        AddProjectPartial::dispatch($project);
         projectMembershipRepo()->create(array(
             'project_id' => $project->id,
             'user_id' => $user->id,

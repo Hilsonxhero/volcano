@@ -46,6 +46,12 @@ class ProjectPriorityRepositoryEloquent implements ProjectPriorityRepository
         return $page;
     }
 
+    public function insert($data)
+    {
+        $page = ProjectPriority::query()->insert($data);
+        return $page;
+    }
+
     public function update($data, $id)
     {
         $page = ProjectPriority::query()->where('id', $id)->update($data);

@@ -16,6 +16,6 @@ class ProjectDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call([ProjectPriorityTableSeeder::class]);
     }
 }
