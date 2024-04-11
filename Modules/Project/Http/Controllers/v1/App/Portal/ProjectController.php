@@ -2,10 +2,11 @@
 
 namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Modules\User\Entities\User;
-use Illuminate\Routing\Controller;
+use Modules\Project\Entities\Project;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectStatus;
 use Modules\Project\Jobs\AddProjectPartial;
@@ -43,6 +44,8 @@ class ProjectController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $project = projectRepo()->show($id);
         $project = new ShowProjectResource($project);
         ApiService::_success($project);
@@ -71,7 +74,7 @@ class ProjectController extends Controller
             'user_id' => $user->id,
             'status' => ProjectMemberStatus::ACTIVE->value
         ));
-        $user->assignRole("project_manager");
+        // $user->assignRole("project_manager");
         $project->setMeta([
             'public_pages' =>  true
         ]);

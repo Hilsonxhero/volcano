@@ -2,9 +2,10 @@
 
 namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Modules\Project\Entities\Project;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectTimeCategoryStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectTimeCategoryRequest;
@@ -19,6 +20,8 @@ class ProjectTimeCategoryController extends Controller
      */
     public function index(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $categories = projectTimeCategoryRepo()->all($id);
         $categories_collection = ProjectTimeCategoryResource::collection($categories);
         ApiService::_success(
@@ -41,6 +44,8 @@ class ProjectTimeCategoryController extends Controller
      */
     public function store(ProjectTimeCategoryRequest $request)
     {
+        $this->authorize('manage', [Project::class, $request->input('project_id')]);
+
         $data = array(
             'title' => $request->input('title'),
             'is_default' => $request->input('is_default'),
@@ -56,8 +61,10 @@ class ProjectTimeCategoryController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($prokect, $id)
+    public function show($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $category = projectTimeCategoryRepo()->show($id);
         $resource = new ProjectTimeCategoryResource($category);
         ApiService::_success($resource);
@@ -71,6 +78,8 @@ class ProjectTimeCategoryController extends Controller
      */
     public function update(ProjectTimeCategoryRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $data = array(
             'title' => $request->input('title'),
             'is_default' => $request->input('is_default'),
@@ -88,6 +97,8 @@ class ProjectTimeCategoryController extends Controller
      */
     public function destroy($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $category = projectTimeCategoryRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }

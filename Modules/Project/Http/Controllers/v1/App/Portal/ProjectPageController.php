@@ -4,8 +4,9 @@ namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use Modules\Common\Services\ApiService;
+use Modules\Project\Entities\Project;
 use Modules\Project\Enums\ProjectPageStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectPageRequest;
 use Modules\Project\Transformers\v1\App\Portal\ProjectPageResource;
@@ -19,6 +20,7 @@ class ProjectPageController extends Controller
      */
     public function index(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
         $pages = projectPageRepo()->get($id);
         $pages = ProjectPageResource::collection($pages);
         ApiService::_success($pages);
@@ -31,6 +33,8 @@ class ProjectPageController extends Controller
      */
     public function store(ProjectPageRequest $request)
     {
+        $this->authorize('manage', [Project::class, $request->input('project_id')]);
+
         $data = array(
             'title' => $request->input('title'),
             'name' => $request->input('name'),
@@ -51,6 +55,7 @@ class ProjectPageController extends Controller
     public function show($id)
     {
         $page = projectPageRepo()->show($id);
+        $this->authorize('manage', [Project::class, $page->project_id]);
         $resource = new ProjectPageResource($page);
         ApiService::_success($resource);
     }
@@ -63,6 +68,8 @@ class ProjectPageController extends Controller
      */
     public function update(ProjectPageRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $data = array(
             'title' => $request->input('title'),
             'name' => $request->input('name'),
@@ -82,6 +89,7 @@ class ProjectPageController extends Controller
      */
     public function destroy($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
         $page = projectPageRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }

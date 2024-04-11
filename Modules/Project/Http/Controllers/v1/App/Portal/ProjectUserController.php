@@ -4,12 +4,13 @@ namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
+use Modules\Project\Entities\Project;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectPageStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectPageRequest;
-use Modules\Project\Transformers\v1\App\Portal\ProjectMemberResource;
 use Modules\Project\Transformers\v1\App\Portal\ProjectPageResource;
+use Modules\Project\Transformers\v1\App\Portal\ProjectMemberResource;
 
 class ProjectUserController extends Controller
 {
@@ -19,6 +20,8 @@ class ProjectUserController extends Controller
      */
     public function index(Request $request, $id)
     {
+        // $this->authorize('manage', [Project::class, $id]);
+
         $members = projectRepo()->members($id);
         $members = ProjectMemberResource::collection($members);
         ApiService::_success(array(
@@ -38,6 +41,8 @@ class ProjectUserController extends Controller
      */
     public function select(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $members = projectMembershipRepo()->getByProject($id);
         $members = ProjectMemberResource::collection($members);
         ApiService::_success($members);
@@ -51,6 +56,8 @@ class ProjectUserController extends Controller
      */
     public function store(ProjectPageRequest $request)
     {
+        $this->authorize('manage', [Project::class, $request->input('project_id')]);
+
         $data = array(
             'title' => $request->input('title'),
             'name' => $request->input('name'),
@@ -70,8 +77,9 @@ class ProjectUserController extends Controller
      */
     public function show($id)
     {
-        $page = projectMemberRepo()->show($id);
-        $resource = new ProjectPageResource($page);
+        $member = projectMemberRepo()->show($id);
+        $this->authorize('manage', [Project::class, $member->project_id]);
+        $resource = new ProjectPageResource($member);
         ApiService::_success($resource);
     }
 
@@ -83,6 +91,8 @@ class ProjectUserController extends Controller
      */
     public function update(ProjectPageRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $data = array(
             'title' => $request->input('title'),
             'name' => $request->input('name'),
@@ -102,6 +112,7 @@ class ProjectUserController extends Controller
      */
     public function destroy($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
         $user = projectMemberRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }

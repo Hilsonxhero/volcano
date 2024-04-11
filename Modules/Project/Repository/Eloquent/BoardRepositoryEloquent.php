@@ -27,9 +27,9 @@ class BoardRepositoryEloquent implements BoardRepository
         return $boards;
     }
 
-    public function show($id)
+    public function show($id, $condition = "id")
     {
-        $board = $this->find($id, 'id');
+        $board = $this->find($id, $condition);
         return $board;
     }
 

@@ -4,8 +4,10 @@ namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
+use Modules\Project\Entities\Project;
 use Modules\Common\Services\ApiService;
+
 use Modules\Project\Http\Requests\v1\App\ProjectIssueTimeRequest;;
 
 use Modules\Project\Transformers\v1\App\Portal\ProjectTimeEntryResource;
@@ -18,6 +20,8 @@ class ProjectTimeEntryController extends Controller
      */
     public function index(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $time_entries = ProjectTimeEntryRepo()->all($id);
         $time_entries_collection = ProjectTimeEntryResource::collection($time_entries);
         ApiService::_success(
@@ -40,6 +44,8 @@ class ProjectTimeEntryController extends Controller
      */
     public function store(ProjectIssueTimeRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $user = auth()->user();
         $time = ProjectTimeEntryRepo()->find($request->project_issue_id);
         $data = array(
@@ -60,8 +66,10 @@ class ProjectTimeEntryController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($prokect, $id)
+    public function show($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $time = ProjectTimeEntryRepo()->show($id);
         $resource = new ProjectTimeEntryResource($time);
         ApiService::_success($resource);
@@ -75,6 +83,8 @@ class ProjectTimeEntryController extends Controller
      */
     public function update(ProjectIssueTimeRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $user = auth()->user();
         $data = array(
             'project_id' => $time->project_id,
@@ -96,6 +106,8 @@ class ProjectTimeEntryController extends Controller
      */
     public function destroy($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $time = ProjectTimeEntryRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }

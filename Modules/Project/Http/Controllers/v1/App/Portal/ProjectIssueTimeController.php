@@ -4,7 +4,8 @@ namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
+use Modules\Project\Entities\Project;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectIssueStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectIssueTimeRequest;
@@ -19,6 +20,7 @@ class ProjectIssueTimeController extends Controller
      */
     public function index(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
         $issues = projectIssueRepo()->all($id);
         $issues_collection = ProjectIssueResource::collection($issues);
         ApiService::_success(
@@ -36,6 +38,8 @@ class ProjectIssueTimeController extends Controller
 
     public function select(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $issues = projectIssueRepo()->select($id);
         $issues_collection = ProjectIssueSelectResource::collection($issues);
         ApiService::_success($issues_collection);
@@ -43,6 +47,8 @@ class ProjectIssueTimeController extends Controller
 
     public function children(Request $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $issues = projectIssueRepo()->children($id);
         $issues_collection = ProjectIssueResource::collection($issues);
         ApiService::_success(
@@ -67,6 +73,8 @@ class ProjectIssueTimeController extends Controller
      */
     public function store(ProjectIssueTimeRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $user = auth()->user();
         $issue = projectIssueRepo()->find($request->project_issue_id);
         $data = array(
@@ -87,8 +95,10 @@ class ProjectIssueTimeController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($prokect, $id)
+    public function show($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $issue = projectIssueRepo()->show($id);
         $resource = new ProjectIssueResource($issue);
         ApiService::_success($resource);
@@ -102,6 +112,8 @@ class ProjectIssueTimeController extends Controller
      */
     public function update(ProjectIssueTimeRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $user = auth()->user();
         $data = array(
             'title' => $request->input('title'),
@@ -135,6 +147,8 @@ class ProjectIssueTimeController extends Controller
      */
     public function destroy($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $issue = projectIssueRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }

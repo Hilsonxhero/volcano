@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factory;
 use Modules\Project\Entities\Board;
 use Modules\Project\Policies\BoardPolicy;
 use Illuminate\Support\Facades\Gate;
-
+use Modules\Project\Entities\Project;
+use Modules\Project\Policies\PortalPolicy;
 
 class ProjectServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,7 @@ class ProjectServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
         Gate::policy(Board::class, BoardPolicy::class);
+        Gate::policy(Project::class, PortalPolicy::class);
     }
 
     /**

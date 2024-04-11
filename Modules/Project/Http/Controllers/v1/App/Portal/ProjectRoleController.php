@@ -20,7 +20,7 @@ class ProjectRoleController extends ApiController
      */
     public function index(Request $request, $id)
     {
-        $this->authorize('manage', Role::class);
+        $this->authorize('manage', [Role::class, $id]);
         $roles = roleRepo()->get($id);
         $roles_collection = RoleResource::collection($roles);
         ApiService::_success(
@@ -38,6 +38,7 @@ class ProjectRoleController extends ApiController
 
     public function select(Request $request, $id)
     {
+        $this->authorize('manage', [Role::class, $id]);
         $roles = roleRepo()->select($id);
         $roles_collection = RoleResource::collection($roles);
         ApiService::_success(
@@ -60,6 +61,7 @@ class ProjectRoleController extends ApiController
      */
     public function store(ProjectRoleRequest $request, $id)
     {
+        $this->authorize('manage', [Role::class, $id]);
         $data = [
             'title' => $request->title,
             'name' => $request->name,
@@ -78,6 +80,7 @@ class ProjectRoleController extends ApiController
      */
     public function show($project, $id)
     {
+        $this->authorize('manage', [Role::class, $project]);
         $role = roleRepo()->show($id);
         $resource = new RoleResource($role);
         ApiService::_success($resource);
@@ -91,6 +94,7 @@ class ProjectRoleController extends ApiController
      */
     public function update(ProjectRoleRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Role::class, $project]);
         $data = array(
             'title' => $request->title,
             'name' => $request->name,
@@ -110,6 +114,8 @@ class ProjectRoleController extends ApiController
      */
     public function destroy($project, $id)
     {
+        $this->authorize('manage', [Role::class, $project]);
+
         $role = roleRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }

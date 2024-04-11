@@ -16,6 +16,7 @@ class SettingController extends Controller
      */
     public function index()
     {
+
         $settings = settingRepo()->all();
         $settings = SettingResource::collection($settings);
         return ApiService::_success($settings);

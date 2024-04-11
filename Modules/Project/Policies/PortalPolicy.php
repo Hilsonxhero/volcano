@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\RolePermissions\Policies;
+namespace Modules\Project\Policies;
 
 use Modules\User\Entities\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RolePolicy
+class PortalPolicy
 {
     use HandlesAuthorization;
 
@@ -18,20 +18,12 @@ class RolePolicy
     {
         //
     }
-
-
     public function manage(User $user, $project)
     {
-        $portal = projectRepo()->find($project);
-
-        if ($portal->user_id == $user->id) {
+        $access = $user->memberships()->where('project_id', $project)->exists();
+        if ($access) {
             return true;
         }
-
-        $access = $user->memberships()->where('project_id', $project)->exists();
-        if (!$access) {
-            return false;
-        }
-        return $user->hasAnyPermission(['portal_users_management', 'portal_project_management_index']);
+        return false;
     }
 }

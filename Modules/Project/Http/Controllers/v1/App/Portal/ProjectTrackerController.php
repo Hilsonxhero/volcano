@@ -4,7 +4,8 @@ namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
+use Modules\Project\Entities\Project;
 use Modules\Common\Enums\CommonStatus;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Http\Requests\v1\App\ProjectTrackerRequest;
@@ -18,6 +19,8 @@ class ProjectTrackerController extends Controller
      */
     public function index(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $trackers = projectTrackerRepo()->all($id);
         $trackers_collection = ProjectTrackerResource::collection($trackers);
         ApiService::_success(
@@ -39,6 +42,8 @@ class ProjectTrackerController extends Controller
      */
     public function select(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $trackers = projectTrackerRepo()->get($id);
         $trackers_collection = ProjectTrackerResource::collection($trackers);
         ApiService::_success($trackers_collection);
@@ -51,6 +56,8 @@ class ProjectTrackerController extends Controller
      */
     public function store(ProjectTrackerRequest $request)
     {
+        $this->authorize('manage', [Project::class, $request->input('project_id')]);
+
         $data = array(
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -66,8 +73,10 @@ class ProjectTrackerController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($prokect, $id)
+    public function show($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $category = projectTrackerRepo()->show($id);
         $resource = new ProjectTrackerResource($category);
         ApiService::_success($resource);
@@ -81,6 +90,8 @@ class ProjectTrackerController extends Controller
      */
     public function update(ProjectTrackerRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $data = array(
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -98,6 +109,8 @@ class ProjectTrackerController extends Controller
      */
     public function destroy($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $category = projectTrackerRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }

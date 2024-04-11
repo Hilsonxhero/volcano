@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Carbon;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Entities\ProjectTimeEntry;
 use Modules\Project\Repository\Contracts\ProjectRepository;
@@ -28,6 +29,12 @@ class ProjectTimeReportController extends Controller
         $start_date = $project->created_at;
         $reports = [];
         $interval = $request->interval;
+        $start_date = Carbon::parse($project->created_at)->subYears(1);
+        // $end_date = Carbon::parse($project->created_at)->addMonth(2)->subYears(6);
+        // return Carbon::parse($project->created_at)->subYears(2);
+        // return collect(CarbonPeriod::create($start_date, "1 $interval", now()));
+        // return $start_date;
+        // return collect(CarbonPeriod::create($start_date, "1 $interval", now()));
         $interval_labels = collect(CarbonPeriod::create($start_date, "1 $interval", now()))
             ->map(function ($period_item) use ($interval) {
                 $jDate = Jalalian::fromDateTime($period_item);
@@ -47,6 +54,7 @@ class ProjectTimeReportController extends Controller
                 }
             })
             ->toArray();
+        // return $interval_labels;
 
         // $jDate = Jalalian::fromDateTime("2023-06-09T15:10:23.000000Z");
 

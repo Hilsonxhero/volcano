@@ -2,11 +2,12 @@
 
 namespace Modules\Project\Http\Controllers\v1\App\Portal;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Common\Enums\CommonStatus;
 use Modules\Common\Services\ApiService;
+use Modules\Project\Entities\Project;
 use Modules\Project\Http\Requests\v1\App\ProjectIssueStatusRequest;
 use Modules\Project\Transformers\v1\App\Portal\ProjectIssueStatusResource;
 
@@ -18,6 +19,8 @@ class ProjectIssueStatusController extends Controller
      */
     public function index(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $statuses = projectIssueStatusRepo()->all($id);
         $statuses_collection = ProjectIssueStatusResource::collection($statuses);
         ApiService::_success(
@@ -39,6 +42,8 @@ class ProjectIssueStatusController extends Controller
      */
     public function select(Request $request, $id)
     {
+        $this->authorize('manage', [Project::class, $id]);
+
         $statuses = projectIssueStatusRepo()->get($id);
         $statuses_collection = ProjectIssueStatusResource::collection($statuses);
         ApiService::_success($statuses_collection);
@@ -51,6 +56,8 @@ class ProjectIssueStatusController extends Controller
      */
     public function store(ProjectIssueStatusRequest $request)
     {
+        $this->authorize('manage', [Project::class, $request->input('project_id')]);
+
         $data = array(
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -67,8 +74,10 @@ class ProjectIssueStatusController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($prokect, $id)
+    public function show($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $status = projectIssueStatusRepo()->show($id);
         $resource = new ProjectIssueStatusResource($status);
         ApiService::_success($resource);
@@ -82,6 +91,8 @@ class ProjectIssueStatusController extends Controller
      */
     public function update(ProjectIssueStatusRequest $request, $project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $data = array(
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -100,6 +111,8 @@ class ProjectIssueStatusController extends Controller
      */
     public function destroy($project, $id)
     {
+        $this->authorize('manage', [Project::class, $project]);
+
         $status = projectIssueStatusRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }

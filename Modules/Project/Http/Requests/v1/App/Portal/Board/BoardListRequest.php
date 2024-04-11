@@ -19,14 +19,14 @@ class BoardListRequest extends FormRequest
             return [
                 'title' => ['required'],
                 'description' => ['required'],
-                'board_id' => ['nullable', Rule::exists('boards', 'id')],
+                'board_id' => ['nullable', Rule::exists('boards', 'short_link')],
             ];
         }
 
         return [
             'title' => ['required'],
             'description' => ['required'],
-            'board_id' => ['required', Rule::exists('boards', 'id')],
+            'board_id' => ['required', Rule::exists('boards', 'short_link')],
         ];
     }
 
