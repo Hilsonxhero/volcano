@@ -2,6 +2,7 @@
 
 namespace Modules\Project\Repository\Eloquent;
 
+use Modules\Project\Entities\Project;
 use Modules\Project\Entities\ProjectIssue;
 use Modules\Project\Repository\Contracts\ProjectIssueRepository;
 
@@ -11,7 +12,18 @@ class ProjectIssueRepositoryEloquent implements ProjectIssueRepository
 
     public function all($project)
     {
-        $query = ProjectIssue::orderBy('created_at', 'desc')->where('project_id', $project);
+        $user = auth()->user();
+        $portal = Project::find($project);
+        $is_issue_owner = $user->hasAnyPermission(['portal_issue_management_owner']);
+        if ($is_issue_owner || $portal->user_id == $user->id) {
+            $query = ProjectIssue::orderBy('created_at', 'desc')
+                ->where('project_id', $project);
+        } else {
+            $query = ProjectIssue::orderBy('created_at', 'desc')
+                ->where('assigned_to_id', $user->id)
+                ->orWhere('creator_id', $user->id)
+                ->where('project_id', $project);
+        }
         $searchTerm = "%" . request()->q . "%";
         $query->when(request()->has('q'), function ($query) use ($searchTerm) {
             $query->where(function ($query) use ($searchTerm) {

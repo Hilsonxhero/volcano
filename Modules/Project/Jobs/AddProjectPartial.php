@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Modules\Project\Entities\ProjectTimeCategory;
 use Modules\Project\Enums\ProjectTimeCategoryStatus;
 
-class AddProjectPartial implements ShouldQueue
+class AddProjectPartial
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $project;

@@ -32,6 +32,8 @@ class RolePolicy
         if (!$access) {
             return false;
         }
-        return $user->hasAnyPermission(['portal_users_management', 'portal_project_management_index']);
+        $user_role = $user->roles()->where('project_id', $project)->first();
+        return $user_role->hasAnyPermission(["portal_users_management_index", "portal_project_management_index"]);
+        // return $user->hasAnyPermission(['portal_users_management_index', 'portal_project_management_index']);
     }
 }

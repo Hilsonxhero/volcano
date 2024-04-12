@@ -3,7 +3,7 @@
 namespace Modules\Project\Transformers\v1\App\Portal;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Modules\User\Transformers\v1\App\UserResource;
 
 class ShowProjectResource extends JsonResource
 {
@@ -17,6 +17,9 @@ class ShowProjectResource extends JsonResource
     {
         return [
             'title' => $this->title,
+            'user_id' => $this->user_id,
+            'user' => new UserResource($this->user),
+            'members' =>  ProjectMemberResource::collection($this->members),
             'slug' => $this->slug,
             'short_link' => $this->short_link,
             'description' => $this->description,

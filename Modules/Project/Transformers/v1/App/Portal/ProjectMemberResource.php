@@ -3,7 +3,8 @@
 namespace Modules\Project\Transformers\v1\App\Portal;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Modules\User\Transformers\v1\App\UserResource;
+use Modules\RolePermissions\Transformers\v1\App\Portal\RoleResource;
 
 class ProjectMemberResource extends JsonResource
 {
@@ -21,7 +22,11 @@ class ProjectMemberResource extends JsonResource
             'email' => $this->user->email,
             'phone' => $this->user->phone,
             'role' => $this->user->role,
+            // 'user' => new UserResource($this->user),
+            'role' => new RoleResource($this->user->roles()->where('project_id', $this->project_id)->first()),
             'status' => $this->status,
+            'user_id' => $this->user_id,
+
         ];
     }
 }
