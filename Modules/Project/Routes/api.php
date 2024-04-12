@@ -8,6 +8,7 @@ use Modules\Project\Http\Controllers\v1\Management\ProjectPageController;
 Route::prefix('v1/application')->group(function () {
     Route::prefix('portal')->middleware(['auth:api'])->group(function () {
         Route::prefix('projects')->group(function () {
+            Route::get("{id}/dashboard", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectDashboardController::class, 'index']);
             Route::get("/", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'index']);
             Route::get("{id}/show", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'show']);
             Route::apiResource("{id}/pages", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectPageController::class);

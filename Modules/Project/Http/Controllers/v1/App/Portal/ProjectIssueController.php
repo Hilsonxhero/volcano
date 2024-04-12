@@ -23,7 +23,6 @@ class ProjectIssueController extends Controller
     public function index(Request $request, $id)
     {
         $this->authorize('manage', [Project::class, $id]);
-
         $issues = projectIssueRepo()->all($id);
         $issues_collection = ProjectIssueResource::collection($issues);
         ApiService::_success(
@@ -141,8 +140,8 @@ class ProjectIssueController extends Controller
             'project_issue_status_id' => $request->input('project_issue_status_id'),
             'assigned_to_id' => $request->input('assigned_to_id'),
             'project_priority_id' => $request->input('project_priority_id'),
-            'start_date' => $request->input('start_date') ?  createDatetimeFromFormat($request->start_date, "Y/m/d") : null,
-            'end_date' => $request->input('end_date') ?  createDatetimeFromFormat($request->end_date, "Y/m/d") : null,
+            'start_date' => $request->input('start_date') ?  createDatetimeFromFormat($request->start_date) : null,
+            'end_date' => $request->input('end_date') ?  createDatetimeFromFormat($request->end_date) : null,
             'estimated_hours' => $request->input('estimated_hours'),
             'done_ratio' => $request->input('done_ratio'),
             'parent_id' => $request->input('parent_id'),

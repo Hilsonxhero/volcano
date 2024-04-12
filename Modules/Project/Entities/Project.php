@@ -66,6 +66,11 @@ class Project extends Model  implements HasMedia
         return $this->hasMany(ProjectMembership::class);
     }
 
+    public function boards()
+    {
+        return $this->hasMany(Board::class);
+    }
+
     public function pages()
     {
         return $this->hasMany(ProjectPage::class)
