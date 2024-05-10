@@ -5,6 +5,7 @@ namespace Modules\Media\Http\Controllers\v1\App;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\URL;
 use Modules\Common\Services\ApiService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -37,6 +38,23 @@ class MediaController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function stream($id)
+    {
+        $url = URL::temporarySignedRoute('media.download.store', now()->addHours(1), ['id' => $id]);
+        ApiService::_success($url);
+    }
+
+    /**
+     * Show the specified resource.
+     * @param int $id
+     * @return Response
+     */
+    public function download($id)
+    {
+        $mediaItem = Media::query()->where('id', $id)->first();
+        return response()->download($mediaItem->getPath(), $mediaItem->file_name);
     }
 
     /**

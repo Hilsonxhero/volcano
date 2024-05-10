@@ -19,7 +19,8 @@ class BoardListController extends Controller
      */
     public function index(Request $request, $id)
     {
-        $board_lists = boardListRepo()->get($id);
+        $board = boardRepo()->find($id, "short_link");
+        $board_lists = boardListRepo()->get($board->id);
         $board_lists = BoardListResource::collection($board_lists);
         ApiService::_success($board_lists);
     }

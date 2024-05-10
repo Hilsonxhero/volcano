@@ -55,8 +55,12 @@ class ApiService
 
         throw new HttpResponseException(response()->json([
             'success'   => $success,
-            // 'message'   => 'Validation errors',
             'data'      => $data
         ], $code));
+
+        // response()->json([
+        //     'success'   => $success,
+        //     'data'      => $data
+        // ], $code);
     }
 }
