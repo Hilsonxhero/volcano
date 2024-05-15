@@ -37,7 +37,8 @@ services:
             MYSQL_PASSWORD: "${DB_PASSWORD}"
             # MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - "mysql_data:/var/lib/mysql"
+            #- "mysql_data:/var/lib/mysql"
+            - .docker/data/db:/var/lib/mysql
             # - "./vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh"
         networks:
             - sail
