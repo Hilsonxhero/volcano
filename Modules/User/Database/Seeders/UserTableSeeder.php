@@ -32,9 +32,9 @@ class UserTableSeeder extends Seeder
     {
 
         $user = userRepo()->create([
-            UserFields::USERNAME          => "system_administrator",
-            UserFields::EMAIL             => fake()->email(),
-            UserFields::PHONE            => fake()->phoneNumber(),
+            UserFields::USERNAME          => "hilsonxhero",
+            UserFields::EMAIL             => "hilsonxhero.me@gmail.com",
+            UserFields::PHONE            => "09010105397",
             UserFields::EMAIL_VERIFIED_AT => now(),
             UserFields::IS_SUPERUSER => true,
             UserFields::PASSWORD          => Hash::make("password"),

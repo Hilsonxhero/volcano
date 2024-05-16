@@ -22,7 +22,6 @@ class UserController extends Controller
      */
     public function init(Request $request)
     {
-
         $user = auth()->user();
 
         ApiService::_success(array(
