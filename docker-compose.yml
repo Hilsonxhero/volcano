@@ -27,7 +27,7 @@ services:
             - mysql
     mysql:
         image: "mysql/mysql-server:8.0"
-        restart: "unless-stopped"
+        #restart: "unless-stopped"
         ports:
             - "${FORWARD_DB_PORT:-3306}:3306"
         environment:
