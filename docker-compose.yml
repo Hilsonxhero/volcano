@@ -28,8 +28,8 @@ services:
     mysql:
         image: "mysql/mysql-server:8.0"
         #restart: "unless-stopped"
-        ports:
-            - "${FORWARD_DB_PORT:-3306}:3306"
+        # ports:
+        #     - "${FORWARD_DB_PORT:-3306}:3306"
         environment:
             MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
             #MYSQL_ROOT_HOST: "%"
@@ -60,8 +60,8 @@ services:
             timeout: 5s
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        ports:
-            - 8090:80
+        # ports:
+        #     - 8090:80
         environment:
             PMA_HOST: mysql
             PMA_USER: ${DB_USERNAME}
