@@ -30,8 +30,7 @@ class SendJoinBoardMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->from('valcano@info.com', 'Volcano')
-            ->subject(trans('common.board.invite.subject', ['name' => $this->data['name']]))
+        return $this->subject(trans('common.board.invite.subject', ['name' => $this->data['name']]))
             ->markdown('project::emails.board.confirmation');
     }
 }
