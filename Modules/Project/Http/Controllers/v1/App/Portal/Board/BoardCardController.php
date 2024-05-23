@@ -85,6 +85,16 @@ class BoardCardController extends Controller
         ApiService::_success(new BoardCardResource($card));
     }
 
+    public function updateList(Request $request)
+    {
+        $card = boardCardRepo()->find($request->id);
+        $data = [
+            'board_list_id' => $request->board_list_id,
+        ];
+        $board_card = boardCardRepo()->update($data, $request->id);
+        ApiService::_success(new BoardCardResource($card));
+    }
+
     /**
      * Update the specified resource in storage.
      * @param Request $request
