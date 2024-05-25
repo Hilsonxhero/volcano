@@ -35,7 +35,7 @@ class SendResponsibleMail extends Mailable implements ShouldQueue
         $issue_id = $this->data->id;
         $tracker = $this->data->tracker->title;
 
-        return $this->from('valcano@info.com', 'Volcano')
+        return $this
             ->subject("[  $project_name - # $tracker $issue_id] $subject")
             ->markdown('project::emails.board.issue.responsible');
     }
