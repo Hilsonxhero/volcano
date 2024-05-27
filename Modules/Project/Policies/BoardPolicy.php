@@ -25,7 +25,7 @@ class BoardPolicy
         if ($belongsToBoard) {
             return true;
         }
-        return $user->hasAnyDirectPermission(['portal_boards_management_show', 'portal_boards_management_index']);
+        return $user->hasAnyPermission(['portal_boards_management_show', 'portal_boards_management_index']);
     }
 
     public function show(User $user, $board)
