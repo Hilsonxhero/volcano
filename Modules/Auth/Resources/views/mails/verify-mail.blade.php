@@ -1,26 +1,20 @@
-@extends('mail::layouts.master')
+<x-mail::message>
 
-@section('content')
-    <div class="container">
-        <h1>
-            کد تایید ایمیل حساب کاربری
-        </h1>
-        <p>
-            کاربر گرامی
-        </p>
-        <p>
-        <p>
-            برای تایید ایمیل از کد زیر استفاده کنید :
-        </p>
-        </p>
-        <div class="code">
-            {{ $code }}
-        </div>
-        <p>اگر این کد را درخواست نکردید، لطفاً این ایمیل را نادیده بگیرید</p>
-        <p>با احترام,</p>
-        <p>
-            {{ config('app.name') }}
-        </p>
+#  کد تایید ایمیل حساب کاربری
+##  برای تایید ایمیل از کد زیر استفاده کنید :
 
-    </div>
-@endsection
+
+{{-- <x-mail::button>
+    {{ $code }}
+</x-mail::button> --}}
+
+<x-mail::panel>
+    {{ $code }}
+</x-mail::panel>
+
+<x-mail::subcopy>
+    با احترام,
+</x-mail::subcopy>
+
+{{ config('app.name') }}
+</x-mail::message>

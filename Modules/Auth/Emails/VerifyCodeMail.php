@@ -32,6 +32,6 @@ class VerifyCodeMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('auth::mails.verify-mail')->subject('کد فعالسازی');
+        return $this->subject('کد فعالسازی')->markdown('auth::mails.verify-mail');
     }
 }
