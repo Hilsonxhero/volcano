@@ -4,8 +4,10 @@ namespace Modules\Auth\Http\Controllers\v1\App\Auth\Otp;
 
 use Exception;
 use Illuminate\Http\Request;
+use Modules\Sms\Facades\Sms;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Melipayamak\MelipayamakApi;
 use Modules\User\Entities\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cookie;
@@ -14,22 +16,22 @@ use GuzzleHttp\Exception\ClientException;
 use Modules\User\Events\UserAuthenticatied;
 use Illuminate\Support\Facades\Notification;
 use Modules\Auth\Services\VerifyCodeService;
+use Modules\User\Transformers\v1\App\UserResource;
 use Modules\Auth\Notifications\v1\App\VerifyMailNotification;
 use Modules\Auth\Notifications\v1\App\VerifyPhoneNotification;
-use Modules\User\Transformers\v1\App\UserResource;
+use Modules\Sms\Services\SendSmsService;
 
 class OtpAuthController extends Controller
 {
     public function authenticate(Request $request)
     {
-
         $request->validate([
             'username' => ['required'],
         ]);
 
         $username = $request->input('username');
 
-        $user = User::query()->whereEmail($username)->first();
+        $user = User::query()->wherePhone($username)->first();
 
         $has_exists = VerifyCodeService::has($username);
 
@@ -45,8 +47,14 @@ class OtpAuthController extends Controller
 
         // Notification::route('sms', null)
         //     ->notify(new VerifyPhoneNotification($phone, $code));
-        Notification::route('mail', null)
-            ->notify(new VerifyMailNotification($username, $code));
+        // Notification::route('mail', null)
+        //     ->notify(new VerifyMailNotification($username, $code));
+
+
+        Notification::route('sms', null)
+            ->notify(new VerifyPhoneNotification($username, $code));
+
+
 
 
         return  ApiService::_success([
@@ -69,12 +77,12 @@ class OtpAuthController extends Controller
             ApiService::_throw(trans('response.auth.invalid_code'), 200);
         }
 
-        $user = User::where('email', $username)->first();
+        $user = User::where('phone', $username)->first();
 
         if (!$user) {
             $user = User::create([
                 'username' => $username,
-                'email' => $username,
+                'phone' => $username,
             ]);
         }
 

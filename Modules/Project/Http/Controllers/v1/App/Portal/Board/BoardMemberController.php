@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Common\Services\ApiService;
+use Modules\Sms\Services\SendSmsService;
 use Modules\Project\Emails\SendJoinBoardMail;
 use Modules\Project\Http\Requests\v1\App\Portal\Board\BoardMemberRequest;
 use Modules\Project\Transformers\v1\App\Portal\Board\BoardMemberResource;
@@ -53,7 +54,7 @@ class BoardMemberController extends Controller
             'email' => $request->email,
             'inviter_id' => $user->id,
             'board_id' => $invited_board->id,
-            'token' =>  Hash::make($request->email),
+            'token' =>  Str::random(5),
             'role' => 'member',
             'status' => 'pending',
             'user_id' => !is_null($invited_user) ? $invited_user->id : null
@@ -66,7 +67,18 @@ class BoardMemberController extends Controller
             'url' => front_path("portal/projects/board/confirmation", ['token' => $member->token, 'id' => $member->id])
         ];
 
-        Mail::to($member->email)->send(new SendJoinBoardMail($mail_data));
+        // Mail::to($member->email)->send(new SendJoinBoardMail($mail_data));
+
+        SendSmsService::send(
+            $member->email,
+            "project_invite_board_user",
+            [
+                $user->username,
+                $mail_data['board']['title'],
+                $mail_data['url']
+            ]
+        );
+
         $board_members = BoardMemberResource::collection($member->board->members);
         ApiService::_success($board_members);
         // ApiService::_success(new BoardMemberResource($member));

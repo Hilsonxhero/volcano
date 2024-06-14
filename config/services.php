@@ -45,4 +45,12 @@ return [
         'stateless' => true, // add this line
     ],
 
+    'sms' => [
+        'melipayamak' => [
+            'username' => env('MELIPAYAMAK_USERNAME'),
+            'password' => env('MELIPAYAMAK_PASSWORD'),
+            'from' => env('MELIPAYAMAK_NUMBER'),
+        ],
+    ]
+
 ];

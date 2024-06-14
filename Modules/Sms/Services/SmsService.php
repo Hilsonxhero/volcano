@@ -2,6 +2,8 @@
 
 namespace Modules\Sms\Services;
 
+use Modules\Sms\Jobs\SendSmsJob;
+
 class SmsService
 {
     /**
@@ -40,7 +42,8 @@ class SmsService
     {
         $this->driverInstance = $this->getFreshDriverInstance();
 
-        $this->driverInstance->send($phone, $content);
+        // $this->driverInstance->send($phone, $content);
+        SendSmsJob::dispatch($phone, $content, $this->driverInstance);
 
         return $this;
     }
