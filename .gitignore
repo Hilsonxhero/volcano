@@ -11,8 +11,8 @@
 .env.production
 .phpunit.result.cache
 Homestead.json
-# docker-compose.yml
-# *.yml
+docker-compose.yml
+*.yml
 Homestead.yaml
 auth.json
 npm-debug.log
