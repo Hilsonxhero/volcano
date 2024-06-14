@@ -64,7 +64,7 @@ class ProjectRoleController extends ApiController
         $this->authorize('manage', [Role::class, $id]);
         $data = [
             'title' => $request->title,
-            'name' => $request->name,
+            'name' => $request->name . " #" . $id,
             'project_id' => $id,
             'guard' => 'api'
         ];
@@ -97,7 +97,7 @@ class ProjectRoleController extends ApiController
         $this->authorize('manage', [Role::class, $project]);
         $data = array(
             'title' => $request->title,
-            'name' => $request->name,
+            'name' => $request->title . " #" . $project,
             'parent_id' => $request->parent_id,
             'guard' => 'api',
             'project_id' => $project,
