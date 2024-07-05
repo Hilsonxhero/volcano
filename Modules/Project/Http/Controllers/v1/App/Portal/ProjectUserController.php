@@ -66,7 +66,7 @@ class ProjectUserController extends Controller
             'parent_id' => $request->input('parent_id'),
             'status' => ProjectPageStatus::ACTIVE->value,
         );
-        $page = projectMemberRepo()->store($data);
+        $page = projectMembershipRepo()->store($data);
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -77,7 +77,7 @@ class ProjectUserController extends Controller
      */
     public function show($id)
     {
-        $member = projectMemberRepo()->show($id);
+        $member = projectMembershipRepo()->show($id);
         $this->authorize('manage', [Project::class, $member->project_id]);
         $resource = new ProjectPageResource($member);
         ApiService::_success($resource);
@@ -101,7 +101,7 @@ class ProjectUserController extends Controller
             'parent_id' => $request->input('parent_id'),
             // 'status' => $request->input('status')
         );
-        $page = projectMemberRepo()->update($data, $id);
+        $page = projectMembershipRepo()->update($data, $id);
         ApiService::_success(trans('response.responses.200'));
     }
 
@@ -113,7 +113,7 @@ class ProjectUserController extends Controller
     public function destroy($project, $id)
     {
         $this->authorize('manage', [Project::class, $project]);
-        $user = projectMemberRepo()->delete($id);
+        $user = projectMembershipRepo()->delete($id);
         ApiService::_success(trans('response.responses.200'));
     }
 }

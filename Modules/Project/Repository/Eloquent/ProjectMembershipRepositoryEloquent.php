@@ -33,14 +33,14 @@ class ProjectMembershipRepositoryEloquent implements ProjectMembershipRepository
     {
         $user = auth()->user();
 
-        $exists = ProjectInvite::query()->where('email', $user->phone)->where('project_id', $data['project'])->first();
+        $exists = ProjectInvite::query()->where('email', $user->email)->where('project_id', $data['project'])->first();
 
 
         if (!$exists) {
             return false;
         }
 
-        if (Carbon::parse($exists->created_at)->addSeconds(now()->addDays(2)->diffInSeconds())->isPast() || $user->phone !== $exists->email) {
+        if (Carbon::parse($exists->created_at)->addSeconds(now()->addDays(2)->diffInSeconds())->isPast() || $user->email !== $exists->email) {
             return false;
         }
 
@@ -50,6 +50,7 @@ class ProjectMembershipRepositoryEloquent implements ProjectMembershipRepository
             $user->memberships()->create([
                 'project_id' => $data['project'],
                 'status' => ProjectMemberStatus::ACTIVE->value,
+                'role_id' => $exists->role
             ]);
             $user->assignRole($exists->role);
             $exists->delete();

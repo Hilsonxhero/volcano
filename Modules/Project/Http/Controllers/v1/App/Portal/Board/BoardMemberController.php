@@ -67,17 +67,17 @@ class BoardMemberController extends Controller
             'url' => front_path("portal/projects/board/confirmation", ['token' => $member->token, 'id' => $member->id])
         ];
 
-        // Mail::to($member->email)->send(new SendJoinBoardMail($mail_data));
+        Mail::to($member->email)->send(new SendJoinBoardMail($mail_data));
 
-        SendSmsService::send(
-            $member->email,
-            "project_invite_board_user",
-            [
-                $user->username,
-                $mail_data['board']['title'],
-                $mail_data['url']
-            ]
-        );
+        // SendSmsService::send(
+        //     $member->email,
+        //     "project_invite_board_user",
+        //     [
+        //         $user->username,
+        //         $mail_data['board']['title'],
+        //         $mail_data['url']
+        //     ]
+        // );
 
         $board_members = BoardMemberResource::collection($member->board->members);
         ApiService::_success($board_members);

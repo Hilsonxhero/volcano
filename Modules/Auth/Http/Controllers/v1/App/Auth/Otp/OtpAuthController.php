@@ -31,7 +31,7 @@ class OtpAuthController extends Controller
 
         $username = $request->input('username');
 
-        $user = User::query()->wherePhone($username)->first();
+        $user = User::query()->where('email', $username)->first();
 
         $has_exists = VerifyCodeService::has($username);
 
@@ -45,14 +45,12 @@ class OtpAuthController extends Controller
         }
 
 
+        Notification::route('mail', null)
+            ->notify(new VerifyMailNotification($username, $code));
+
+
         // Notification::route('sms', null)
-        //     ->notify(new VerifyPhoneNotification($phone, $code));
-        // Notification::route('mail', null)
-        //     ->notify(new VerifyMailNotification($username, $code));
-
-
-        Notification::route('sms', null)
-            ->notify(new VerifyPhoneNotification($username, $code));
+        //     ->notify(new VerifyPhoneNotification($username, $code));
 
 
 
@@ -77,12 +75,12 @@ class OtpAuthController extends Controller
             ApiService::_throw(trans('response.auth.invalid_code'), 200);
         }
 
-        $user = User::where('phone', $username)->first();
+        $user = User::where('email', $username)->first();
 
         if (!$user) {
             $user = User::create([
                 'username' => $username,
-                'phone' => $username,
+                'email' => $username,
             ]);
         }
 

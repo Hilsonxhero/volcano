@@ -30,7 +30,7 @@ class InviteUserNotify extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject(trans('common.invite.subject', ['name' => "hilson"]))
+        return $this->subject(trans('common.invite.subject', ['name' => $this->data['name']]))
             ->markdown('project::emails.index');
     }
 }

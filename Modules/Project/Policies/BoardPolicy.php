@@ -30,10 +30,24 @@ class BoardPolicy
 
     public function show(User $user, $board)
     {
-        // $hasPermission  =  $user->hasPermissionTo("portal_boards_management_show");
         $belongsToBoard = $user->boards()->where('board_id', $board->id)->where('status', "confirmed")->exists();
-        // $user_board = $board->user_id == $user->id;
-        // return ($hasPermission && $belongsToBoard) || $user_board;
-        return $belongsToBoard;
+        if ($belongsToBoard) {
+            return true;
+        }
+
+        $member  = $board->project->members()->where('user_id', $user->id)->first();
+        $permissions = ["portal_boards_management_owner"];
+        $permission_names = $member->role->permissions()->pluck('name')->toArray();
+
+        $hasPermission = collect($permission_names)->some(function ($permission) use ($permissions) {
+            return in_array($permission, $permissions);
+        });
+
+
+        return $hasPermission;
+
+
+
+        // return $user->hasAnyPermission(['portal_boards_management_show', 'portal_boards_management_index','portal_boards_management_owner']);
     }
 }

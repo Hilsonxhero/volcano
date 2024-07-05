@@ -43,7 +43,7 @@ class ProjectInviteRepositoryEloquent implements ProjectInviteRepository
             $membership = [
                 'project_id' => $data['project']['id'],
                 'user_id' => $data['inviter']['id'],
-                'email' => $invited_user['phone'],
+                'email' => $invited_user['username'],
                 'role' => $invited_user['role'],
                 'token' => Str::random(5)
             ];
@@ -65,16 +65,16 @@ class ProjectInviteRepositoryEloquent implements ProjectInviteRepository
                     'url' => front_path(getenv("FRONT_INVITE_CALLBACK"), ['token' => is_null($project_invite) ? $membership['token'] : $project_invite->token, 'id' => $project_invite->id])
                 ];
 
-                SendSmsService::send(
-                    $membership['email'],
-                    "project_invite_user",
-                    [
-                        $data['inviter']['username'],
-                        $data['project']['title'],
-                        $mail_data['url']
-                    ]
-                );
-                // Mail::to($membership['email'])->send(new InviteUserNotify($mail_data));
+                // SendSmsService::send(
+                //     $membership['email'],
+                //     "project_invite_user",
+                //     [
+                //         $data['inviter']['username'],
+                //         $data['project']['title'],
+                //         $mail_data['url']
+                //     ]
+                // );
+                Mail::to($membership['email'])->send(new InviteUserNotify($mail_data));
             }
         }
 
