@@ -34,14 +34,17 @@ class BoardPolicy
         if ($belongsToBoard) {
             return true;
         }
+        $hasPermission = false;
 
         $member  = $board->project->members()->where('user_id', $user->id)->first();
         $permissions = ["portal_boards_management_owner"];
-        $permission_names = $member->role->permissions()->pluck('name')->toArray();
+        if (!is_null($member->role_id)) {
+            $permission_names = $member->role->permissions()->pluck('name')->toArray();
 
-        $hasPermission = collect($permission_names)->some(function ($permission) use ($permissions) {
-            return in_array($permission, $permissions);
-        });
+            $hasPermission = collect($permission_names)->some(function ($permission) use ($permissions) {
+                return in_array($permission, $permissions);
+            });
+        }
 
 
         return $hasPermission;
