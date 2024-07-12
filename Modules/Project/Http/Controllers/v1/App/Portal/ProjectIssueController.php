@@ -102,7 +102,7 @@ class ProjectIssueController extends Controller
             }
         }
 
-        SendResponsibleNotif::dispatch($assigned_user->user->phone, $issue);
+        SendResponsibleNotif::dispatch($assigned_user->user->email, $issue);
         ApiService::_success(trans('response.responses.200'));
     }
 
