@@ -3,6 +3,7 @@
 namespace Modules\User\Transformers\v1\App;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Project\Transformers\v1\App\ProjectResource;
 use Modules\RolePermissions\Transformers\v1\App\Portal\RoleResource;
 
 class UserResource extends JsonResource
@@ -30,6 +31,7 @@ class UserResource extends JsonResource
                 'avatar' => $this->getFirstMediaUrl('avatar'),
                 'thumb' => $this->getFirstMediaUrl('avatar', 'thumb'),
             ],
+            'projects' => ProjectResource::collection($this->memberships)
         );
     }
 }

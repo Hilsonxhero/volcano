@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Modules\Project\Entities\Project;
 use Modules\Common\Services\ApiService;
 use Modules\Project\Enums\ProjectPageStatus;
+use Modules\Project\Http\Requests\v1\App\Portal\ProjectMemberRequest;
 use Modules\Project\Http\Requests\v1\App\ProjectPageRequest;
 use Modules\Project\Transformers\v1\App\Portal\ProjectPageResource;
 use Modules\Project\Transformers\v1\App\Portal\ProjectMemberResource;
@@ -75,11 +76,11 @@ class ProjectUserController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show($project, $id)
     {
         $member = projectMembershipRepo()->show($id);
         $this->authorize('manage', [Project::class, $member->project_id]);
-        $resource = new ProjectPageResource($member);
+        $resource = new ProjectMemberResource($member);
         ApiService::_success($resource);
     }
 
@@ -89,19 +90,27 @@ class ProjectUserController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(ProjectPageRequest $request, $project, $id)
+    public function update(ProjectMemberRequest $request, $project, $id)
     {
         $this->authorize('manage', [Project::class, $project]);
 
         $data = array(
-            'title' => $request->input('title'),
-            'name' => $request->input('name'),
-            'content' => $request->input('content'),
-            'project_id' => $request->input('project_id'),
-            'parent_id' => $request->input('parent_id'),
-            // 'status' => $request->input('status')
+            'role_id' => $request->input('role_id'),
+            'status' => $request->input('status')
         );
-        $page = projectMembershipRepo()->update($data, $id);
+
+        projectMembershipRepo()->update($id, $data);
+
+        $user_data = array(
+            'username' => $request->input('username'),
+        );
+
+        $member =  projectMembershipRepo()->find($id);
+
+        $member->user->syncRoles([$request->input('role_id')]);
+
+        projectMembershipRepo()->updateUserData($id, $user_data);
+
         ApiService::_success(trans('response.responses.200'));
     }
 

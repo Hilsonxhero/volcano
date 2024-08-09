@@ -7,14 +7,28 @@ use Modules\Project\Http\Controllers\v1\Management\ProjectPageController;
 
 Route::prefix('v1/application')->group(function () {
     Route::prefix('portal')->middleware(['auth:api'])->group(function () {
+
+
+
         Route::prefix('projects')->group(function () {
             Route::get("{id}/dashboard", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectDashboardController::class, 'index']);
+
             Route::get("/", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'index']);
+
             Route::get("{id}/show", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectController::class, 'show']);
-            Route::apiResource("{id}/pages", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectPageController::class);
+
+            Route::apiResource("{id}/pages", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectLandingPageController::class);
+
+            Route::get("{id}/page/{page}/children", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectLandingPageController::class, 'children']);
+
+            Route::apiResource("{id}/page/menu/categories", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectPageController::class);
+
             Route::apiResource("{id}/users", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectUserController::class);
+
             Route::get("{id}/users/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectUserController::class, 'select']);
+
             Route::apiResource("{id}/roles", \Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class);
+
             Route::get("{id}/roles/select/values", [\Modules\Project\Http\Controllers\v1\App\Portal\ProjectRoleController::class, 'select']);
 
             // boards

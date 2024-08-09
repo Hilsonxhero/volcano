@@ -41,6 +41,7 @@ class ProjectPageController extends Controller
             'content' => $request->input('content'),
             'project_id' => $request->input('project_id'),
             'parent_id' => $request->input('parent_id'),
+            'landing_page_id' => $request->input('landing_page_id'),
             'status' => ProjectPageStatus::ACTIVE->value,
         );
         $page = projectPageRepo()->store($data);

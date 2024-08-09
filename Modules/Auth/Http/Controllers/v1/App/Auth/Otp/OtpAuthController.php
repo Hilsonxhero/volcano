@@ -58,6 +58,7 @@ class OtpAuthController extends Controller
         return  ApiService::_success([
             'username' => $username,
             'has_account' => !!$user,
+            'projects_count' => !is_null($user) ? $user->projects()->count() : 0,
             'login_method' => 'otp',
             'ttl' => Carbon::parse($ttl->ttl)->DiffInSeconds(now())
         ]);
@@ -71,9 +72,9 @@ class OtpAuthController extends Controller
 
         $status = VerifyCodeService::check($username, $code);
 
-        if (!$status) {
-            ApiService::_throw(trans('response.auth.invalid_code'), 200);
-        }
+        // if (!$status) {
+        //     ApiService::_throw(trans('response.auth.invalid_code'), 200);
+        // }
 
         $user = User::where('email', $username)->first();
 

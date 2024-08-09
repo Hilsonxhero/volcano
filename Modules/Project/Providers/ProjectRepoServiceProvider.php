@@ -27,12 +27,14 @@ use Modules\Project\Repository\Contracts\BoardCardRepository;
 use Modules\Project\Repository\Contracts\BoardListRepository;
 use Modules\Project\Repository\Contracts\BoardMemberRepository;
 use Modules\Project\Repository\Contracts\BoardRepository;
+use Modules\Project\Repository\Contracts\ProjectLandingPageRepository;
 use Modules\Project\Repository\Contracts\ProjectTimeEntryRepository;
 use Modules\Project\Repository\Eloquent\BoardCardRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\BoardListRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\BoardMemberRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\BoardRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectIssueAttachmentRepositoryEloquent;
+use Modules\Project\Repository\Eloquent\ProjectLandingPageRepositoryEloquent;
 use Modules\Project\Repository\Eloquent\ProjectTimeEntryRepositoryEloquent;
 
 class ProjectRepoServiceProvider extends ServiceProvider
@@ -69,5 +71,7 @@ class ProjectRepoServiceProvider extends ServiceProvider
         $this->app->bind(BoardListRepository::class, BoardListRepositoryEloquent::class);
         $this->app->bind(BoardCardRepository::class, BoardCardRepositoryEloquent::class);
         $this->app->bind(BoardMemberRepository::class, BoardMemberRepositoryEloquent::class);
+
+        $this->app->bind(ProjectLandingPageRepository::class, ProjectLandingPageRepositoryEloquent::class);
     }
 }

@@ -13,8 +13,8 @@ use Modules\Project\Jobs\AddProjectPartial;
 use Modules\Project\Enums\ProjectMemberStatus;
 use Modules\Project\Enums\ProjectTimeCategoryStatus;
 use Modules\Project\Http\Requests\v1\App\ProjectRequest;
-use Modules\Project\Transformers\v1\App\Portal\ProjectResource;
 use Modules\Project\Transformers\v1\App\Portal\ShowProjectResource;
+use Modules\User\Transformers\v1\App\UserResource;
 
 class ProjectController extends Controller
 {
@@ -79,7 +79,7 @@ class ProjectController extends Controller
             'public_pages' =>  true
         ]);
         $project->save();
-        ApiService::_success(trans('response.responses.200'));
+        ApiService::_success(new ShowProjectResource($project));
     }
 
     /**

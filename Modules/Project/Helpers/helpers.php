@@ -8,6 +8,7 @@ use Modules\Project\Repository\Contracts\ProjectInviteRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueAttachmentRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueRepository;
 use Modules\Project\Repository\Contracts\ProjectIssueStatusRepository;
+use Modules\Project\Repository\Contracts\ProjectLandingPageRepository;
 use Modules\Project\Repository\Contracts\ProjectMembershipRepository;
 use Modules\Project\Repository\Contracts\ProjectPageRepository;
 use Modules\Project\Repository\Contracts\ProjectPriorityRepository;
@@ -197,5 +198,17 @@ if (!function_exists('boardMemberRepo')) {
     function boardMemberRepo(): BoardMemberRepository
     {
         return resolve(BoardMemberRepository::class);
+    }
+}
+
+if (!function_exists('landingPageRepo')) {
+    /**
+     * Get the Landing Page Repo.
+     *
+     * @return ProjectLandingPageRepository
+     */
+    function landingPageRepo(): ProjectLandingPageRepository
+    {
+        return resolve(ProjectLandingPageRepository::class);
     }
 }

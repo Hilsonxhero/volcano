@@ -18,6 +18,7 @@ class ProjectPage extends Model
         'project_id',
         'parent_id',
         'status',
+        'landing_page_id'
     ];
 
     protected static function newFactory()
@@ -46,5 +47,11 @@ class ProjectPage extends Model
     public function children()
     {
         return $this->hasMany(ProjectPage::class, 'parent_id')->with('children');
+    }
+
+
+    public function landing()
+    {
+        return $this->hasMany(ProjectLandingPage::class, 'landing_page_id');
     }
 }

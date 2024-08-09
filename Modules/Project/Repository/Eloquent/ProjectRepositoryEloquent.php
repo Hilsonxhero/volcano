@@ -35,7 +35,18 @@ class ProjectRepositoryEloquent implements ProjectRepository
     public function members($id)
     {
         $project = $this->find($id, "id", ["members"]);
-        return $project->members()->orderByDesc('created_at')->paginate();
+        $query = $project->members()->orderByDesc('created_at');
+
+        $query->when(request()->has('q'), function ($query) {
+            $query->whereHas('user', function ($uq) {
+                $searchTerm = "%" . request()->q . "%";
+                $uq->where(function ($query) use ($searchTerm) {
+                    $query->where('email', 'LIKE', $searchTerm)
+                        ->orWhere('username', 'LIKE', $searchTerm);
+                });
+            });
+        });
+        return $query->paginate();
     }
 
     public function firstOrFail($id)

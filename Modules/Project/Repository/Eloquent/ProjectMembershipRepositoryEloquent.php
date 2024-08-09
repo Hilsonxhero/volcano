@@ -28,6 +28,24 @@ class ProjectMembershipRepositoryEloquent implements ProjectMembershipRepository
         return $query->get();
     }
 
+    public function show($id)
+    {
+        $item = $this->find($id);
+        return $item;
+    }
+    public function update($id, $data)
+    {
+        $item = $this->find($id);
+        $item->update($data);
+        return $item;
+    }
+
+    public function updateUserData($id, $data)
+    {
+        $item = $this->find($id);
+        $item->user()->update($data);
+        return $item;
+    }
 
     public function store($data)
     {
